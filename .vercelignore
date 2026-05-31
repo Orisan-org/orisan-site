@@ -1,0 +1,5 @@
+orisan-scout-from-scratch
+node_modules
+.next
+dist
+*.log

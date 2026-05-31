@@ -1,0 +1,20 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0B1110"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="#0E1715" stroke="#263331"/>
+  <g transform="translate(90 140) scale(0.38)">
+    <defs>
+      <mask id="gatecut-mask">
+        <rect width="512" height="512" fill="black"/>
+        <circle cx="256" cy="256" r="176" fill="white"/>
+        <circle cx="256" cy="256" r="106" fill="black"/>
+        <path d="M338 76 L438 125 L352 215 L306 174 Z" fill="black"/>
+      </mask>
+    </defs>
+    <circle cx="256" cy="256" r="176" fill="#F2EEE6" mask="url(#gatecut-mask)"/>
+  </g>
+  <text x="310" y="285" fill="#F2EEE6" font-family="Inter, Söhne, IBM Plex Sans, Arial, sans-serif" font-size="86" font-weight="550" letter-spacing="1">Orisan Scout</text>
+  <text x="310" y="358" fill="#8A9A95" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="34" letter-spacing="1">AI Agent Exposure Report</text>
+  <text x="310" y="420" fill="#8A9A95" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="28">Local. Private. Repo-scoped.</text>
+  <path d="M310 464 H1030" stroke="#263331" stroke-width="2"/>
+  <text x="310" y="520" fill="#FF9B00" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="28">orisan scout --repo .</text>
+</svg>

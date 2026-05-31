@@ -1,0 +1,18 @@
+<svg width="960" height="240" viewBox="0 0 960 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Orisan Wordmark</title>
+  <desc id="desc">Orisan Gate Cut logo lockup.</desc>
+  <rect width="960" height="240" fill="transparent"/>
+  <g transform="translate(24 34) scale(0.34)">
+    <defs>
+      <mask id="gatecut-mask">
+        <rect width="512" height="512" fill="black"/>
+        <circle cx="256" cy="256" r="176" fill="white"/>
+        <circle cx="256" cy="256" r="106" fill="black"/>
+        <path d="M338 76 L438 125 L352 215 L306 174 Z" fill="black"/>
+      </mask>
+    </defs>
+    <circle cx="256" cy="256" r="176" fill="#F2EEE6" mask="url(#gatecut-mask)"/>
+  </g>
+  <text x="226" y="146" fill="#F2EEE6" font-family="Inter, Söhne, IBM Plex Sans, Arial, sans-serif" font-size="96" font-weight="500" letter-spacing="1.5">Orisan</text>
+
+</svg>

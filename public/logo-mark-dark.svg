@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Orisan Gate Cut Mark Dark</title>
+  <desc id="desc">A dark version of the custom notched O mark for light backgrounds.</desc>
+  <rect width="512" height="512" fill="transparent"/>
+
+    <g>
+      <defs>
+        <mask id="gatecut-mask">
+          <rect width="512" height="512" fill="black"/>
+          <circle cx="256" cy="256" r="176" fill="white"/>
+          <circle cx="256" cy="256" r="106" fill="black"/>
+          <path d="M338 76 L438 125 L352 215 L306 174 Z" fill="black"/>
+        </mask>
+      </defs>
+      <circle cx="256" cy="256" r="176" fill="#0B1110" mask="url(#gatecut-mask)"/>
+    </g>
+
+</svg>

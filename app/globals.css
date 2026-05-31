@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #141E1D;
+  --bg-2: #182423;
+  --ink: #ECE7DA;
+  --ink-dim: #9DAAA5;
+  --ink-faint: #5E6E69;
+  --rule: rgba(236,231,218,0.10);
+  --rule-2: rgba(236,231,218,0.18);
+  --sun: #E8A02C;
+  --earth: #5B8AA6;
+  --grain-opacity: 0.035;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  opacity: var(--grain-opacity);
+  background-image:
+    linear-gradient(rgba(236, 231, 218, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 231, 218, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black, transparent 70%);
+}
+
+::selection {
+  background: rgba(232, 160, 44, 0.32);
+}
+
+.container-shell {
+  width: 100%;
+  max-width: 1152px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
