@@ -127,7 +127,7 @@ export default function RunScoutPage() {
             <Label>Runbook</Label>
           </div>
           <h1 className="mt-7 max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:max-w-4xl sm:text-[clamp(2.35rem,5vw,4.6rem)] sm:leading-[1.04]">
-            Install Scout and generate the review files.
+            Install Orisan. Run Scout.
           </h1>
           <p className="mt-7 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
             This page is the operator path: install Orisan, run Scout in a repository, verify the output, and decide whether the generated files are credible enough for review.

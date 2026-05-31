@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { pageMetadata, scoutProduct, scoutRelease, siteConfig } from "@/lib/constants";
+import { pageMetadata, scoutRelease, siteConfig } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.scout.title,
@@ -28,13 +28,6 @@ export const metadata: Metadata = {
     images: ["/og-image-scout.svg"]
   }
 };
-
-const thesis = [
-  ["Input", "Scout looks only at repo-local MCP configs and repo-level agent instruction files in v0.1."],
-  ["Detection", "Findings are mapped to READ, EXECUTE, and CHANGE so the reviewer sees agent capability."],
-  ["Guidance", "The report recommends review required, restricted approval, or no repo-local blocker found."],
-  ["Artifact", "Markdown and JSON outputs carry git metadata, report hash, and payload_stored=false."]
-];
 
 const reviewerQuestions = [
   "What local tools can the agent reach from this repo?",
@@ -73,6 +66,17 @@ AI coding agents configured in this repo can read broad repository context and e
 Orisan Scout completed: 3 findings (critical: 0, high: 2, medium: 1, low: 0, info: 0)
 Reports written: orisan-scout-review.md, orisan-scout-review.json`;
 
+const heroProof = `${scoutRelease.installCommand}
+orisan scout
+
+Approval guidance: Review required
+READ      broad repo context
+EXECUTE   shell tool available
+CHANGE    auto-commit instruction found
+
+Payload stored: false
+Source upload: none`;
+
 const checks = [
   ".mcp.json",
   ".cursor/mcp.json",
@@ -106,9 +110,9 @@ function Label({ children }: { children: React.ReactNode }) {
 
 export default function ScoutPage() {
   return (
-    <div className="bg-[var(--bg)] pt-16 text-[var(--ink)]">
-      <section className="container-shell grid gap-14 py-20 md:grid-cols-[1fr_0.95fr] md:items-center md:py-28">
-        <div>
+    <div className="overflow-hidden bg-[var(--bg)] pt-16 text-[var(--ink)]">
+      <section className="container-shell grid min-w-0 gap-14 py-20 md:grid-cols-[1fr_0.95fr] md:items-center md:py-28">
+        <div className="min-w-0">
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
             <Label>First active product</Label>
@@ -122,11 +126,14 @@ export default function ScoutPage() {
             unoptimized
             className="mb-10 h-auto w-72 max-w-full"
           />
-          <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Before approving an AI coding agent in a repo, know what it can read, execute, or change.
+          <h1 className="max-w-[21rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:max-w-4xl sm:text-[clamp(2.4rem,5vw,4.8rem)] sm:leading-[1.04]">
+            Run a local preflight check before approving AI agents in a repo.
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            {scoutProduct.description}
+          <p className="mt-7 max-w-[21rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
+            Scout shows what repo-local MCP configs and agent instructions allow AI agents to read, execute, or change.
+          </p>
+          <p className="mt-5 max-w-[21rem] font-mono text-xs uppercase leading-6 tracking-[0.13em] text-[var(--ink-faint)] sm:max-w-2xl">
+            Local by default. No source upload. No cloud upload. payload_stored=false.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
@@ -137,31 +144,31 @@ export default function ScoutPage() {
             </Link>
           </div>
         </div>
-        <div className="border border-[var(--rule-2)] bg-[#0E1716] p-6">
-          <Label>Core question</Label>
-          <p className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">
-            What can an AI coding agent in this repo read, execute, or change?
-          </p>
-          <p className="mt-6 leading-8 text-[var(--ink-dim)]">
-            Scout is for the moment before approval, when a team needs a clear local record instead of a verbal “it should be fine.”
-          </p>
+        <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716] font-mono">
+          <div className="flex items-center justify-between border-b border-[var(--rule)] px-5 py-4">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">local proof</p>
+            <span className="text-[var(--sun)]">$</span>
+          </div>
+          <pre className="max-w-full whitespace-pre-wrap break-words p-5 text-sm leading-7 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
+            <code>{heroProof}</code>
+          </pre>
         </div>
       </section>
 
       <div className="container-shell h-px bg-[var(--rule)]" />
 
       <section className="container-shell py-20 md:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
           <Label>Run it today</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               One local command creates the approval files.
             </h2>
-            <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-3">
+            <div className="mt-10 grid min-w-0 border-l border-t border-[var(--rule)] md:grid-cols-3">
               {quickStart.map(([title, body]) => (
                 <div key={title} className="min-h-40 border-b border-r border-[var(--rule)] p-6">
                   <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</h3>
-                  <p className="mt-6 break-words font-mono text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
+                  <p className="mt-6 break-words font-mono text-sm leading-7 text-[var(--ink-dim)] [overflow-wrap:anywhere]">{body}</p>
                 </div>
               ))}
             </div>
@@ -194,36 +201,17 @@ export default function ScoutPage() {
       </section>
 
       <section className="container-shell py-20 md:py-28">
-        <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
-          <Label>Product mechanics</Label>
-          <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            Scout is intentionally small so the artifact can be trusted.
-          </h2>
-        </div>
-        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
-          {thesis.map(([title, body], index) => (
-            <div key={title} className="min-h-56 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]">
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{String(index + 1).padStart(2, "0")}</p>
-              <h3 className="mt-14 text-lg font-semibold text-[var(--ink)]">{title}</h3>
-              <p className="mt-3 text-sm leading-6 text-[var(--ink-dim)]">{body}</p>
-              <div className="mt-5 h-0.5 w-5 bg-[var(--sun)]" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
           <Label>Report preview</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               The report is built for the approval thread.
             </h2>
-            <div className="mt-10 border border-[var(--rule-2)] bg-[#0E1716]">
+            <div className="mt-10 min-w-0 border border-[var(--rule-2)] bg-[#0E1716]">
               <div className="border-b border-[var(--rule)] px-5 py-4">
                 <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">terminal + orisan-scout-review.md</p>
               </div>
-              <pre className="whitespace-pre-wrap break-words p-5 font-mono text-sm leading-7 text-[var(--ink-dim)]">
+              <pre className="max-w-full whitespace-pre-wrap break-words p-5 font-mono text-sm leading-7 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
                 <code>{terminalOutput}</code>
                 {"\n\n"}
                 <code>{reportPreview}</code>

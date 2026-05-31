@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { guardProduct, pageMetadata, scoutProduct, scoutRelease } from "@/lib/constants";
+import { guardProduct, pageMetadata, scoutProduct } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.home.title,
@@ -30,16 +30,17 @@ export const metadata: Metadata = {
 
 const scoutOutput = `$ orisan scout
 
-Orisan Scout preview · payments-service · commit a8f3b2c
+Approval guidance: Review required
 
-AI coding agents configured in this repo can read broad repository context and execute shell commands through MCP. Review required before approving AI agent use.
+READ      broad repo context
+EXECUTE   shell tool available
+CHANGE    auto-commit instruction found
 
-HIGH   .mcp.json        filesystem server mounted to repo root
-HIGH   .mcp.json        shell tool available to agent
-HIGH   AGENTS.md        shell execution allowed without approval
-MED    AGENTS.md        auto-commit behavior allowed
+Payload stored: false
+Source upload: none
 
-orisan-scout-review.md written · awaiting reviewer verdict`;
+orisan-scout-review.md
+orisan-scout-review.json`;
 
 const reviewArtifact = {
   repository: "payments-service",
@@ -53,13 +54,6 @@ const reviewArtifact = {
   ],
   decision: ["Reviewer", "Decision", "Restrictions", "Expires"]
 };
-
-const watchCells = [
-  ["01", "Discover", "MCP configs and agent instruction files."],
-  ["02", "Assess", "Map READ / EXECUTE / CHANGE capability."],
-  ["03", "Decide", "Recommend review, conditional approval, or no blocker."],
-  ["04", "Record", "Generate Markdown/JSON evidence for security review."]
-];
 
 const capabilityColumns = [
   {
@@ -80,9 +74,9 @@ const scopeItems = [
   "repo-local by default",
   "no source upload",
   "no cloud upload",
-  "no daemon",
-  "no home/global config scanning by default",
-  "v0.1 checks only MCP configs and repo-level agent instructions"
+  "payload_stored=false",
+  "Markdown and JSON evidence",
+  "checksums in release artifacts"
 ];
 
 const problemRows = [
@@ -105,29 +99,40 @@ const productSystem = [
     status: "Available now / early access",
     href: "/scout",
     summary: "Repo-local discovery for AI coding agent exposure.",
-    role: "Discovers what agents can read, execute, or change before approval."
+    role: "Install Orisan. Run `orisan scout`. Generate Markdown and JSON approval evidence.",
+    emphasis: "primary"
   },
   {
     name: "Guard",
     status: "Alpha core in development",
     href: "/guard",
     summary: "Sensitive context protection and safe rewrite for AI tools.",
-    role: "Protects prompts and context before sensitive material reaches AI tools."
+    role: "Local core exists. Browser protection is not released.",
+    emphasis: "secondary"
   },
   {
     name: "Relay",
     status: "Future module",
     href: "#product-architecture",
     summary: "Agent and tool execution governance.",
-    role: "Will control how agent actions are routed, approved, and constrained."
+    role: "Future module.",
+    emphasis: "future"
   },
   {
     name: "Review",
     status: "Future module",
     href: "#product-architecture",
     summary: "AI-assisted code and change review.",
-    role: "Will validate generated changes against policy, risk, and intent."
+    role: "Future module.",
+    emphasis: "future"
   }
+];
+
+const proofStats = [
+  ["available today", "Scout CLI"],
+  ["primary command", "orisan scout"],
+  ["evidence", "Markdown + JSON"],
+  ["privacy", "no source upload"]
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -140,14 +145,14 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function TerminalPreview() {
   return (
-    <div className="border border-[var(--rule-2)] bg-[#0E1716] font-mono text-[13px] leading-7">
+    <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716] font-mono text-[13px] leading-7">
       <div className="flex items-center justify-between border-b border-[var(--rule)] px-4 py-3">
         <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
           Local approval output
         </span>
         <span className="text-[var(--sun)]">$</span>
       </div>
-      <pre className="whitespace-pre-wrap break-words p-5 text-[var(--ink-dim)]">
+      <pre className="max-w-full whitespace-pre-wrap break-words p-5 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
         <code>{scoutOutput}</code>
       </pre>
     </div>
@@ -156,7 +161,7 @@ function TerminalPreview() {
 
 function ApprovalArtifact() {
   return (
-    <div className="border border-[var(--rule-2)] bg-[#0E1716]">
+    <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716]">
       <div className="border-b border-[var(--rule)] px-5 py-4">
         <Label>Agent Access Review</Label>
       </div>
@@ -197,25 +202,28 @@ function ApprovalArtifact() {
 
 export default function HomePage() {
   return (
-    <div className="bg-[var(--bg)] pt-16 text-[var(--ink)]">
-      <section className="container-shell grid min-h-[calc(100svh-4rem)] gap-14 py-20 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-28">
-        <div>
+    <div className="overflow-hidden bg-[var(--bg)] pt-16 text-[var(--ink)]">
+      <section className="container-shell grid min-h-[calc(100svh-4rem)] min-w-0 gap-14 py-20 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-28">
+        <div className="min-w-0">
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
             <Label>Security infrastructure for AI-assisted development</Label>
           </div>
           <h1 className="max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-[var(--ink)] sm:max-w-4xl sm:text-[clamp(2.5rem,6vw,4.8rem)] sm:leading-[1.02]">
-            Orisan is the AI work control layer.
+            Know what AI agents can read, execute, and change before you approve them.
           </h1>
           <p className="mt-8 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            Control what AI coding agents can read, execute, change, and expose. Scout is the first available module: a repo-local preflight check before agent access is approved.
+            Orisan builds security infrastructure for AI-assisted software development. Scout is the first module: a local preflight check for repo-level agent exposure.
+          </p>
+          <p className="mt-5 max-w-[20rem] font-mono text-xs uppercase leading-6 tracking-[0.13em] text-[var(--ink-faint)] sm:max-w-2xl">
+            Local by default. No source upload. No cloud upload. Markdown and JSON evidence.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Install Orisan
+              Run Scout
             </Link>
-            <Link href="/brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              See product architecture
+            <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+              View sample report
             </Link>
           </div>
         </div>
@@ -229,21 +237,23 @@ export default function HomePage() {
       <section id="product-architecture" className="container-shell py-20 md:py-28">
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Product architecture</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scout discovers. Guard protects. Relay and Review come later.
+              Scout is runnable today. Everything else is deliberately behind it.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is built as a control layer, not a pile of scanners. Scout is available now. Guard has a local alpha core. Relay and Review are future modules.
+              Orisan is the parent system. Scout is the current product proof. Guard has a local alpha core. Relay and Review are future modules.
             </p>
           </div>
         </div>
-        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
+        <div className="grid min-w-0 border-l border-t border-[var(--rule)] md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
           {productSystem.map((product) => (
             <Link
               key={product.name}
               href={product.href}
-              className="group min-h-72 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]"
+              className={`group min-h-72 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)] ${
+                product.emphasis === "future" ? "opacity-55" : ""
+              } ${product.emphasis === "primary" ? "bg-[rgba(236,231,218,0.03)]" : ""}`}
             >
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{product.status}</p>
               <h3 className="mt-14 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">{product.name}</h3>
@@ -256,9 +266,20 @@ export default function HomePage() {
       </section>
 
       <section className="container-shell py-20 md:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
+          {proofStats.map(([label, value]) => (
+            <div key={label} className="border-b border-r border-[var(--rule)] p-5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">{label}</p>
+              <p className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">{value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
+        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
           <Label>The motive</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               AI agents changed repository approval faster than security review changed with it.
             </h2>
@@ -278,9 +299,9 @@ export default function HomePage() {
       </section>
 
       <section className="container-shell py-20 md:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
           <Label>Approval record</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               {scoutProduct.title} is the current runnable module.
             </h2>
@@ -295,9 +316,9 @@ export default function HomePage() {
       </section>
 
       <section className="container-shell py-20 md:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
           <Label>Why different</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               Not another scanner category. A preflight approval instrument.
             </h2>
@@ -310,25 +331,6 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
-          <Label>Workflow</Label>
-          <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            From repo scan to approval record.
-          </h2>
-        </div>
-        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
-          {watchCells.map(([number, title, body]) => (
-            <div key={title} className="min-h-44 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]">
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{number}</p>
-              <h3 className="mt-14 text-lg font-semibold text-[var(--ink)]">{title}</h3>
-              <p className="mt-2 text-sm leading-6 text-[var(--ink-dim)]">{body}</p>
-              <div className="mt-5 h-0.5 w-5 bg-[var(--sun)]" />
-            </div>
-          ))}
         </div>
       </section>
 
@@ -356,9 +358,9 @@ export default function HomePage() {
       </section>
 
       <section className="container-shell py-20 md:py-28">
-        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
           <Label>Scope and privacy</Label>
-          <div>
+          <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               Repo-scoped by default. Local by design.
             </h2>
@@ -386,10 +388,10 @@ export default function HomePage() {
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Install Orisan
+              Run Scout
             </Link>
-            <Link href="/scout" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              Read validation brief
+            <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+              View sample report
             </Link>
           </div>
         </div>

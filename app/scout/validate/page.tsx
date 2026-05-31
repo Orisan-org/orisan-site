@@ -6,6 +6,10 @@ import { pageMetadata, scoutRelease } from "@/lib/constants";
 export const metadata: Metadata = {
   title: pageMetadata.validateScout.title,
   description: pageMetadata.validateScout.description,
+  robots: {
+    index: false,
+    follow: false
+  },
   alternates: { canonical: "/scout/validate" },
   openGraph: {
     title: pageMetadata.validateScout.title,

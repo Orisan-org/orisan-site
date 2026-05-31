@@ -78,7 +78,7 @@ export default function GuardPage() {
               href={`mailto:${siteConfig.email}?subject=Guard%20Alpha`}
               className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
             >
-              Join Guard Alpha
+              Follow Guard Alpha
             </a>
             <a
               href={siteConfig.links.guardRepo}
