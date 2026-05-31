@@ -39,6 +39,7 @@ const alphaCore = [
   "span-based deterministic classifier",
   "collision-resistant placeholder planner",
   "syntax-preserving redactor",
+  "local redact CLI",
   "synthetic benchmark fixtures",
   "evidence-safe harness",
   "payload_stored=false model"
@@ -95,7 +96,7 @@ export default function GuardPage() {
             Can this prompt or context be safely sent to an AI tool?
           </p>
           <p className="mt-6 leading-8 text-[var(--ink-dim)]">
-            Guard is not released as a browser extension yet. The current work is the local alpha core: classification, placeholder planning, redaction, and evidence-safe benchmarking.
+            Guard is not released as a browser extension yet. The current work is the local alpha core: classification, placeholder planning, redaction, evidence-safe benchmarking, and a local redact CLI.
           </p>
         </div>
       </section>
@@ -134,6 +135,32 @@ export default function GuardPage() {
                   {item}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
+        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+          <Label>Local CLI</Label>
+          <div>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              Redaction can be tested without browser interception.
+            </h2>
+            <div className="mt-10 border border-[var(--rule-2)] bg-[#0E1716]">
+              <div className="border-b border-[var(--rule)] px-5 py-4">
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">guard-alpha-redact</p>
+              </div>
+              <pre className="whitespace-pre-wrap break-words p-5 font-mono text-sm leading-7 text-[var(--ink-dim)]">
+                <code>{`go run ./cmd/guard-alpha-redact \\
+  --input input.txt \\
+  --output redacted.txt \\
+  --json evidence.json
+
+payload_stored=false
+raw prompts stay local
+browser interception is not active yet`}</code>
+              </pre>
             </div>
           </div>
         </div>
