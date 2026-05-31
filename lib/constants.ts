@@ -25,7 +25,8 @@ export const scoutRelease = {
   url: `${siteConfig.links.scoutRepo}/releases/tag/v0.1.0-alpha.4`,
   installCommand: "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.1.0-alpha.4",
   macArm64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_arm64.tar.gz`,
-  macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_amd64.tar.gz`
+  macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_amd64.tar.gz`,
+  feedbackUrl: `${siteConfig.links.scoutRepo}/issues/new?template=alpha-feedback.yml`
 };
 
 export const socialLinks = [

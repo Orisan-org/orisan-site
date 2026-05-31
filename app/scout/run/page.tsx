@@ -173,6 +173,14 @@ export default function RunScoutPage() {
               >
                 {scoutRelease.version} release <ExternalLink size={14} />
               </a>
+              <a
+                href={scoutRelease.feedbackUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
+              >
+                Share feedback <ExternalLink size={14} />
+              </a>
             </div>
           </div>
         </div>
@@ -258,6 +266,28 @@ export default function RunScoutPage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
+        <div className="border-y border-[var(--rule)] py-14 md:flex md:items-center md:justify-between md:gap-12">
+          <div>
+            <Label>Alpha feedback</Label>
+            <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              Tell us whether the approval record is useful.
+            </h2>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
+              Do not share source code, secrets, or private reports unless your policy allows it. Finding count, usefulness, noise, and missing coverage are enough.
+            </p>
+          </div>
+          <a
+            href={scoutRelease.feedbackUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 inline-flex items-center justify-center gap-2 bg-[var(--ink)] px-6 py-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)] md:mt-0"
+          >
+            Share feedback <ExternalLink size={14} />
+          </a>
         </div>
       </section>
 
