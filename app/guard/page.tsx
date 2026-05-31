@@ -155,9 +155,11 @@ export default function GuardPage() {
                 <code>{`go run ./cmd/guard-alpha-redact \\
   --input input.txt \\
   --output redacted.txt \\
-  --json evidence.json
+  --json evidence.json \\
+  --json-evidence-only
 
 payload_stored=false
+redacted_text omitted from JSON
 raw prompts stay local
 browser interception is not active yet`}</code>
               </pre>
