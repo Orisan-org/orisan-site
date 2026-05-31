@@ -163,6 +163,12 @@ export default function ScoutPage() {
               <Link href="/scout/run" className="bg-[var(--ink)] px-5 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
                 Full runbook
               </Link>
+              <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+                Sample report
+              </Link>
+              <Link href="/scout/validate" className="border-b border-[var(--rule-2)] px-1 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+                Validate Scout
+              </Link>
               <a
                 href={scoutRelease.url}
                 target="_blank"

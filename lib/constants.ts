@@ -27,7 +27,9 @@ export const scoutRelease = {
   installCommand: "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.1.0-alpha.4",
   macArm64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_arm64.tar.gz`,
   macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_amd64.tar.gz`,
-  feedbackUrl: `${siteConfig.links.scoutRepo}/issues/new?template=alpha-feedback.yml`
+  feedbackUrl: `${siteConfig.links.scoutRepo}/issues/new?template=alpha-feedback.yml`,
+  sampleReportUrl: "/scout/sample-report",
+  validateUrl: "/scout/validate"
 };
 
 export const socialLinks = [
@@ -120,6 +122,16 @@ export const pageMetadata = {
     title: "Run Orisan Scout | Repo-local AI-agent approval review",
     description:
       "Run Orisan Scout locally to generate an approval artifact that summarizes what AI agents can read, execute, or change in a repository."
+  },
+  sampleReport: {
+    title: "Scout Sample Report | Orisan",
+    description:
+      "View a sample Orisan Scout approval report for a risky repository with READ, EXECUTE, and CHANGE findings."
+  },
+  validateScout: {
+    title: "Validate Scout | Orisan",
+    description:
+      "Run Orisan Scout on one repository and tell us whether the approval report helps AppSec make a decision."
   },
   contact: {
     title: "Contact | Orisan",

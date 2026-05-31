@@ -181,6 +181,12 @@ export default function RunScoutPage() {
               >
                 Share feedback <ExternalLink size={14} />
               </a>
+              <Link
+                href="/scout/sample-report"
+                className="inline-flex items-center justify-center border-b border-[var(--rule-2)] px-1 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
+              >
+                Sample report
+              </Link>
             </div>
           </div>
         </div>
