@@ -30,10 +30,10 @@ export const metadata: Metadata = {
 };
 
 const thesis = [
-  ["Problem", "AI coding agents are being allowed into repositories before teams can clearly state what those agents can read, execute, or change."],
-  ["Gap", "Existing security tools usually start after code exists. Scout focuses on the agent permission surface before agentic work is approved."],
-  ["Artifact", "The output is a local approval record security teams can review, file, and compare across repositories."],
-  ["Boundary", "v0.1 is intentionally narrow: repo-local MCP configs and repo-level agent instructions only."]
+  ["Input", "Scout looks only at repo-local MCP configs and repo-level agent instruction files in v0.1."],
+  ["Detection", "Findings are mapped to READ, EXECUTE, and CHANGE so the reviewer sees agent capability."],
+  ["Guidance", "The report recommends review required, restricted approval, or no repo-local blocker found."],
+  ["Artifact", "Markdown and JSON outputs carry git metadata, report hash, and payload_stored=false."]
 ];
 
 const reviewerQuestions = [
@@ -92,9 +92,9 @@ export default function ScoutPage() {
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
               Get Scout
             </Link>
-            <a href="#brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              Read the brief
-            </a>
+            <Link href="/brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+              Read alpha brief
+            </Link>
           </div>
         </div>
         <div className="border border-[var(--rule-2)] bg-[#0E1716] p-6">
@@ -110,11 +110,11 @@ export default function ScoutPage() {
 
       <div className="container-shell h-px bg-[var(--rule)]" />
 
-      <section id="brief" className="container-shell py-20 md:py-28">
+      <section className="container-shell py-20 md:py-28">
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
-          <Label>Alpha brief</Label>
+          <Label>Product mechanics</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            The problem is approval without evidence.
+            Scout is intentionally small so the artifact can be trusted.
           </h2>
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">

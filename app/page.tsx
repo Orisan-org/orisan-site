@@ -85,6 +85,20 @@ const scopeItems = [
   "v0.1 checks only MCP configs and repo-level agent instructions"
 ];
 
+const problemRows = [
+  ["Before", "AI coding tools were approved as assistants, mostly evaluated by vendor trust, data handling, and developer productivity."],
+  ["Now", "Agents inherit repo instructions, invoke local tools, and may execute or change code through MCP and automation workflows."],
+  ["Gap", "Most teams cannot produce a repo-level approval record that states what an agent can read, execute, or change."],
+  ["Scout", "Scout turns that local agent surface into Markdown and JSON evidence a reviewer can inspect before approval."]
+];
+
+const differenceRows = [
+  ["Pre-approval", "Scout runs before an AI agent is allowed into a sensitive repo, not after a vulnerability lands in code."],
+  ["Capability-first", "Findings map to READ, EXECUTE, and CHANGE so reviewers see authority, not just file matches."],
+  ["Local evidence", "Reports are generated in the repo with no daemon, no cloud upload, and payload_stored=false."],
+  ["Narrow scope", "v0.1 stays focused on MCP configs and repo-level agent instructions so the signal can be validated."]
+];
+
 function Label({ children }: { children: React.ReactNode }) {
   return (
     <p className="max-w-[18rem] break-words font-mono text-[11px] font-medium uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">
@@ -169,7 +183,7 @@ export default function HomePage() {
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
               Get Scout
             </Link>
-            <Link href="#brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+            <Link href="/brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
               Read the alpha brief
             </Link>
           </div>
@@ -181,7 +195,29 @@ export default function HomePage() {
 
       <div className="container-shell h-px bg-[var(--rule)]" />
 
-      <section id="brief" className="container-shell py-20 md:py-28">
+      <section className="container-shell py-20 md:py-28">
+        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+          <Label>The motive</Label>
+          <div>
+            <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              AI agents changed repository approval faster than security review changed with it.
+            </h2>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
+              Orisan exists because the approval moment is becoming vague. Developers are adopting agentic tools, MCP servers, and repo instruction files, while reviewers are still asked to approve with incomplete local evidence.
+            </p>
+            <div className="mt-10 grid border-l border-t border-[var(--rule)]">
+              {problemRows.map(([title, body]) => (
+                <div key={title} className="grid gap-5 border-b border-r border-[var(--rule)] p-5 md:grid-cols-[9rem_1fr]">
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</p>
+                  <p className="text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
         <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
           <Label>Approval record</Label>
           <div>
@@ -193,6 +229,25 @@ export default function HomePage() {
             </p>
             <div className="mt-10">
               <ApprovalArtifact />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
+        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+          <Label>Why different</Label>
+          <div>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              Not another scanner category. A preflight approval instrument.
+            </h2>
+            <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
+              {differenceRows.map(([title, body]) => (
+                <div key={title} className="min-h-48 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]">
+                  <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</h3>
+                  <p className="mt-8 text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
 const headerLinks = [
   { href: "/scout", label: "Scout" },
-  { href: "/scout#brief", label: "Brief" },
+  { href: "/brief", label: "Brief" },
   { href: "/scout/run", label: "Docs" },
   { href: "/about", label: "About" }
 ];
@@ -24,7 +24,7 @@ export function Header() {
         <BrandMark tone="light" size="sm" />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
           {headerLinks.map((item) => {
-            const active = pathname === item.href;
+            const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
             return (
               <Link
                 key={item.href}

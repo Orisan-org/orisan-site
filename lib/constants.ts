@@ -58,9 +58,10 @@ export const socialLinks = [
 ];
 
 export const navigation = [
-  { href: "/about", label: "About" },
   { href: "/scout", label: "Scout" },
+  { href: "/brief", label: "Brief" },
   { href: "/scout/run", label: "Run Scout" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }
 ];
 
@@ -91,6 +92,11 @@ export const pageMetadata = {
     title: "Orisan Scout | Repo-local AI-agent approval artifact",
     description:
       "Orisan Scout produces a local approval artifact for MCP configuration risk and repo-level agent instruction risk without source upload."
+  },
+  brief: {
+    title: "Scout Alpha Brief | Orisan",
+    description:
+      "The Scout alpha brief explains the approval-record hypothesis, validation protocol, success signals, and current scope."
   },
   runScout: {
     title: "Run Orisan Scout | Repo-local AI-agent approval review",
