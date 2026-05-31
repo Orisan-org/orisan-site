@@ -29,6 +29,8 @@ export const metadata: Metadata = {
 };
 
 const installCommand = scoutRelease.installCommand;
+const windowsInstallCommand = scoutRelease.windowsInstallCommand;
+const developerInstallCommand = scoutRelease.developerInstallCommand;
 const defaultCommand = "orisan scout";
 const explicitCommand = "orisan scout --repo . --markdown report.md --json report.json";
 const terminalOutput = `$ orisan scout
@@ -51,7 +53,7 @@ const releaseSteps = [
   ["1. Install", installCommand],
   ["2. Run", defaultCommand],
   ["3. Inspect", "Open orisan-scout-review.md and orisan-scout-review.json."],
-  ["4. Share", "Attach the files to the repo approval thread or security review ticket."]
+  ["4. Decide", "Ask whether the report is clear enough to send to a reviewer without a live explanation."]
 ];
 
 const binaryOptions = [
@@ -81,8 +83,8 @@ const checks = [
 ];
 
 const troubleshooting = [
-  ["command not found", "Confirm your Go bin directory is on PATH, then re-run the install command."],
-  ["private module error", "Use the release assets from GitHub instead of go install."],
+  ["command not found", "Confirm /usr/local/bin or ~/.local/bin is on PATH, then re-run the install command."],
+  ["download blocked", "Use the GitHub release assets from the advanced install section."],
   ["non-git repo", "Scout still runs; git metadata will be marked unavailable."],
   ["unexpected clean result", "Confirm the relevant config or instruction file is repo-local and in v0.1 scope."]
 ];
@@ -128,7 +130,7 @@ export default function RunScoutPage() {
             Install Scout and generate the review files.
           </h1>
           <p className="mt-7 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            This page is the operator path: install the alpha CLI, run it in a repository, verify the output, and hand the generated files to a reviewer.
+            This page is the operator path: install Orisan, run Scout in a repository, verify the output, and decide whether the generated files are credible enough for review.
           </p>
         </div>
         <Terminal />
@@ -171,7 +173,7 @@ export default function RunScoutPage() {
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
               >
-                {scoutRelease.version} release <ExternalLink size={14} />
+                Advanced release assets <ExternalLink size={14} />
               </a>
               <a
                 href={scoutRelease.feedbackUrl}
@@ -197,10 +199,10 @@ export default function RunScoutPage() {
           <Label>Release assets</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Download the alpha binary when Go install is not the right path.
+              Use manual downloads only when the install script is not the right path.
             </h2>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              The current public build is {scoutRelease.version}. Release artifacts include macOS, Linux, and Windows binaries with sha256 checksums.
+              Release artifacts include macOS, Linux, and Windows binaries with sha256 checksums. Exact versions belong here and in GitHub Releases, not in the primary user flow.
             </p>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-3">
               {binaryOptions.map(([title, href]) => (
@@ -217,6 +219,18 @@ export default function RunScoutPage() {
                   </p>
                 </a>
               ))}
+            </div>
+            <div className="mt-10 border border-[var(--rule-2)] bg-[#0E1716] p-5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">Windows</p>
+              <pre className="mt-4 whitespace-pre-wrap break-words font-mono text-sm leading-7 text-[var(--ink-dim)]">
+                <code>{windowsInstallCommand}</code>
+              </pre>
+            </div>
+            <div className="mt-6 border border-[var(--rule)] p-5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">Developer install from source</p>
+              <pre className="mt-4 whitespace-pre-wrap break-words font-mono text-sm leading-7 text-[var(--ink-dim)]">
+                <code>{developerInstallCommand}</code>
+              </pre>
             </div>
           </div>
         </div>

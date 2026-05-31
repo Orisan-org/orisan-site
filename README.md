@@ -52,6 +52,16 @@ A     www    76.76.21.21
 
 Current known blocker: the domain is still using `dns1.registrar-servers.com` and `dns2.registrar-servers.com`, so records must be changed at the current registrar/DNS provider.
 
-## Scout Release Link
+## Install Endpoints
 
-The current public Scout alpha is centralized in `lib/constants.ts` as `scoutRelease`.
+The primary user-facing install paths are:
+
+```bash
+curl -fsSL https://orisan.org/install | sh
+```
+
+```powershell
+irm https://orisan.org/install.ps1 | iex
+```
+
+Exact release tags and asset URLs are kept in `lib/constants.ts` and GitHub Releases for advanced/manual install paths.

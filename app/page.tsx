@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 const scoutOutput = `$ orisan scout
 
-Orisan Scout ${scoutRelease.version} · payments-service · commit a8f3b2c
+Orisan Scout preview · payments-service · commit a8f3b2c
 
 AI coding agents configured in this repo can read broad repository context and execute shell commands through MCP. Review required before approving AI agent use.
 
@@ -102,7 +102,7 @@ const differenceRows = [
 const productSystem = [
   {
     name: "Scout",
-    status: "Available alpha",
+    status: "Available now / early access",
     href: "/scout",
     summary: "Repo-local discovery for AI coding agent exposure.",
     role: "Discovers what agents can read, execute, or change before approval."
@@ -205,17 +205,17 @@ export default function HomePage() {
             <Label>Security infrastructure for AI-assisted development</Label>
           </div>
           <h1 className="max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-[var(--ink)] sm:max-w-4xl sm:text-[clamp(2.5rem,6vw,4.8rem)] sm:leading-[1.02]">
-            See what an AI agent can touch before you allow it in the repo.
+            Orisan is the AI work control layer.
           </h1>
           <p className="mt-8 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            Orisan Scout produces a local approval record of what repo-local MCP configs and agent instruction files allow AI coding agents to read, execute, or change. No source upload. No cloud upload. Repo-scoped by default.
+            Control what AI coding agents can read, execute, change, and expose. Scout is the first available module: a repo-local preflight check before agent access is approved.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Get Scout
+              Install Orisan
             </Link>
             <Link href="/brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              Read the alpha brief
+              See product architecture
             </Link>
           </div>
         </div>
@@ -234,7 +234,7 @@ export default function HomePage() {
               Scout discovers. Guard protects. Relay and Review come later.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is building security infrastructure for AI-assisted development in modules. Only Scout is publicly runnable today. Guard has a local alpha core. Relay and Review are future modules.
+              Orisan is built as a control layer, not a pile of scanners. Scout is available now. Guard has a local alpha core. Relay and Review are future modules.
             </p>
           </div>
         </div>
@@ -282,7 +282,7 @@ export default function HomePage() {
           <Label>Approval record</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              {scoutProduct.title} is the current runnable alpha.
+              {scoutProduct.title} is the current runnable module.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
               Scout turns repo-local agent exposure into a review record: what was scanned, what agents can read, execute, or change, and what decision a reviewer should make before approval.
@@ -386,7 +386,7 @@ export default function HomePage() {
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Get Scout
+              Install Orisan
             </Link>
             <Link href="/scout" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
               Read validation brief

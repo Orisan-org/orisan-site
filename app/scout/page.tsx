@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { pageMetadata, scoutProduct, scoutRelease, siteConfig } from "@/lib/constants";
-import { ScoutWaitlist } from "@/components/ScoutWaitlist";
 
 export const metadata: Metadata = {
   title: pageMetadata.scout.title,
@@ -67,6 +66,13 @@ const quickStart = [
   ["Outputs", "orisan-scout-review.md + orisan-scout-review.json"]
 ];
 
+const terminalOutput = `$ orisan scout
+
+AI coding agents configured in this repo can read broad repository context and execute shell commands through MCP. Review required before approving AI agent use.
+
+Orisan Scout completed: 3 findings (critical: 0, high: 2, medium: 1, low: 0, info: 0)
+Reports written: orisan-scout-review.md, orisan-scout-review.json`;
+
 const checks = [
   ".mcp.json",
   ".cursor/mcp.json",
@@ -124,10 +130,10 @@ export default function ScoutPage() {
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Get Scout
+              Install Orisan
             </Link>
             <Link href="/brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              Read alpha brief
+              Runbook
             </Link>
           </div>
         </div>
@@ -166,16 +172,13 @@ export default function ScoutPage() {
               <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
                 Sample report
               </Link>
-              <Link href="/scout/validate" className="border-b border-[var(--rule-2)] px-1 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-                Validate Scout
-              </Link>
               <a
                 href={scoutRelease.url}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
               >
-                GitHub release <ExternalLink size={14} />
+                Advanced release assets <ExternalLink size={14} />
               </a>
               <a
                 href={siteConfig.links.scoutRepo}
@@ -218,9 +221,11 @@ export default function ScoutPage() {
             </h2>
             <div className="mt-10 border border-[var(--rule-2)] bg-[#0E1716]">
               <div className="border-b border-[var(--rule)] px-5 py-4">
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">orisan-scout-review.md</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">terminal + orisan-scout-review.md</p>
               </div>
               <pre className="whitespace-pre-wrap break-words p-5 font-mono text-sm leading-7 text-[var(--ink-dim)]">
+                <code>{terminalOutput}</code>
+                {"\n\n"}
                 <code>{reportPreview}</code>
               </pre>
             </div>
@@ -302,16 +307,28 @@ export default function ScoutPage() {
       <section id="early-access" className="container-shell py-20 md:py-28">
         <div className="grid gap-10 border-y border-[var(--rule)] py-14 md:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <Label>Early access</Label>
+            <Label>Alpha status</Label>
             <h2 className="mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Bring Scout into the repositories where agent risk is becoming real.
+              Scout is usable now, but not ready for broad external push.
             </h2>
           </div>
           <div>
             <p className="text-lg leading-8 text-[var(--ink-dim)]">
-              Scout is in active development. We are looking for teams already using AI coding assistants, local agent workflows, MCP servers, or repository-level instruction files.
+              Current focus is internal dogfooding: install like a user, run on real local repositories, inspect terminal output, inspect Markdown and JSON, and decide whether the artifact is strong enough to send without a live explanation.
             </p>
-            <ScoutWaitlist />
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="https://github.com/Orisan-org/orisan-scout/issues/1"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[var(--ink)] px-5 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
+              >
+                Feedback tracker <ExternalLink size={14} />
+              </a>
+              <Link href="/scout/run" className="border-b border-[var(--rule-2)] px-1 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+                Runbook
+              </Link>
+            </div>
           </div>
         </div>
       </section>

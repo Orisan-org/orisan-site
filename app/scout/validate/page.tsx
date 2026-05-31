@@ -22,10 +22,10 @@ export const metadata: Metadata = {
 };
 
 const steps = [
-  ["1. Pick one repo", "Use a repo where AI coding agents are used, being piloted, or being considered."],
-  ["2. Run Scout", scoutRelease.installCommand + "\n" + "orisan scout"],
-  ["3. Inspect the report", "Open orisan-scout-review.md. Do not share private source, secrets, prompts, or full reports unless policy allows it."],
-  ["4. Tell us the decision fit", "Did the report help approve, restrict, or block AI coding agent usage?"]
+  ["1. Install like a user", scoutRelease.installCommand],
+  ["2. Run local repos", "orisan scout\norisan scout --repo /path/to/repo"],
+  ["3. Inspect artifacts", "Read terminal output, Markdown, and JSON. Check payload_stored=false, git metadata, and report hash."],
+  ["4. Decide readiness", "Would we send this report to an AppSec engineer without explaining it live?"]
 ];
 
 const feedback = [
@@ -34,18 +34,19 @@ const feedback = [
   "Was the capability summary useful?",
   "Were any findings wrong, noisy, or confusing?",
   "Did Scout miss obvious repo-local AI-agent config?",
-  "Would this report help an approval or remediation workflow?"
+  "Would this report help an approval or remediation workflow?",
+  "Would we send this externally without live explanation?"
 ];
 
-const copy = `Hey, I’m validating Orisan Scout, a local CLI for AI coding agent approval evidence.
+const copy = `Internal Scout dogfood note
 
-The narrow question is:
+Do not start outbound validation yet.
+
+The product question is:
 What can an AI coding agent in this repo read, execute, or change?
 
-Would you run it on one repo where AI coding agents are used or being considered, then tell me whether the report helps you make an approval/restriction decision?
-
 Install:
-go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.1.0-alpha.4
+curl -fsSL https://orisan.org/install | sh
 
 Run:
 orisan scout
@@ -54,7 +55,8 @@ It writes:
 orisan-scout-review.md
 orisan-scout-review.json
 
-Please do not share source code, secrets, prompts, or private reports unless your policy allows it. Finding count, usefulness, noise, and missing coverage are enough.`;
+Final gate:
+Would we send this report to an AppSec engineer without explaining it live?`;
 
 function Label({ children }: { children: React.ReactNode }) {
   return <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
@@ -67,13 +69,13 @@ export default function ValidateScoutPage() {
         <div>
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>External validation</Label>
+            <Label>Internal QA first</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Run Scout on one real repo and judge the approval record.
+            Dogfood Scout before asking anyone else to trust it.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            We are not asking for general product feedback. We need to know whether the report helps a real AppSec or engineering reviewer approve, restrict, or block AI coding agent usage.
+            Outbound validation is paused until install, report clarity, website story, and manual repo runs feel credible.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
@@ -87,10 +89,10 @@ export default function ValidateScoutPage() {
         <div className="border border-[var(--rule-2)] bg-[#0E1716] p-6">
           <Label>Success signal</Label>
           <p className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">
-            “This report fits an approval workflow we already have.”
+            “I would send this report without explaining it live.”
           </p>
           <p className="mt-6 leading-8 text-[var(--ink-dim)]">
-            Three real repo runs with useful approval feedback is the current milestone.
+            The current milestone is internal trust, not external outreach.
           </p>
         </div>
       </section>
@@ -101,7 +103,7 @@ export default function ValidateScoutPage() {
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Protocol</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            Keep the ask small.
+            Keep the QA loop concrete.
           </h2>
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
@@ -132,7 +134,7 @@ export default function ValidateScoutPage() {
           <Label>Copy paste</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Tester message.
+              Internal run note.
             </h2>
             <pre className="mt-10 whitespace-pre-wrap break-words border border-[var(--rule-2)] bg-[#0E1716] p-5 font-mono text-sm leading-7 text-[var(--ink-dim)]">
               <code>{copy}</code>
@@ -144,7 +146,7 @@ export default function ValidateScoutPage() {
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[var(--ink)] px-5 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
               >
-                Open feedback issue <ExternalLink size={14} />
+                QA tracker <ExternalLink size={14} />
               </a>
               <a
                 href={scoutRelease.url}

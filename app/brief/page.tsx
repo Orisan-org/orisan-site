@@ -33,21 +33,21 @@ const validationQuestions = [
   "Are MCP servers or repo-level agent instruction files reviewed by security today?",
   "Would a local report on READ / EXECUTE / CHANGE authority be useful, or do existing controls already cover it?",
   "How are agent approval decisions documented today?",
-  "Would you run Scout on one real repo and tell us what did or did not help?"
+  "Would we send the report to an AppSec engineer without explaining it live?"
 ];
 
 const realRunProtocol = [
   ["Install", scoutRelease.installCommand],
   ["Run", "orisan scout"],
   ["Review", "Open orisan-scout-review.md and orisan-scout-review.json."],
-  ["Reply", "Share run success, finding count, usefulness, noisy findings, and missing coverage."]
+  ["Decide", "Mark what is confusing, noisy, missing, or not credible enough yet."]
 ];
 
 const successSignals = [
-  "3 people run Scout on real repositories",
-  "2 people say the report helps approval or remediation",
-  "1 concrete false positive or false negative is found",
-  "A tester says the report fits an approval workflow they already have"
+  "Install works without explaining Go modules",
+  "Scout runs cleanly on Orisan repos and test fixtures",
+  "Markdown and JSON can be inspected without source upload",
+  "The report feels clear enough to send without a live walkthrough"
 ];
 
 const failureSignals = [
@@ -69,14 +69,14 @@ export default function BriefPage() {
         <div>
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Alpha validation brief</Label>
+          <Label>Internal readiness brief</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            We are testing the approval-record pain, not pretending the platform is finished.
+            We are not ready for outbound validation until the artifact feels trustworthy.
           </h1>
         </div>
         <p className="text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-          Scout is a strong hypothesis: teams approving AI coding agents need repo-local evidence that explains what agents can read, execute, or change. The alpha exists to prove or disprove that with real repository runs.
+          Scout is a strong hypothesis: teams approving AI coding agents need repo-local evidence that explains what agents can read, execute, or change. First we have to dogfood the install path, reports, and website until the product feels credible.
         </p>
       </section>
 
@@ -100,7 +100,7 @@ export default function BriefPage() {
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Validation questions</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            Five questions decide whether Scout deserves more product.
+              Five questions decide whether Scout is ready to leave our hands.
           </h2>
         </div>
         <div className="grid border-l border-t border-[var(--rule)]">
@@ -118,7 +118,7 @@ export default function BriefPage() {
           <Label>Real-run protocol</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              One command, one repo, one useful answer.
+              One install path, real repo runs, one readiness decision.
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-4">
               {realRunProtocol.map(([title, body]) => (
@@ -129,7 +129,7 @@ export default function BriefPage() {
               ))}
             </div>
             <p className="mt-8 max-w-2xl text-sm leading-7 text-[var(--ink-faint)]">
-              Testers should not share source code, secrets, prompts, or private reports unless their policy explicitly allows it. Finding count, usefulness, noise, and missed coverage are enough.
+              Do this internally before asking external testers. Do not start outreach until the install path and report artifact feel self-explanatory.
             </p>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function BriefPage() {
           <div>
             <Label>Alpha path</Label>
             <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Run Scout, then tell us whether the report changes the approval conversation.
+              Run Scout, inspect the artifacts, then decide whether the report can stand on its own.
             </h2>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">

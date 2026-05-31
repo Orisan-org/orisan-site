@@ -3,10 +3,10 @@ export const siteConfig = {
   domain: "orisan.org",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://orisan.org",
   email: "team@orisan.org",
-  tagline: "Security infrastructure for AI-assisted software development.",
-  subtagline: "Orisan Scout is the first active product wedge.",
+  tagline: "AI work control layer.",
+  subtagline: "Security infrastructure for AI-assisted software development.",
   description:
-    "Orisan builds security infrastructure for AI-assisted software development, starting with Orisan Scout.",
+    "Orisan builds the AI work control layer for teams adopting AI coding agents and AI-assisted software development.",
   formspreeId: process.env.NEXT_PUBLIC_FORMSPREE_ID || "",
   links: {
     github: "https://github.com/Orisan-org",
@@ -24,7 +24,9 @@ export const siteConfig = {
 export const scoutRelease = {
   version: "v0.1.0-alpha.4",
   url: `${siteConfig.links.scoutRepo}/releases/tag/v0.1.0-alpha.4`,
-  installCommand: "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.1.0-alpha.4",
+  installCommand: "curl -fsSL https://orisan.org/install | sh",
+  windowsInstallCommand: "irm https://orisan.org/install.ps1 | iex",
+  developerInstallCommand: "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.1.0-alpha.4",
   macArm64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_arm64.tar.gz`,
   macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.1.0-alpha.4/orisan-scout_darwin_amd64.tar.gz`,
   feedbackUrl: `${siteConfig.links.scoutRepo}/issues/new?template=alpha-feedback.yml`,
@@ -71,7 +73,7 @@ export const navigation = [
 
 export const scoutProduct = {
   title: "Orisan Scout",
-  status: "Active product wedge",
+  status: "Available now / early access",
   href: "/scout",
   tagline: "Repo-local approval artifact for AI-agent exposure.",
   description:
@@ -94,9 +96,9 @@ export const guardProduct = {
 
 export const pageMetadata = {
   home: {
-    title: "Orisan | Security infrastructure for AI-assisted software development",
+    title: "Orisan | AI work control layer",
     description:
-      "Orisan builds security infrastructure for AI-assisted software development, starting with Orisan Scout."
+      "Orisan builds the AI work control layer for teams adopting AI coding agents and AI-assisted software development."
   },
   about: {
     title: "About Orisan | AI security lab",
@@ -129,9 +131,9 @@ export const pageMetadata = {
       "View a sample Orisan Scout approval report for a risky repository with READ, EXECUTE, and CHANGE findings."
   },
   validateScout: {
-    title: "Validate Scout | Orisan",
+    title: "Scout Internal QA | Orisan",
     description:
-      "Run Orisan Scout on one repository and tell us whether the approval report helps AppSec make a decision."
+      "Dogfood Orisan Scout internally before asking external reviewers to trust the approval report."
   },
   contact: {
     title: "Contact | Orisan",

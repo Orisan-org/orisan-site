@@ -46,7 +46,7 @@ export function Header() {
             href="/scout/run"
             className="bg-[var(--ink)] px-4 py-2.5 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
           >
-            Get Scout
+            Install Orisan
           </Link>
         </div>
         <button
@@ -85,7 +85,7 @@ export function Header() {
               href="/scout/run"
               className="mt-4 inline-flex w-fit bg-[var(--ink)] px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)]"
             >
-              Get Scout
+              Install Orisan
             </a>
           </nav>
         </div>
