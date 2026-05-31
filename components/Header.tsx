@@ -7,9 +7,9 @@ import { useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
 const headerLinks = [
   { href: "/scout", label: "Scout" },
+  { href: "/guard", label: "Guard" },
   { href: "/brief", label: "Brief" },
   { href: "/scout/run", label: "Docs" },
-  { href: "/about", label: "About" }
 ];
 
 export function Header() {

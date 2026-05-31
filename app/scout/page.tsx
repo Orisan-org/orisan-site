@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { pageMetadata, scoutProduct } from "@/lib/constants";
+import { ExternalLink } from "lucide-react";
+import { pageMetadata, scoutProduct, scoutRelease, siteConfig } from "@/lib/constants";
 import { ScoutWaitlist } from "@/components/ScoutWaitlist";
 
 export const metadata: Metadata = {
@@ -60,6 +61,39 @@ const nonGoals = [
   "not a replacement for human approval"
 ];
 
+const quickStart = [
+  ["Install", scoutRelease.installCommand],
+  ["Run", "orisan scout"],
+  ["Outputs", "orisan-scout-review.md + orisan-scout-review.json"]
+];
+
+const checks = [
+  ".mcp.json",
+  ".cursor/mcp.json",
+  ".vscode/mcp.json",
+  "AGENTS.md",
+  "CLAUDE.md",
+  ".github/copilot-instructions.md",
+  ".cursor/rules",
+  ".windsurf/",
+  ".codex/",
+  ".continue/"
+];
+
+const reportPreview = `## Capability Summary
+
+AI coding agents configured in this repo can read broad repository context and execute shell commands through MCP.
+
+## Approval Guidance
+
+Recommended decision: Review required before approving AI coding agent use in this repository.
+
+## Findings
+
+HIGH   .mcp.json   filesystem server mounted to repo root
+HIGH   .mcp.json   shell tool available to agent
+MED    AGENTS.md   auto-commit behavior allowed`;
+
 function Label({ children }: { children: React.ReactNode }) {
   return <p className="max-w-[18rem] font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
 }
@@ -83,7 +117,7 @@ export default function ScoutPage() {
             className="mb-10 h-auto w-72 max-w-full"
           />
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Approval evidence before AI agents enter the repo.
+            Before approving an AI coding agent in a repo, know what it can read, execute, or change.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
             {scoutProduct.description}
@@ -111,6 +145,46 @@ export default function ScoutPage() {
       <div className="container-shell h-px bg-[var(--rule)]" />
 
       <section className="container-shell py-20 md:py-28">
+        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+          <Label>Run it today</Label>
+          <div>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              One local command creates the approval files.
+            </h2>
+            <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-3">
+              {quickStart.map(([title, body]) => (
+                <div key={title} className="min-h-40 border-b border-r border-[var(--rule)] p-6">
+                  <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</h3>
+                  <p className="mt-6 break-words font-mono text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/scout/run" className="bg-[var(--ink)] px-5 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+                Full runbook
+              </Link>
+              <a
+                href={scoutRelease.url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
+              >
+                GitHub release <ExternalLink size={14} />
+              </a>
+              <a
+                href={siteConfig.links.scoutRepo}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
+              >
+                Source repo <ExternalLink size={14} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Product mechanics</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
@@ -126,6 +200,43 @@ export default function ScoutPage() {
               <div className="mt-5 h-0.5 w-5 bg-[var(--sun)]" />
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
+        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+          <Label>Report preview</Label>
+          <div>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              The report is built for the approval thread.
+            </h2>
+            <div className="mt-10 border border-[var(--rule-2)] bg-[#0E1716]">
+              <div className="border-b border-[var(--rule)] px-5 py-4">
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">orisan-scout-review.md</p>
+              </div>
+              <pre className="whitespace-pre-wrap break-words p-5 font-mono text-sm leading-7 text-[var(--ink-dim)]">
+                <code>{reportPreview}</code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container-shell py-20 md:py-28">
+        <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
+          <Label>What it checks</Label>
+          <div>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              Scout checks repo-local agent surfaces only.
+            </h2>
+            <div className="mt-10 flex flex-wrap gap-3">
+              {checks.map((item) => (
+                <span key={item} className="border border-[var(--rule)] px-3 py-2 font-mono text-xs text-[var(--ink-dim)]">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

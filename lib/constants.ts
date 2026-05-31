@@ -11,6 +11,7 @@ export const siteConfig = {
   links: {
     github: "https://github.com/Orisan-org",
     scoutRepo: process.env.NEXT_PUBLIC_SCOUT_REPO_URL || "https://github.com/Orisan-org/orisan-scout",
+    guardRepo: process.env.NEXT_PUBLIC_GUARD_REPO_URL || "https://github.com/Orisan-org/orisan-guard",
     linkedin: "https://linkedin.com/company/orisan",
     twitter: "https://x.com/OrisanTeam",
     facebook: "https://www.facebook.com/profile.php?id=61589315133319",
@@ -59,6 +60,7 @@ export const socialLinks = [
 
 export const navigation = [
   { href: "/scout", label: "Scout" },
+  { href: "/guard", label: "Guard" },
   { href: "/brief", label: "Brief" },
   { href: "/scout/run", label: "Run Scout" },
   { href: "/about", label: "About" },
@@ -77,6 +79,17 @@ export const scoutProduct = {
   tags: ["AI Security", "MCP", "Repository Risk", "Local-first"]
 };
 
+export const guardProduct = {
+  title: "Orisan Guard",
+  status: "Alpha core in development",
+  href: "/guard",
+  tagline: "Sensitive context protection and safe rewrite for AI tools.",
+  description:
+    "Orisan Guard is being built to detect sensitive context, rewrite it safely before it reaches AI tools, and produce evidence-safe events without uploading raw prompts.",
+  preview:
+    "Guard focuses on the moment before prompt or context leaves the user's control: classify sensitive spans, plan collision-resistant placeholders, apply safe rewrites, and keep evidence safe."
+};
+
 export const pageMetadata = {
   home: {
     title: "Orisan | Security infrastructure for AI-assisted software development",
@@ -92,6 +105,11 @@ export const pageMetadata = {
     title: "Orisan Scout | Repo-local AI-agent approval artifact",
     description:
       "Orisan Scout produces a local approval artifact for MCP configuration risk and repo-level agent instruction risk without source upload."
+  },
+  guard: {
+    title: "Orisan Guard | Sensitive context protection for AI tools",
+    description:
+      "Orisan Guard is an alpha core for detecting and safely rewriting sensitive context before it reaches AI tools."
   },
   brief: {
     title: "Scout Alpha Brief | Orisan",

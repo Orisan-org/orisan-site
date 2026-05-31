@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { pageMetadata, scoutRelease } from "@/lib/constants";
+import { guardProduct, pageMetadata, scoutProduct, scoutRelease } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.home.title,
@@ -97,6 +97,37 @@ const differenceRows = [
   ["Capability-first", "Findings map to READ, EXECUTE, and CHANGE so reviewers see authority, not just file matches."],
   ["Local evidence", "Reports are generated in the repo with no daemon, no cloud upload, and payload_stored=false."],
   ["Narrow scope", "v0.1 stays focused on MCP configs and repo-level agent instructions so the signal can be validated."]
+];
+
+const productSystem = [
+  {
+    name: "Scout",
+    status: "Available alpha",
+    href: "/scout",
+    summary: "Repo-local discovery for AI coding agent exposure.",
+    role: "Discovers what agents can read, execute, or change before approval."
+  },
+  {
+    name: "Guard",
+    status: "Alpha core in development",
+    href: "/guard",
+    summary: "Sensitive context protection and safe rewrite for AI tools.",
+    role: "Protects prompts and context before sensitive material reaches AI tools."
+  },
+  {
+    name: "Relay",
+    status: "Future module",
+    href: "#product-architecture",
+    summary: "Agent and tool execution governance.",
+    role: "Will control how agent actions are routed, approved, and constrained."
+  },
+  {
+    name: "Review",
+    status: "Future module",
+    href: "#product-architecture",
+    summary: "AI-assisted code and change review.",
+    role: "Will validate generated changes against policy, risk, and intent."
+  }
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -195,6 +226,35 @@ export default function HomePage() {
 
       <div className="container-shell h-px bg-[var(--rule)]" />
 
+      <section id="product-architecture" className="container-shell py-20 md:py-28">
+        <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
+          <Label>Product architecture</Label>
+          <div>
+            <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              Scout discovers. Guard protects. Relay and Review come later.
+            </h2>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
+              Orisan is building security infrastructure for AI-assisted development in modules. Only Scout is publicly runnable today. Guard has a local alpha core. Relay and Review are future modules.
+            </p>
+          </div>
+        </div>
+        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
+          {productSystem.map((product) => (
+            <Link
+              key={product.name}
+              href={product.href}
+              className="group min-h-72 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]"
+            >
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{product.status}</p>
+              <h3 className="mt-14 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">{product.name}</h3>
+              <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{product.summary}</p>
+              <p className="mt-8 border-t border-[var(--rule)] pt-5 text-xs leading-6 text-[var(--ink-faint)]">{product.role}</p>
+              <div className="mt-5 h-0.5 w-5 bg-[var(--sun)] transition group-hover:w-10" />
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="container-shell py-20 md:py-28">
         <div className="grid gap-10 md:grid-cols-[12rem_1fr]">
           <Label>The motive</Label>
@@ -222,7 +282,7 @@ export default function HomePage() {
           <Label>Approval record</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              The output is the artifact.
+              {scoutProduct.title} is the current runnable alpha.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
               Scout turns repo-local agent exposure into a review record: what was scanned, what agents can read, execute, or change, and what decision a reviewer should make before approval.
@@ -320,6 +380,9 @@ export default function HomePage() {
             <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
               Run the preflight check before approving AI coding agents.
             </h2>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
+              {guardProduct.title} is separate and under development. Start with Scout when you need a repo-local approval artifact today.
+            </p>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
