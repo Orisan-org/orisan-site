@@ -68,7 +68,7 @@ export default function GuardPage() {
             <Label>{guardProduct.status}</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Sensitive context protection before AI tools receive it.
+            Experimental sensitive-context handling before AI tools receive it.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
             {guardProduct.description}
@@ -191,7 +191,7 @@ browser interception is not active yet`}</code>
           <div>
             <Label>Product boundary</Label>
             <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scout discovers. Guard protects.
+              Scout discovers. Guard remains experimental.
             </h2>
           </div>
           <Link href="/scout" className="mt-8 inline-flex bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)] md:mt-0">

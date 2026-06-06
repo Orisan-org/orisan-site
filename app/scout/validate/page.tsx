@@ -53,11 +53,10 @@ Install:
 curl -fsSL https://orisan.org/install | sh
 
 Run:
-orisan scout
+orisan scout --repo .
 
-It writes:
-orisan-scout-review.md
-orisan-scout-review.json
+Optional report files:
+orisan scout --repo . --markdown orisan-scout-review.md --json orisan-scout-review.json
 
 Final gate:
 Would we send this report to an AppSec engineer without explaining it live?`;

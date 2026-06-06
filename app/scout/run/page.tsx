@@ -31,19 +31,18 @@ export const metadata: Metadata = {
 const installCommand = scoutRelease.installCommand;
 const windowsInstallCommand = scoutRelease.windowsInstallCommand;
 const developerInstallCommand = scoutRelease.developerInstallCommand;
-const defaultCommand = "orisan scout";
+const defaultCommand = "orisan scout --repo .";
 const explicitCommand = "orisan scout --repo . --markdown report.md --json report.json";
-const terminalOutput = `$ orisan scout
+const terminalOutput = `$ orisan scout --repo .
 
 AI coding agents configured in this repo can read broad repository context, execute shell commands, and change repository history through commit or push behavior. Review is required before approving AI agent use in this repository.
 
-Orisan Scout completed: 4 findings (critical: 0, high: 3, medium: 1, low: 0, info: 0)
-Reports written: orisan-scout-review.md, orisan-scout-review.json`;
+Orisan Scout completed: 4 findings (critical: 0, high: 3, medium: 1, low: 0, info: 0)`;
 
 const outputs = [
-  ["orisan-scout-review.md", "Markdown review packet for a human reviewer."],
-  ["orisan-scout-review.json", "Machine-readable evidence for automation or archival."],
-  ["terminal summary", "Counts and capability summary printed after each run."],
+  ["terminal summary", "Default local output for quick review."],
+  ["orisan-scout-review.md", "Markdown review packet when --markdown is requested."],
+  ["orisan-scout-review.json", "Machine-readable evidence when --json is requested."],
   ["report_body_sha256", "Deterministic body hash included in Markdown and JSON."],
   ["git metadata", "Commit SHA and dirty status when the repo is a git checkout."],
   ["payload stored: false", "Findings store metadata and matched reasons, not source payloads."]
@@ -52,7 +51,7 @@ const outputs = [
 const releaseSteps = [
   ["1. Install", installCommand],
   ["2. Run", defaultCommand],
-  ["3. Inspect", "Open orisan-scout-review.md and orisan-scout-review.json."],
+  ["3. Optional files", explicitCommand],
   ["4. Decide", "Ask whether the report is clear enough to send to a reviewer without a live explanation."]
 ];
 
@@ -148,8 +147,8 @@ export default function RunScoutPage() {
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-3">
               {[
                 ["repo", "current directory"],
-                ["markdown", "orisan-scout-review.md"],
-                ["json", "orisan-scout-review.json"]
+                ["markdown/json", "only when explicit flags are passed"],
+                ["default", "terminal summary"]
               ].map(([key, value]) => (
                 <div key={key} className="border-b border-r border-[var(--rule)] p-6">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">{key}</p>

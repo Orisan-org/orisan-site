@@ -38,8 +38,8 @@ const validationQuestions = [
 
 const realRunProtocol = [
   ["Install", scoutRelease.installCommand],
-  ["Run", "orisan scout"],
-  ["Review", "Open orisan-scout-review.md and orisan-scout-review.json."],
+  ["Run", "orisan scout --repo ."],
+  ["Optional files", "Add --markdown and --json when report files are needed."],
   ["Decide", "Mark what is confusing, noisy, missing, or not credible enough yet."]
 ];
 

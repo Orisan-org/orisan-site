@@ -16,7 +16,7 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Orisan - Security infrastructure for AI-assisted software development."
+        alt: "Orisan - local-first security tooling for AI-assisted software development."
       }
     ]
   },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   }
 };
 
-const scoutOutput = `$ orisan scout
+const scoutOutput = `$ orisan scout --repo . --markdown orisan-scout-review.md --json orisan-scout-review.json
 
 Approval guidance: Review required
 
@@ -99,14 +99,14 @@ const productSystem = [
     status: "Available now / early access",
     href: "/scout",
     summary: "Repo-local discovery for AI coding agent exposure.",
-    role: "Install Orisan. Run `orisan scout`. Generate Markdown and JSON approval evidence.",
+    role: "Install Orisan. Run `orisan scout --repo .`; add report flags when Markdown and JSON files are needed.",
     emphasis: "primary"
   },
   {
     name: "Guard",
     status: "Alpha core in development",
     href: "/guard",
-    summary: "Sensitive context protection and safe rewrite for AI tools.",
+    summary: "Unreleased local alpha core for sensitive-context handling.",
     role: "Local core exists. Browser protection is not released.",
     emphasis: "secondary"
   },
@@ -114,8 +114,8 @@ const productSystem = [
     name: "Relay",
     status: "Future module",
     href: "#product-architecture",
-    summary: "Agent and tool execution governance.",
-    role: "Future module.",
+    summary: "Local MCP mediation prototype, parked after alpha validation build.",
+    role: "Future module; not the current product.",
     emphasis: "future"
   },
   {
@@ -207,16 +207,16 @@ export default function HomePage() {
         <div className="min-w-0">
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Security infrastructure for AI-assisted development</Label>
+            <Label>Local-first security tooling for AI-assisted development</Label>
           </div>
           <h1 className="max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-[var(--ink)] sm:max-w-4xl sm:text-[clamp(2.5rem,6vw,4.8rem)] sm:leading-[1.02]">
             Know what AI agents can read, execute, and change before you approve them.
           </h1>
           <p className="mt-8 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            Orisan builds security infrastructure for AI-assisted software development. Scout is the first module: a local preflight check for repo-level agent exposure.
+            Orisan builds local-first security tooling for AI-assisted software development. Scout is the first module: a local preflight check for repo-level agent exposure.
           </p>
           <p className="mt-5 max-w-[20rem] font-mono text-xs uppercase leading-6 tracking-[0.13em] text-[var(--ink-faint)] sm:max-w-2xl">
-            Local by default. No source upload. No cloud upload. Markdown and JSON evidence.
+            Local by default. No source upload. No cloud upload. Deterministic checks, not LLM decisions.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">

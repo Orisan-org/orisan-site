@@ -47,7 +47,7 @@ export default function AboutPage() {
         </div>
         <div className="space-y-6 text-lg leading-8 text-[var(--ink-dim)]">
           <p>
-            Orisan builds security infrastructure for AI-assisted software development. We focus on the new risks created when agents read repositories, inherit instructions, and act through local tools.
+            Orisan builds local-first security tooling for AI-assisted software development. We focus on the new risks created when agents read repositories, inherit instructions, and act through local tools.
           </p>
           <p>
             Scout is the first active product: a local-first CLI that generates repo-level approval evidence for AI coding agents.

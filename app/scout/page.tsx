@@ -55,11 +55,11 @@ const nonGoals = [
 
 const quickStart = [
   ["Install", scoutRelease.installCommand],
-  ["Run", "orisan scout"],
-  ["Outputs", "orisan-scout-review.md + orisan-scout-review.json"]
+  ["Run", "orisan scout --repo ."],
+  ["Reports", "Add --markdown and --json when files are needed"]
 ];
 
-const terminalOutput = `$ orisan scout
+const terminalOutput = `$ orisan scout --repo . --markdown orisan-scout-review.md --json orisan-scout-review.json
 
 AI coding agents configured in this repo can read broad repository context and execute shell commands through MCP. Review required before approving AI agent use.
 
@@ -133,7 +133,7 @@ export default function ScoutPage() {
             Scout shows what repo-local MCP configs and agent instructions allow AI agents to read, execute, or change.
           </p>
           <p className="mt-5 max-w-[21rem] font-mono text-xs uppercase leading-6 tracking-[0.13em] text-[var(--ink-faint)] sm:max-w-2xl">
-            Local by default. No source upload. No cloud upload. payload_stored=false.
+            Local by default. No source upload. No cloud upload. Deterministic checks, not LLM decisions.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
@@ -162,7 +162,7 @@ export default function ScoutPage() {
           <Label>Run it today</Label>
           <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              One local command creates the approval files.
+              One local command prints the terminal summary.
             </h2>
             <div className="mt-10 grid min-w-0 border-l border-t border-[var(--rule)] md:grid-cols-3">
               {quickStart.map(([title, body]) => (
@@ -244,7 +244,7 @@ export default function ScoutPage() {
           <Label>Review questions</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scout turns vague agent risk into questions a reviewer can answer.
+              Scout turns repo-local agent exposure into questions a reviewer can answer.
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {reviewerQuestions.map((question) => (

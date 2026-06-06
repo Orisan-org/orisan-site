@@ -1,7 +1,7 @@
 const script = `$ErrorActionPreference = "Stop"
 
 $repo = "Orisan-org/orisan-scout"
-$releaseName = "v0.1.0-alpha.4"
+$releaseName = "v0.1.0-alpha.5"
 $release = Invoke-RestMethod "https://api.github.com/repos/$repo/releases/tags/$releaseName"
 
 $arch = if ([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture -eq "Arm64") { "arm64" } else { "amd64" }

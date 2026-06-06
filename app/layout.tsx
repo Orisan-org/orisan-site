@@ -24,7 +24,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Orisan | Security infrastructure for AI-assisted software development",
+    default: "Orisan | Local-first security tooling for AI-assisted software development",
     template: "%s"
   },
   description: siteConfig.description,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: "Orisan | Security infrastructure for AI-assisted software development",
+    title: "Orisan | Local-first security tooling for AI-assisted software development",
     description: siteConfig.description,
     url: siteConfig.url,
     images: [
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Orisan - Security infrastructure for AI-assisted software development."
+        alt: "Orisan - local-first security tooling for AI-assisted software development."
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Orisan | Security infrastructure for AI-assisted software development",
+    title: "Orisan | Local-first security tooling for AI-assisted software development",
     description: siteConfig.description,
     images: ["/og-image.svg"]
   },
