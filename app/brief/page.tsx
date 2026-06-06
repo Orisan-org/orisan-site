@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { pageMetadata, scoutRelease, siteConfig } from "@/lib/constants";
+import { mcpscanRelease, pageMetadata, siteConfig } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.brief.title,
   description: pageMetadata.brief.description,
+  robots: {
+    index: false,
+    follow: false
+  },
   alternates: { canonical: "/brief" },
   openGraph: {
     title: pageMetadata.brief.title,
@@ -37,10 +40,10 @@ const validationQuestions = [
 ];
 
 const realRunProtocol = [
-  ["Install", scoutRelease.installCommand],
-  ["Run", "orisan scout --repo ."],
-  ["Optional files", "Add --markdown and --json when report files are needed."],
-  ["Decide", "Mark what is confusing, noisy, missing, or not credible enough yet."]
+  ["Current project", "mcpscan"],
+  ["Release", mcpscanRelease.version],
+  ["Install path", "source/editable install only"],
+  ["Boundary", "Scout notes are archived background, not the active product story."]
 ];
 
 const successSignals = [
@@ -69,14 +72,14 @@ export default function BriefPage() {
         <div>
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-          <Label>Internal readiness brief</Label>
+          <Label>Archived Scout brief</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            We are not ready for outbound validation until the artifact feels trustworthy.
+            Archived notes from the Scout validation phase.
           </h1>
         </div>
         <p className="text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-          Scout is a strong hypothesis: teams approving AI coding agents need repo-local evidence that explains what agents can read, execute, or change. First we have to dogfood the install path, reports, and website until the product feels credible.
+          This page is retained as background. The current Orisan homepage and public story lead with mcpscan, the local-first MCP server security scanner.
         </p>
       </section>
 
@@ -100,7 +103,7 @@ export default function BriefPage() {
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Validation questions</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Five questions decide whether Scout is ready to leave our hands.
+              These notes are not the current launch checklist.
           </h2>
         </div>
         <div className="grid border-l border-t border-[var(--rule)]">
@@ -118,7 +121,7 @@ export default function BriefPage() {
           <Label>Real-run protocol</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              One install path, real repo runs, one readiness decision.
+              The current path is mcpscan validation.
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-4">
               {realRunProtocol.map(([title, body]) => (
@@ -129,7 +132,7 @@ export default function BriefPage() {
               ))}
             </div>
             <p className="mt-8 max-w-2xl text-sm leading-7 text-[var(--ink-faint)]">
-              Do this internally before asking external testers. Do not start outreach until the install path and report artifact feel self-explanatory.
+              Do not use this archived Scout brief as the current product runbook.
             </p>
           </div>
         </div>
@@ -168,15 +171,15 @@ export default function BriefPage() {
           <div>
             <Label>Alpha path</Label>
             <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Run Scout, inspect the artifacts, then decide whether the report can stand on its own.
+              Use mcpscan release notes for the current alpha.
             </h2>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
-            <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Run Scout
-            </Link>
+            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+              mcpscan release
+            </a>
             <a
-              href={siteConfig.links.scoutRepo}
+              href={siteConfig.links.mcpscanRepo}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"

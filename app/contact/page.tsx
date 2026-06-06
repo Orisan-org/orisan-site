@@ -34,7 +34,7 @@ export default function ContactPage() {
             Reach out.
           </h1>
           <p className="mt-7 max-w-xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            Whether you are evaluating Scout, reviewing AI-agent risk, or want to compare notes, we are listening.
+            Whether you are evaluating mcpscan, reviewing MCP server exposure, or want to compare notes, we are listening.
           </p>
           <div className="mt-10 grid border-l border-t border-[var(--rule)]">
             {contactLinks.map((item) => (

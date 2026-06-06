@@ -5,11 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
+import { mcpscanRelease, siteConfig } from "@/lib/constants";
+
 const headerLinks = [
-  { href: "/scout", label: "Scout" },
-  { href: "/guard", label: "Guard" },
-  { href: "/brief", label: "Brief" },
-  { href: "/scout/run", label: "Docs" },
+  { href: "/", label: "mcpscan" },
+  { href: siteConfig.links.mcpscanRepo, label: "GitHub", external: true },
+  { href: mcpscanRelease.url, label: "Release", external: true },
+  { href: "/about", label: "About" }
 ];
 
 export function Header() {
@@ -24,12 +26,24 @@ export function Header() {
         <BrandMark tone="light" size="sm" />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
           {headerLinks.map((item) => {
-            const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+            const active = !item.external && (pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`)));
+            const className =
+              "group relative font-mono text-xs uppercase tracking-[0.12em] text-[var(--ink-dim)] transition hover:text-[var(--ink)]";
+
+            if (item.external) {
+              return (
+                <a key={item.href} href={item.href} target="_blank" rel="noreferrer" className={className}>
+                  {item.label}
+                  <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--sun)] transition-all duration-300 group-hover:w-full" />
+                </a>
+              );
+            }
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className="group relative font-mono text-xs uppercase tracking-[0.12em] text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
+                className={className}
               >
                 {item.label}
                 <span
@@ -42,12 +56,14 @@ export function Header() {
           })}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
-          <Link
-            href="/scout/run"
+          <a
+            href={siteConfig.links.mcpscanRepo}
+            target="_blank"
+            rel="noreferrer"
             className="bg-[var(--ink)] px-4 py-2.5 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
           >
-            Install Orisan
-          </Link>
+            View GitHub
+          </a>
         </div>
         <button
           className="grid h-10 w-10 place-items-center border border-[var(--rule-2)] text-[var(--ink)] md:hidden"
@@ -71,21 +87,36 @@ export function Header() {
             </button>
           </div>
           <nav className="container-shell grid gap-5 py-12" aria-label="Mobile navigation">
-            {headerLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={closeMenu}
-                className="border-b border-[var(--rule)] py-4 text-4xl font-semibold tracking-[-0.03em] text-[var(--ink)] transition hover:text-[var(--sun)]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {headerLinks.map((item) =>
+              item.external ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={closeMenu}
+                  className="border-b border-[var(--rule)] py-4 text-4xl font-semibold tracking-[-0.03em] text-[var(--ink)] transition hover:text-[var(--sun)]"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMenu}
+                  className="border-b border-[var(--rule)] py-4 text-4xl font-semibold tracking-[-0.03em] text-[var(--ink)] transition hover:text-[var(--sun)]"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
             <a
-              href="/scout/run"
+              href={siteConfig.links.mcpscanRepo}
+              target="_blank"
+              rel="noreferrer"
               className="mt-4 inline-flex w-fit bg-[var(--ink)] px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)]"
             >
-              Install Orisan
+              View GitHub
             </a>
           </nav>
         </div>

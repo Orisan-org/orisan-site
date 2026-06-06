@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { guardProduct, pageMetadata, siteConfig } from "@/lib/constants";
+import { pageMetadata, siteConfig } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.guard.title,
   description: pageMetadata.guard.description,
+  robots: {
+    index: false,
+    follow: false
+  },
   alternates: { canonical: "/guard" },
   openGraph: {
     title: pageMetadata.guard.title,
@@ -49,7 +52,6 @@ const nonClaims = [
   "no Chrome Web Store release yet",
   "no browser extension download yet",
   "no cloud sync",
-  "no control plane",
   "no raw prompt upload",
   "no LLM calls in the core"
 ];
@@ -65,28 +67,25 @@ export default function GuardPage() {
         <div>
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>{guardProduct.status}</Label>
+            <Label>Parked experiment</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Experimental sensitive-context handling before AI tools receive it.
+            Guard is not the current Orisan product.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            {guardProduct.description}
+            This page is kept as a portfolio note for an unreleased sensitive-context experiment. The active public project is mcpscan.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a
-              href={`mailto:${siteConfig.email}?subject=Guard%20Alpha`}
-              className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
-            >
-              Follow Guard Alpha
+            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+              View mcpscan
             </a>
             <a
-              href={siteConfig.links.guardRepo}
+              href={`mailto:${siteConfig.email}?subject=mcpscan`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 border-b border-[var(--rule-2)] px-1 py-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
             >
-              View repo <ExternalLink size={14} />
+              Contact <ExternalLink size={14} />
             </a>
           </div>
         </div>
@@ -96,7 +95,7 @@ export default function GuardPage() {
             Can this prompt or context be safely sent to an AI tool?
           </p>
           <p className="mt-6 leading-8 text-[var(--ink-dim)]">
-            Guard is not released as a browser extension yet. The current work is the local alpha core: classification, placeholder planning, redaction, evidence-safe benchmarking, and a local redact CLI.
+            Guard is not released as a browser extension. It should not be treated as part of the current site focus or install path.
           </p>
         </div>
       </section>
@@ -173,7 +172,7 @@ browser interception is not active yet`}</code>
           <Label>Honest status</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Guard is under active development, not a finished platform.
+              Guard is parked while Orisan focuses on mcpscan.
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {nonClaims.map((item) => (
@@ -191,12 +190,12 @@ browser interception is not active yet`}</code>
           <div>
             <Label>Product boundary</Label>
             <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scout discovers. Guard remains experimental.
+              mcpscan is the current public project.
             </h2>
           </div>
-          <Link href="/scout" className="mt-8 inline-flex bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)] md:mt-0">
-            See Scout
-          </Link>
+          <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="mt-8 inline-flex bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)] md:mt-0">
+            View mcpscan
+          </a>
         </div>
       </section>
     </div>

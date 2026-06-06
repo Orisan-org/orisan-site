@@ -6,6 +6,10 @@ import { pageMetadata, scoutRelease, siteConfig } from "@/lib/constants";
 export const metadata: Metadata = {
   title: pageMetadata.runScout.title,
   description: pageMetadata.runScout.description,
+  robots: {
+    index: false,
+    follow: false
+  },
   alternates: { canonical: "/scout/run" },
   openGraph: {
     title: pageMetadata.runScout.title,
@@ -58,7 +62,7 @@ const releaseSteps = [
 const binaryOptions = [
   ["macOS Apple Silicon", scoutRelease.macArm64Asset],
   ["macOS Intel", scoutRelease.macAmd64Asset],
-  ["All platforms", scoutRelease.url]
+  ["Scout release page", scoutRelease.url]
 ];
 
 const scope = [
@@ -123,13 +127,13 @@ export default function RunScoutPage() {
           </Link>
           <div className="mt-12 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Runbook</Label>
+            <Label>Archived Scout runbook</Label>
           </div>
           <h1 className="mt-7 max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:max-w-4xl sm:text-[clamp(2.35rem,5vw,4.6rem)] sm:leading-[1.04]">
-            Install Orisan. Run Scout.
+            Scout-specific install and run notes.
           </h1>
           <p className="mt-7 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            This page is the operator path: install Orisan, run Scout in a repository, verify the output, and decide whether the generated files are credible enough for review.
+            This archived page documents the older Scout binary path. The current Orisan homepage leads with mcpscan and does not claim a curl install path for mcpscan.
           </p>
         </div>
         <Terminal />
@@ -198,7 +202,7 @@ export default function RunScoutPage() {
           <Label>Release assets</Label>
           <div>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Use manual downloads only when the install script is not the right path.
+              These downloads are Scout-specific.
             </h2>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
               Release artifacts include macOS, Linux, and Windows binaries with sha256 checksums. Exact versions belong here and in GitHub Releases, not in the primary user flow.

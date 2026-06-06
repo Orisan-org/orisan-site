@@ -1,6 +1,6 @@
 # Orisan Site
 
-Next.js App Router website for Orisan and Orisan Scout.
+Next.js App Router website for Orisan. The current homepage leads with `mcpscan`, the local-first MCP server security scanner.
 
 Production preview:
 
@@ -52,9 +52,19 @@ A     www    76.76.21.21
 
 Current known blocker: the domain is still using `dns1.registrar-servers.com` and `dns2.registrar-servers.com`, so records must be changed at the current registrar/DNS provider.
 
-## Install Endpoints
+## Current Product Story
 
-The primary user-facing install paths are:
+The site should present `mcpscan` as the active Orisan project:
+
+- local-first MCP server security scanner
+- alpha software, currently `v0.1.0-alpha.2`
+- source/editable install only until package or binary publishing is configured
+- no PyPI, pipx, Homebrew, or curl install claim for `mcpscan`
+- no broad product-suite positioning
+
+## Scout Install Endpoints
+
+These routes currently install Orisan Scout release assets, not `mcpscan`:
 
 ```bash
 curl -fsSL https://orisan.org/install | sh
@@ -64,4 +74,4 @@ curl -fsSL https://orisan.org/install | sh
 irm https://orisan.org/install.ps1 | iex
 ```
 
-Exact release tags and asset URLs are kept in `lib/constants.ts` and GitHub Releases for advanced/manual install paths.
+Do not use these as the primary `mcpscan` install path unless verified `mcpscan` release assets exist.

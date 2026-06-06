@@ -6,6 +6,10 @@ import { pageMetadata, scoutRelease } from "@/lib/constants";
 export const metadata: Metadata = {
   title: pageMetadata.sampleReport.title,
   description: pageMetadata.sampleReport.description,
+  robots: {
+    index: false,
+    follow: false
+  },
   alternates: { canonical: "/scout/sample-report" },
   openGraph: {
     title: pageMetadata.sampleReport.title,
@@ -91,17 +95,17 @@ export default function ScoutSampleReportPage() {
         <div>
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Sample approval report</Label>
+            <Label>Archived Scout sample</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            This is the artifact testers should judge.
+            Archived sample from the Scout experiment.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            Scout is useful only if this kind of report helps a reviewer approve, restrict, or block AI coding agent usage in a repository.
+            This page is retained as background. The current Orisan product story leads with mcpscan for MCP server review.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Run Scout
+              Scout runbook
             </Link>
             <a
               href={scoutRelease.feedbackUrl}

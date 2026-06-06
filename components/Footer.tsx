@@ -24,11 +24,23 @@ export function Footer() {
         </div>
         <nav className="grid content-start gap-3" aria-label="Footer navigation">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--sun)]">Navigate</p>
-          {navigation.map((item) => (
-            <Link key={item.href} href={item.href} className="text-[var(--ink-dim)] transition hover:text-[var(--ink)]">
-              {item.label}
-            </Link>
-          ))}
+          {navigation.map((item) =>
+            item.href.startsWith("http") ? (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link key={item.href} href={item.href} className="text-[var(--ink-dim)] transition hover:text-[var(--ink)]">
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--sun)]">Signals</p>

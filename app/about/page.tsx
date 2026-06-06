@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 const principles = [
-  ["01", "Agent-aware from day one", "Orisan starts from how AI agents actually work inside repositories: inherited instructions, local tools, MCP servers, and the quiet permissions around them."],
-  ["02", "Local-first where it matters", "Teams should not have to upload source code to understand whether their AI tooling is creating risk."],
+  ["01", "MCP-aware from day one", "Orisan starts from how AI agents actually connect to tools: MCP servers, exposed capabilities, metadata, and the quiet permissions around them."],
+  ["02", "Local-first where it matters", "Teams should not have to upload source code, prompts, secrets, or raw MCP responses to understand MCP server exposure."],
   ["03", "Evidence before theater", "We care less about broad AI claims and more about specific findings that engineering and security reviewers can act on."]
 ];
 
@@ -22,10 +22,10 @@ const values = [
 ];
 
 const operatingModel = [
-  "Study where AI agents touch repositories, instructions, tools, and developer workflows.",
+  "Study where AI agents connect to MCP servers, tools, prompts, and developer workflows.",
   "Define the risk model in language engineering and security teams can share.",
-  "Build local-first checks that surface exposure without source upload.",
-  "Turn useful evidence into an approval artifact teams can run before agent risk reaches production."
+  "Build local-first checks that surface exposure without uploads.",
+  "Turn useful evidence into reports teams can review before connecting agents to new MCP servers."
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -47,10 +47,10 @@ export default function AboutPage() {
         </div>
         <div className="space-y-6 text-lg leading-8 text-[var(--ink-dim)]">
           <p>
-            Orisan builds local-first security tooling for AI-assisted software development. We focus on the new risks created when agents read repositories, inherit instructions, and act through local tools.
+            Orisan builds local-first security tooling for MCP server review. We focus on the new risks created when agents connect to local and remote tools through Model Context Protocol.
           </p>
           <p>
-            Scout is the first active product: a local-first CLI that generates repo-level approval evidence for AI coding agents.
+            mcpscan is the current active project: an alpha CLI that enumerates MCP server tools, resources, prompts, and metadata before an AI agent connects.
           </p>
         </div>
       </section>
@@ -62,10 +62,10 @@ export default function AboutPage() {
           <Label>The problem</Label>
           <div>
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              AI agents changed the boundary of the repository.
+              MCP servers changed the boundary of agent trust.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Repositories no longer hold only source code. They now hold agent instructions, tool configuration, MCP server access, automation rules, and context that can shape what AI systems do next.
+              Agents increasingly connect to MCP servers that expose tools, resources, prompts, and metadata. Reviewers need to understand that surface before the server becomes trusted agent context.
             </p>
           </div>
         </div>
@@ -124,12 +124,16 @@ export default function AboutPage() {
             <h2 className="text-3xl font-semibold tracking-[-0.03em] md:text-5xl">Rakesh Bhavandlapelli</h2>
             <p className="mt-4 text-[var(--ink-dim)]">Founder. Builder.</p>
             <div className="mt-8 flex gap-3">
-              <a className="grid h-11 w-11 place-items-center border border-[var(--rule-2)] text-[var(--ink-dim)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]" href={siteConfig.links.founderGithub} aria-label="Founder GitHub">
-                <Github size={18} />
-              </a>
-              <a className="grid h-11 w-11 place-items-center border border-[var(--rule-2)] text-[var(--ink-dim)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]" href={siteConfig.links.founderLinkedin} aria-label="Founder LinkedIn">
-                <Linkedin size={18} />
-              </a>
+              {siteConfig.links.founderGithub ? (
+                <a className="grid h-11 w-11 place-items-center border border-[var(--rule-2)] text-[var(--ink-dim)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]" href={siteConfig.links.founderGithub} aria-label="Founder GitHub">
+                  <Github size={18} />
+                </a>
+              ) : null}
+              {siteConfig.links.founderLinkedin ? (
+                <a className="grid h-11 w-11 place-items-center border border-[var(--rule-2)] text-[var(--ink-dim)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]" href={siteConfig.links.founderLinkedin} aria-label="Founder LinkedIn">
+                  <Linkedin size={18} />
+                </a>
+              ) : null}
             </div>
           </div>
         </div>

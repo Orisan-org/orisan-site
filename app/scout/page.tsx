@@ -41,12 +41,12 @@ const reviewerQuestions = [
 const audience = [
   ["AppSec", "Create a repeatable preflight check before approving AI-agent use in sensitive repositories."],
   ["Engineering leads", "Understand whether local agent setup has crossed from assistive coding into execution or change authority."],
-  ["Platform teams", "Standardize lightweight approval evidence without adding a daemon, control plane, or cloud upload."]
+  ["Security teams", "Review a historical local approval-artifact experiment without treating it as the current Orisan focus."]
 ];
 
 const nonGoals = [
   "not a full SAST, SCA, DAST, or secrets scanner",
-  "not a cloud control plane",
+  "not a cloud service",
   "not a background agent or daemon",
   "not a claim that every AI risk is covered",
   "not home/global config scanning by default",
@@ -115,7 +115,7 @@ export default function ScoutPage() {
         <div className="min-w-0">
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>First active product</Label>
+            <Label>Secondary community artifact</Label>
           </div>
           <Image
             src="/logo-lockup-orisan-scout.svg"
@@ -130,14 +130,14 @@ export default function ScoutPage() {
             Run a local preflight check before approving AI agents in a repo.
           </h1>
           <p className="mt-7 max-w-[21rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            Scout shows what repo-local MCP configs and agent instructions allow AI agents to read, execute, or change.
+            Scout is kept as a secondary community artifact. The current Orisan flagship is mcpscan for local MCP server review.
           </p>
           <p className="mt-5 max-w-[21rem] font-mono text-xs uppercase leading-6 tracking-[0.13em] text-[var(--ink-faint)] sm:max-w-2xl">
-            Local by default. No source upload. No cloud upload. Deterministic checks, not LLM decisions.
+              Local by default. No source upload. No cloud upload. Deterministic checks.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Install Orisan
+              Scout runbook
             </Link>
             <Link href="/brief" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
               Runbook
@@ -261,7 +261,7 @@ export default function ScoutPage() {
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Who it helps</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            Built for teams approving agentic development, not buying another dashboard.
+            Kept for teams reviewing the earlier approval-artifact experiment.
           </h2>
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-3">
@@ -297,12 +297,12 @@ export default function ScoutPage() {
           <div>
             <Label>Alpha status</Label>
             <h2 className="mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scout is usable now, but not ready for broad external push.
+              Scout is not the current Orisan focus.
             </h2>
           </div>
           <div>
             <p className="text-lg leading-8 text-[var(--ink-dim)]">
-              Current focus is internal dogfooding: install like a user, run on real local repositories, inspect terminal output, inspect Markdown and JSON, and decide whether the artifact is strong enough to send without a live explanation.
+              Current Orisan positioning leads with mcpscan. Scout remains available for context on repo-local agent approval experiments, but it should not be treated as the main product.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a

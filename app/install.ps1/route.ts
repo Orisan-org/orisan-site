@@ -1,3 +1,4 @@
+// Scout-specific binary install endpoint. mcpscan does not have verified release assets yet.
 const script = `$ErrorActionPreference = "Stop"
 
 $repo = "Orisan-org/orisan-scout"

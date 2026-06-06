@@ -3,22 +3,40 @@ export const siteConfig = {
   domain: "orisan.org",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://orisan.org",
   email: "team@orisan.org",
-  tagline: "Local-first checks for AI-agent exposure.",
-  subtagline: "Local-first security tooling for AI-assisted software development.",
+  tagline: "Local-first MCP server security scanning.",
+  subtagline: "Local-first security tooling for MCP server review.",
   description:
-    "Orisan builds local-first security tooling for teams reviewing AI coding-agent exposure.",
+    "Orisan builds local-first security tooling for teams reviewing MCP server exposure before AI agents connect.",
   formspreeId: process.env.NEXT_PUBLIC_FORMSPREE_ID || "",
   links: {
     github: "https://github.com/Orisan-org",
+    mcpscanRepo: "https://github.com/Orisan-org/mcpscan",
     scoutRepo: process.env.NEXT_PUBLIC_SCOUT_REPO_URL || "https://github.com/Orisan-org/orisan-scout",
     guardRepo: process.env.NEXT_PUBLIC_GUARD_REPO_URL || "https://github.com/Orisan-org/orisan-guard",
     linkedin: "https://linkedin.com/company/orisan",
     twitter: "https://x.com/OrisanTeam",
     facebook: "https://www.facebook.com/profile.php?id=61589315133319",
     instagram: "https://instagram.com/orisanhq",
-    founderGithub: "https://github.com/",
-    founderLinkedin: "https://linkedin.com/in/"
+    founderGithub: "",
+    founderLinkedin: ""
   }
+};
+
+export const mcpscanRelease = {
+  version: "v0.1.0-alpha.2",
+  url: `${siteConfig.links.mcpscanRepo}/releases/tag/v0.1.0-alpha.2`,
+  installCommands: [
+    "git clone https://github.com/Orisan-org/mcpscan",
+    "cd mcpscan",
+    "python3 -m venv .venv",
+    "source .venv/bin/activate",
+    "python -m pip install -e \".[dev]\"",
+    "mcpscan scan --command '<your MCP server command>'"
+  ],
+  description:
+    "Local-first security scanner for MCP servers. Enumerates tools, resources, prompts, and metadata, then runs deterministic checks without uploads.",
+  status:
+    "Alpha software. Useful for local MCP server review and validation."
 };
 
 export const scoutRelease = {
@@ -63,17 +81,27 @@ export const socialLinks = [
 ];
 
 export const navigation = [
-  { href: "/scout", label: "Scout" },
-  { href: "/guard", label: "Guard" },
-  { href: "/brief", label: "Brief" },
-  { href: "/scout/run", label: "Run Scout" },
+  { href: "/", label: "mcpscan" },
+  { href: siteConfig.links.mcpscanRepo, label: "GitHub" },
+  { href: mcpscanRelease.url, label: "Release" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }
 ];
 
+export const mcpscanProduct = {
+  title: "mcpscan",
+  status: mcpscanRelease.version,
+  href: siteConfig.links.mcpscanRepo,
+  tagline: "Local-first security scanner for MCP servers.",
+  description: mcpscanRelease.description,
+  preview:
+    "Scan stdio and tested Streamable HTTP MCP servers before connecting them to AI agents. Findings use safe evidence and payload_stored=false.",
+  tags: ["MCP Security", "Local-first", "Deterministic Checks", "Alpha"]
+};
+
 export const scoutProduct = {
   title: "Orisan Scout",
-  status: "Available now / early access",
+  status: "Secondary community artifact",
   href: "/scout",
   tagline: "Repo-local approval artifact for AI-agent exposure.",
   description:
@@ -85,25 +113,25 @@ export const scoutProduct = {
 
 export const guardProduct = {
   title: "Orisan Guard",
-  status: "Alpha core in development",
+  status: "Parked experiment",
   href: "/guard",
-  tagline: "Experimental sensitive-context handling for AI tools.",
+  tagline: "Parked sensitive-context handling experiment.",
   description:
-    "Orisan Guard is an unreleased local alpha core for detecting sensitive context, planning safe rewrites, and producing evidence-safe events without uploading raw prompts.",
+    "Orisan Guard is a parked local experiment. It is not part of the current public story.",
   preview:
-    "Guard focuses on the moment before prompt or context leaves the user's control: classify sensitive spans, plan collision-resistant placeholders, apply safe rewrites, and keep evidence safe."
+    "Guard is retained as portfolio context while Orisan focuses on mcpscan."
 };
 
 export const pageMetadata = {
   home: {
-    title: "Orisan | Local-first checks for AI-agent exposure",
+    title: "mcpscan | Local-first security scanner for MCP servers",
     description:
-      "Orisan builds local-first security tooling for teams reviewing AI coding-agent exposure."
+      "mcpscan audits MCP servers locally, enumerates exposed tools, resources, prompts, and metadata, and emits deterministic findings before AI agents connect."
   },
   about: {
-    title: "About Orisan | AI security lab",
+    title: "About Orisan | Local-first MCP security tools",
     description:
-      "Learn why Orisan exists, how it builds local-first security tooling for AI-assisted software development, and why Scout is the first product."
+      "Learn why Orisan is focused on local-first MCP server security review and why mcpscan is the current active project."
   },
   scout: {
     title: "Orisan Scout | Repo-local AI-agent approval artifact",
@@ -113,31 +141,31 @@ export const pageMetadata = {
   guard: {
     title: "Orisan Guard | Experimental sensitive-context handling for AI tools",
     description:
-      "Orisan Guard is an unreleased local alpha core for sensitive-context handling before AI tools."
+      "Orisan Guard is a parked Orisan experiment. mcpscan is the current active project."
   },
   brief: {
-    title: "Scout Alpha Brief | Orisan",
+    title: "Archived Scout Alpha Brief | Orisan",
     description:
-      "The Scout alpha brief explains the approval-record hypothesis, validation protocol, success signals, and current scope."
+      "Archived Scout alpha brief. mcpscan is the current active Orisan project."
   },
   runScout: {
-    title: "Run Orisan Scout | Repo-local AI-agent approval review",
+    title: "Archived Scout Runbook | Orisan",
     description:
-      "Run Orisan Scout locally to generate an approval artifact that summarizes what AI agents can read, execute, or change in a repository."
+      "Archived Scout-specific runbook. mcpscan is the current active Orisan project."
   },
   sampleReport: {
-    title: "Scout Sample Report | Orisan",
+    title: "Archived Scout Sample Report | Orisan",
     description:
-      "View a sample Orisan Scout approval report for a risky repository with READ, EXECUTE, and CHANGE findings."
+      "Archived Scout sample report retained as background. mcpscan is the current active Orisan project."
   },
   validateScout: {
-    title: "Scout Internal QA | Orisan",
+    title: "Archived Scout Internal QA | Orisan",
     description:
-      "Dogfood Orisan Scout internally before asking external reviewers to trust the approval report."
+      "Archived Scout QA note retained as background. mcpscan is the current active Orisan project."
   },
   contact: {
     title: "Contact | Orisan",
     description:
-      "Reach Orisan about Scout, AI-agent security, collaboration, or work."
+      "Reach Orisan about mcpscan, MCP server security review, collaboration, or work."
   }
 };

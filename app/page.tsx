@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { guardProduct, pageMetadata, scoutProduct } from "@/lib/constants";
+import { mcpscanProduct, mcpscanRelease, pageMetadata, siteConfig } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.home.title,
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Orisan - local-first security tooling for AI-assisted software development."
+        alt: "mcpscan - local-first security scanner for MCP servers."
       }
     ]
   },
@@ -28,111 +27,102 @@ export const metadata: Metadata = {
   }
 };
 
-const scoutOutput = `$ orisan scout --repo . --markdown orisan-scout-review.md --json orisan-scout-review.json
+const mcpscanOutput = `$ mcpscan scan --command '<your MCP server command>'
 
-Approval guidance: Review required
+Server: filesystem
+Enumerated: 12 tools, 2 resources, 0 prompts
 
-READ      broad repo context
-EXECUTE   shell tool available
-CHANGE    auto-commit instruction found
+SEVERITY  ID       TARGET       FINDING
+HIGH      MCP-010  read_file    Arbitrary file read capability exposed
+HIGH      MCP-030  run_command  Unconstrained command input
 
+Grade: D
 Payload stored: false
-Source upload: none
+Uploads: none`;
 
-orisan-scout-review.md
-orisan-scout-review.json`;
-
-const reviewArtifact = {
-  repository: "payments-service",
-  commit: "a8f3b2c",
-  scope: "repo-local MCP configs and agent instruction files",
-  summary: "AI coding agents configured in this repo can read broad repository context and execute shell commands through MCP.",
+const scanArtifact = {
+  target: "stdio MCP server",
+  release: mcpscanRelease.version,
+  scope: "tools, resources, prompts, and metadata",
+  summary: "This MCP server exposes file and command capabilities that should be reviewed before an AI agent connects.",
   capabilities: [
-    ["READ", "Broad repository context"],
-    ["EXECUTE", "Shell commands through MCP"],
-    ["CHANGE", "Auto-commit behavior in instructions"]
+    ["TOOLS", "12 enumerated"],
+    ["RESOURCES", "2 enumerated"],
+    ["PROMPTS", "0 enumerated"]
   ],
   decision: ["Reviewer", "Decision", "Restrictions", "Expires"]
 };
 
 const capabilityColumns = [
   {
-    title: "READ",
-    items: ["filesystem access", "broad repo context", "instruction-driven file access"]
+    title: "ENUMERATE",
+    items: ["tools/list", "resources/list", "prompts/list", "server metadata"]
   },
   {
-    title: "EXECUTE",
-    items: ["shell tools", "command execution", "package/script execution"]
+    title: "CHECK",
+    items: ["prompt injection signals", "dangerous capabilities", "secret exposure", "transport issues"]
   },
   {
-    title: "CHANGE",
-    items: ["auto-commit", "GitHub write actions", "infra or production modification instructions"]
+    title: "REPORT",
+    items: ["terminal summary", "JSON report", "Markdown report", "payload_stored=false"]
   }
 ];
 
 const scopeItems = [
-  "repo-local by default",
+  "local-first",
   "no source upload",
-  "no cloud upload",
-  "payload_stored=false",
-  "Markdown and JSON evidence",
-  "checksums in release artifacts"
+  "no prompt upload",
+  "no secret upload",
+  "no raw MCP response storage",
+  "payload_stored=false"
 ];
 
 const problemRows = [
-  ["Before", "AI coding tools were approved as assistants, mostly evaluated by vendor trust, data handling, and developer productivity."],
-  ["Now", "Agents inherit repo instructions, invoke local tools, and may execute or change code through MCP and automation workflows."],
-  ["Gap", "Most teams cannot produce a repo-level approval record that states what an agent can read, execute, or change."],
-  ["Scout", "Scout turns that local agent surface into Markdown and JSON evidence a reviewer can inspect before approval."]
+  ["Before", "MCP servers were often added to agent configs because they were useful, not because their exposed tools had been reviewed."],
+  ["Now", "AI agents can connect to MCP servers that read files, make network requests, execute commands, or expose sensitive metadata."],
+  ["Gap", "Reviewers need a local way to see what an MCP server exposes before trusting it."],
+  ["mcpscan", "mcpscan enumerates the server surface and emits deterministic findings a reviewer can inspect."]
 ];
 
 const differenceRows = [
-  ["Pre-approval", "Scout runs before an AI agent is allowed into a sensitive repo, not after a vulnerability lands in code."],
-  ["Capability-first", "Findings map to READ, EXECUTE, and CHANGE so reviewers see authority, not just file matches."],
-  ["Local evidence", "Reports are generated in the repo with no daemon, no cloud upload, and payload_stored=false."],
-  ["Narrow scope", "v0.1 stays focused on MCP configs and repo-level agent instructions so the signal can be validated."]
+  ["Pre-connection", "Run mcpscan before an AI agent connects to a new MCP server."],
+  ["Capability-first", "Findings describe exposed server behavior: files, network, commands, metadata, prompts, and transport."],
+  ["Local evidence", "Reports are generated locally with no cloud upload and payload_stored=false."],
+  ["Narrow scope", "The alpha focuses on stdio and tested Streamable HTTP MCP server review. MCP-002 baseline drift is deferred."]
 ];
 
-const productSystem = [
+const projectFocus = [
   {
-    name: "Scout",
-    status: "Available now / early access",
-    href: "/scout",
-    summary: "Repo-local discovery for AI coding agent exposure.",
-    role: "Install Orisan. Run `orisan scout --repo .`; add report flags when Markdown and JSON files are needed.",
+    name: mcpscanProduct.title,
+    status: `Active alpha / ${mcpscanRelease.version}`,
+    href: siteConfig.links.mcpscanRepo,
+    summary: mcpscanProduct.tagline,
+    role: "Current flagship. Review MCP servers locally before AI agents connect.",
     emphasis: "primary"
   },
   {
-    name: "Guard",
-    status: "Alpha core in development",
-    href: "/guard",
-    summary: "Unreleased local alpha core for sensitive-context handling.",
-    role: "Local core exists. Browser protection is not released.",
+    name: "Scout",
+    status: "Secondary community artifact",
+    href: "/scout",
+    summary: "Repo-local AI-agent approval artifact.",
+    role: "Kept as a community/portfolio artifact, not the current focus.",
     emphasis: "secondary"
   },
   {
-    name: "Relay",
-    status: "Future module",
+    name: "Guard / Relay / Review",
+    status: "De-emphasized",
     href: "#product-architecture",
-    summary: "Local MCP mediation prototype, parked after alpha validation build.",
-    role: "Future module; not the current product.",
-    emphasis: "future"
-  },
-  {
-    name: "Review",
-    status: "Future module",
-    href: "#product-architecture",
-    summary: "AI-assisted code and change review.",
-    role: "Future module.",
+    summary: "Portfolio/community ideas, not part of the current site focus.",
+    role: "Not part of the current public product story.",
     emphasis: "future"
   }
 ];
 
 const proofStats = [
-  ["available today", "Scout CLI"],
-  ["primary command", "orisan scout"],
-  ["evidence", "Markdown + JSON"],
-  ["privacy", "no source upload"]
+  ["active release", mcpscanRelease.version],
+  ["primary command", "mcpscan scan"],
+  ["reports", "terminal + JSON + Markdown"],
+  ["privacy", "no uploads"]
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -148,28 +138,28 @@ function TerminalPreview() {
     <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716] font-mono text-[13px] leading-7">
       <div className="flex items-center justify-between border-b border-[var(--rule)] px-4 py-3">
         <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
-          Local approval output
+          Local scan output
         </span>
         <span className="text-[var(--sun)]">$</span>
       </div>
       <pre className="max-w-full whitespace-pre-wrap break-words p-5 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
-        <code>{scoutOutput}</code>
+        <code>{mcpscanOutput}</code>
       </pre>
     </div>
   );
 }
 
-function ApprovalArtifact() {
+function ScanArtifact() {
   return (
     <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716]">
       <div className="border-b border-[var(--rule)] px-5 py-4">
-        <Label>Agent Access Review</Label>
+        <Label>MCP Server Review</Label>
       </div>
       <div className="grid border-b border-[var(--rule)] md:grid-cols-3">
         {[
-          ["Repository", reviewArtifact.repository],
-          ["Commit", reviewArtifact.commit],
-          ["Scope", reviewArtifact.scope]
+          ["Target", scanArtifact.target],
+          ["Release", scanArtifact.release],
+          ["Scope", scanArtifact.scope]
         ].map(([key, value]) => (
           <div key={key} className="border-r border-[var(--rule)] p-5 last:border-r-0">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">{key}</p>
@@ -179,10 +169,10 @@ function ApprovalArtifact() {
       </div>
       <div className="p-5">
         <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">Capability Summary</p>
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--ink)]">{reviewArtifact.summary}</p>
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--ink)]">{scanArtifact.summary}</p>
       </div>
       <div className="grid border-t border-[var(--rule)] md:grid-cols-3">
-        {reviewArtifact.capabilities.map(([capability, detail]) => (
+        {scanArtifact.capabilities.map(([capability, detail]) => (
           <div key={capability} className="border-b border-r border-[var(--rule)] p-5 md:border-b-0">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">{capability}</p>
             <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{detail}</p>
@@ -190,7 +180,7 @@ function ApprovalArtifact() {
         ))}
       </div>
       <div className="grid border-t border-[var(--rule)] md:grid-cols-4">
-        {reviewArtifact.decision.map((field) => (
+        {scanArtifact.decision.map((field) => (
           <div key={field} className="min-h-24 border-b border-r border-[var(--rule)] p-5 md:border-b-0">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">{field}</p>
           </div>
@@ -207,24 +197,24 @@ export default function HomePage() {
         <div className="min-w-0">
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Local-first security tooling for AI-assisted development</Label>
+            <Label>{mcpscanRelease.status}</Label>
           </div>
           <h1 className="max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-[var(--ink)] sm:max-w-4xl sm:text-[clamp(2.5rem,6vw,4.8rem)] sm:leading-[1.02]">
-            Know what AI agents can read, execute, and change before you approve them.
+            mcpscan
           </h1>
           <p className="mt-8 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            Orisan builds local-first security tooling for AI-assisted software development. Scout is the first module: a local preflight check for repo-level agent exposure.
+            Local-first security scanner for MCP servers.
           </p>
-          <p className="mt-5 max-w-[20rem] font-mono text-xs uppercase leading-6 tracking-[0.13em] text-[var(--ink-faint)] sm:max-w-2xl">
-            Local by default. No source upload. No cloud upload. Deterministic checks, not LLM decisions.
+          <p className="mt-5 max-w-[20rem] text-base leading-7 text-[var(--ink-dim)] sm:max-w-2xl">
+            Scan an MCP server before connecting it to an AI agent. mcpscan enumerates exposed tools, resources, prompts, and metadata, then runs deterministic checks without uploading source code, prompts, secrets, or raw MCP responses.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Run Scout
-            </Link>
-            <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              View sample report
-            </Link>
+            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+              View GitHub
+            </a>
+            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+              View {mcpscanRelease.version} release
+            </a>
           </div>
         </div>
         <div className="min-w-0">
@@ -236,21 +226,23 @@ export default function HomePage() {
 
       <section id="product-architecture" className="container-shell py-20 md:py-28">
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
-          <Label>Product architecture</Label>
+          <Label>Current focus</Label>
           <div className="min-w-0">
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scout is runnable today. Everything else is deliberately behind it.
+              mcpscan is the active Orisan project.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is the parent system. Scout is the current product proof. Guard has a local alpha core. Relay and Review are future modules.
+              Orisan is keeping the public story narrow: a local-first MCP server scanner first. Scout remains a secondary community artifact. Other ideas stay out of the current site focus.
             </p>
           </div>
         </div>
-        <div className="grid min-w-0 border-l border-t border-[var(--rule)] md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
-          {productSystem.map((product) => (
-            <Link
+        <div className="grid min-w-0 border-l border-t border-[var(--rule)] md:grid-cols-[1.4fr_1fr_1fr]">
+          {projectFocus.map((product) => (
+            <a
               key={product.name}
               href={product.href}
+              target={product.href.startsWith("http") ? "_blank" : undefined}
+              rel={product.href.startsWith("http") ? "noreferrer" : undefined}
               className={`group min-h-72 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)] ${
                 product.emphasis === "future" ? "opacity-55" : ""
               } ${product.emphasis === "primary" ? "bg-[rgba(236,231,218,0.03)]" : ""}`}
@@ -260,7 +252,7 @@ export default function HomePage() {
               <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{product.summary}</p>
               <p className="mt-8 border-t border-[var(--rule)] pt-5 text-xs leading-6 text-[var(--ink-faint)]">{product.role}</p>
               <div className="mt-5 h-0.5 w-5 bg-[var(--sun)] transition group-hover:w-10" />
-            </Link>
+            </a>
           ))}
         </div>
       </section>
@@ -281,10 +273,10 @@ export default function HomePage() {
           <Label>The motive</Label>
           <div className="min-w-0">
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              AI agents changed repository approval faster than security review changed with it.
+              MCP servers changed what an agent can reach.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan exists because the approval moment is becoming vague. Developers are adopting agentic tools, MCP servers, and repo instruction files, while reviewers are still asked to approve with incomplete local evidence.
+              Orisan is focused on the moment before trust. Developers are connecting agents to local and remote MCP servers, while reviewers still need clear evidence about exposed tools, resources, prompts, and metadata.
             </p>
             <div className="mt-10 grid border-l border-t border-[var(--rule)]">
               {problemRows.map(([title, body]) => (
@@ -300,16 +292,16 @@ export default function HomePage() {
 
       <section className="container-shell py-20 md:py-28">
         <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
-          <Label>Approval record</Label>
+          <Label>Report artifact</Label>
           <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              {scoutProduct.title} is the current runnable module.
+              mcpscan turns MCP exposure into a reviewable report.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              Scout turns repo-local agent exposure into a review record: what was scanned, what agents can read, execute, or change, and what decision a reviewer should make before approval.
+              The report says what was enumerated, which deterministic checks fired, what evidence is safe to store, and why a server may need review before an AI agent connects.
             </p>
             <div className="mt-10">
-              <ApprovalArtifact />
+              <ScanArtifact />
             </div>
           </div>
         </div>
@@ -320,7 +312,7 @@ export default function HomePage() {
           <Label>Why different</Label>
           <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Not another scanner category. A preflight approval instrument.
+              Focused local scanner. Narrow by design.
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {differenceRows.map(([title, body]) => (
@@ -338,7 +330,7 @@ export default function HomePage() {
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Capability model</Label>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            READ / EXECUTE / CHANGE.
+            Enumerate / check / report.
           </h2>
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-3">
@@ -362,7 +354,7 @@ export default function HomePage() {
           <Label>Scope and privacy</Label>
           <div className="min-w-0">
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Repo-scoped by default. Local by design.
+              Local by design. Evidence-safe by default.
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {scopeItems.map((item) => (
@@ -380,19 +372,22 @@ export default function HomePage() {
           <div>
             <Label>Preflight</Label>
             <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Run the preflight check before approving AI coding agents.
+              Scan the MCP server before connecting the agent.
             </h2>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              {guardProduct.title} is separate and under development. Start with Scout when you need a repo-local approval artifact today.
+              Current verified installation is from source in a local Python environment. No PyPI, Homebrew, pipx, or curl install path is claimed for mcpscan yet.
             </p>
+            <pre className="mt-8 max-w-2xl whitespace-pre-wrap break-words border border-[var(--rule-2)] bg-[#0E1716] p-5 font-mono text-xs leading-6 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
+              <code>{mcpscanRelease.installCommands.join("\n")}</code>
+            </pre>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
-            <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              Run Scout
-            </Link>
-            <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              View sample report
-            </Link>
+            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+              View GitHub
+            </a>
+            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+              View release
+            </a>
           </div>
         </div>
       </section>

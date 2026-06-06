@@ -50,7 +50,7 @@ The product question is:
 What can an AI coding agent in this repo read, execute, or change?
 
 Install:
-curl -fsSL https://orisan.org/install | sh
+Use the archived Scout runbook if you need the old Scout-specific install path.
 
 Run:
 orisan scout --repo .
@@ -72,13 +72,13 @@ export default function ValidateScoutPage() {
         <div>
           <div className="mb-7 flex items-center gap-4">
             <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Internal QA first</Label>
+            <Label>Archived Scout QA</Label>
           </div>
           <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Dogfood Scout before asking anyone else to trust it.
+            Archived internal QA note from the Scout phase.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            Outbound validation is paused until install, report clarity, website story, and manual repo runs feel credible.
+            Retained as background only. The current Orisan homepage and public story lead with mcpscan.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
