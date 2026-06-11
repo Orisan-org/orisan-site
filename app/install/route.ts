@@ -3,7 +3,7 @@ const script = `#!/usr/bin/env sh
 set -eu
 
 repo="Orisan-org/orisan-scout"
-release="v0.1.0-alpha.5"
+release="v0.2.0-alpha.1"
 api="https://api.github.com/repos/$repo/releases/tags/$release"
 
 os="$(uname -s | tr '[:upper:]' '[:lower:]')"
