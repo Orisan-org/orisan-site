@@ -40,13 +40,13 @@ export const mcpscanRelease = {
 };
 
 export const scoutRelease = {
-  version: "v0.2.0-alpha.1",
-  url: `${siteConfig.links.scoutRepo}/releases/tag/v0.2.0-alpha.1`,
+  version: "v0.2.0-alpha.2",
+  url: `${siteConfig.links.scoutRepo}/releases/tag/v0.2.0-alpha.2`,
   installCommand: "curl -fsSL https://orisan.org/install | sh",
   windowsInstallCommand: "irm https://orisan.org/install.ps1 | iex",
-  developerInstallCommand: "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.2.0-alpha.1",
-  macArm64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.2.0-alpha.1/orisan-scout_darwin_arm64.tar.gz`,
-  macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.2.0-alpha.1/orisan-scout_darwin_amd64.tar.gz`,
+  developerInstallCommand: "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.2.0-alpha.2",
+  macArm64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.2.0-alpha.2/orisan-scout_darwin_arm64.tar.gz`,
+  macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.2.0-alpha.2/orisan-scout_darwin_amd64.tar.gz`,
   feedbackUrl: `${siteConfig.links.scoutRepo}/issues/new?template=alpha-feedback.yml`,
   sampleReportUrl: "/scout/sample-report",
   validateUrl: "/scout/validate"
