@@ -5,7 +5,10 @@ $repo = "Orisan-org/orisan-scout"
 $releaseName = "v0.2.0-alpha.2"
 $release = Invoke-RestMethod "https://api.github.com/repos/$repo/releases/tags/$releaseName"
 
-$arch = if ([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture -eq "Arm64") { "arm64" } else { "amd64" }
+if ([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture -eq "Arm64") {
+  throw "Windows ARM64 release asset is not published for $releaseName. Use the Go install path from the Scout runbook or build from source."
+}
+$arch = "amd64"
 $assetName = "orisan-scout_windows_$arch.zip"
 $asset = $release.assets | Where-Object { $_.name -eq $assetName } | Select-Object -First 1
 
@@ -36,7 +39,7 @@ export function GET() {
   return new Response(script, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=300"
-    }
+      "Cache-Control": "public, max-age=300",
+    },
   });
 }
