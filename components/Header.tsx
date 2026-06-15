@@ -11,7 +11,7 @@ const headerLinks = [
   { href: "/", label: "mcpscan" },
   { href: siteConfig.links.mcpscanRepo, label: "GitHub", external: true },
   { href: mcpscanRelease.url, label: "Release", external: true },
-  { href: "/about", label: "About" }
+  { href: "/about", label: "About" },
 ];
 
 export function Header() {
@@ -24,15 +24,27 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-40 border-b border-[var(--rule)] bg-[rgba(20,30,29,0.86)] backdrop-blur-xl">
       <div className="container-shell flex h-16 items-center justify-between">
         <BrandMark tone="light" size="sm" />
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+        <nav
+          className="hidden items-center gap-8 md:flex"
+          aria-label="Primary navigation"
+        >
           {headerLinks.map((item) => {
-            const active = !item.external && (pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`)));
+            const active =
+              !item.external &&
+              (pathname === item.href ||
+                (item.href !== "/" && pathname.startsWith(`${item.href}/`)));
             const className =
               "group relative font-mono text-xs uppercase tracking-[0.12em] text-[var(--ink-dim)] transition hover:text-[var(--ink)]";
 
             if (item.external) {
               return (
-                <a key={item.href} href={item.href} target="_blank" rel="noreferrer" className={className}>
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={className}
+                >
                   {item.label}
                   <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--sun)] transition-all duration-300 group-hover:w-full" />
                 </a>
@@ -40,11 +52,7 @@ export function Header() {
             }
 
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={className}
-              >
+              <Link key={item.href} href={item.href} className={className}>
                 {item.label}
                 <span
                   className={`absolute -bottom-2 left-0 h-px bg-[var(--sun)] transition-all duration-300 ${
@@ -86,7 +94,10 @@ export function Header() {
               <X size={20} />
             </button>
           </div>
-          <nav className="container-shell grid gap-5 py-12" aria-label="Mobile navigation">
+          <nav
+            className="container-shell grid gap-5 py-12"
+            aria-label="Mobile navigation"
+          >
             {headerLinks.map((item) =>
               item.external ? (
                 <a
@@ -108,7 +119,7 @@ export function Header() {
                 >
                   {item.label}
                 </Link>
-              )
+              ),
             )}
             <a
               href={siteConfig.links.mcpscanRepo}

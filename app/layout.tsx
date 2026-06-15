@@ -8,34 +8,36 @@ import { siteConfig } from "@/lib/constants";
 const display = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  variable: "--font-display"
+  variable: "--font-display",
 });
 
 const body = Inter({
   subsets: ["latin"],
-  variable: "--font-body"
+  variable: "--font-body",
 });
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono"
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Orisan | Local-first security tooling for AI-assisted software development",
-    template: "%s"
+    default:
+      "Orisan | Local-first security tooling for AI-assisted software development",
+    template: "%s",
   },
   description: siteConfig.description,
   alternates: {
-    canonical: "/"
+    canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: "Orisan | Local-first security tooling for AI-assisted software development",
+    title:
+      "Orisan | Local-first security tooling for AI-assisted software development",
     description: siteConfig.description,
     url: siteConfig.url,
     images: [
@@ -43,37 +45,43 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Orisan - local-first security tooling for AI-assisted software development."
-      }
-    ]
+        alt: "Orisan - local-first security tooling for AI-assisted software development.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Orisan | Local-first security tooling for AI-assisted software development",
+    title:
+      "Orisan | Local-first security tooling for AI-assisted software development",
     description: siteConfig.description,
-    images: ["/og-image.svg"]
+    images: ["/og-image.svg"],
   },
   robots: {
     index: true,
-    follow: true
+    follow: true,
   },
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" }
-    ],
-    shortcut: "/favicon.svg"
-  }
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: "/favicon.svg",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
-  initialScale: 1
+  initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+    >
       <body className="font-sans antialiased">
         <Header />
         <main>{children}</main>

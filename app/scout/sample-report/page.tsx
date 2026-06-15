@@ -8,21 +8,28 @@ export const metadata: Metadata = {
   description: pageMetadata.sampleReport.description,
   robots: {
     index: false,
-    follow: false
+    follow: false,
   },
   alternates: { canonical: "/scout/sample-report" },
   openGraph: {
     title: pageMetadata.sampleReport.title,
     description: pageMetadata.sampleReport.description,
     url: "/scout/sample-report",
-    images: [{ url: "/og-image-scout.svg", width: 1200, height: 630, alt: "Orisan Scout sample report." }]
+    images: [
+      {
+        url: "/og-image-scout.svg",
+        width: 1200,
+        height: 630,
+        alt: "Orisan Scout sample report.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: pageMetadata.sampleReport.title,
     description: pageMetadata.sampleReport.description,
-    images: ["/og-image-scout.svg"]
-  }
+    images: ["/og-image-scout.svg"],
+  },
 };
 
 const report = `# Orisan Scout Report
@@ -85,7 +92,11 @@ Recommended decision: Review required before approving AI coding agent use in th
 - report_body_sha256: \`c9e4b8f6f7d7a5b6e3c2f0a1b4d9e8f0123456789abcdef0123456789abcdef\``;
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
+  return (
+    <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">
+      {children}
+    </p>
+  );
 }
 
 export default function ScoutSampleReportPage() {
@@ -101,10 +112,14 @@ export default function ScoutSampleReportPage() {
             Archived sample from the Scout experiment.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            This page is retained as background. The current Orisan product story leads with mcpscan for MCP server review.
+            This page is retained as background. The current Orisan product
+            story leads with mcpscan for MCP server review.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+            <Link
+              href="/scout/run"
+              className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
+            >
               Scout runbook
             </Link>
             <a
@@ -119,7 +134,9 @@ export default function ScoutSampleReportPage() {
         </div>
         <div className="border border-[var(--rule-2)] bg-[#0E1716]">
           <div className="border-b border-[var(--rule)] px-5 py-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">orisan-scout-review.md</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
+              orisan-scout-review.md
+            </p>
           </div>
           <pre className="whitespace-pre-wrap break-words p-5 font-mono text-xs leading-6 text-[var(--ink-dim)] md:text-sm md:leading-7">
             <code>{report}</code>

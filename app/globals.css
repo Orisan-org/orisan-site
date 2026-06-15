@@ -4,15 +4,15 @@
 
 :root {
   color-scheme: dark;
-  --bg: #141E1D;
+  --bg: #141e1d;
   --bg-2: #182423;
-  --ink: #ECE7DA;
-  --ink-dim: #9DAAA5;
-  --ink-faint: #5E6E69;
-  --rule: rgba(236,231,218,0.10);
-  --rule-2: rgba(236,231,218,0.18);
-  --sun: #E8A02C;
-  --earth: #5B8AA6;
+  --ink: #ece7da;
+  --ink-dim: #9daaa5;
+  --ink-faint: #5e6e69;
+  --rule: rgba(236, 231, 218, 0.1);
+  --rule-2: rgba(236, 231, 218, 0.18);
+  --sun: #e8a02c;
+  --earth: #5b8aa6;
   --grain-opacity: 0.035;
 }
 

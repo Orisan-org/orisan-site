@@ -56,7 +56,7 @@ export function GET() {
   return new Response(script, {
     headers: {
       "Content-Type": "text/x-shellscript; charset=utf-8",
-      "Cache-Control": "public, max-age=300"
-    }
+      "Cache-Control": "public, max-age=300",
+    },
   });
 }

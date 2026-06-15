@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { mcpscanProduct, mcpscanRelease, pageMetadata, siteConfig } from "@/lib/constants";
+import {
+  mcpscanProduct,
+  mcpscanRelease,
+  pageMetadata,
+  siteConfig,
+} from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.home.title,
@@ -15,16 +20,16 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "mcpscan - local-first security scanner for MCP servers."
-      }
-    ]
+        alt: "mcpscan - local-first security scanner for MCP servers.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: pageMetadata.home.title,
     description: pageMetadata.home.description,
-    images: ["/og-image.svg"]
-  }
+    images: ["/og-image.svg"],
+  },
 };
 
 const mcpscanOutput = `$ mcpscan scan --command '<your MCP server command>'
@@ -44,28 +49,39 @@ const scanArtifact = {
   target: "stdio MCP server",
   release: mcpscanRelease.version,
   scope: "tools, resources, prompts, and metadata",
-  summary: "This MCP server exposes file and command capabilities that should be reviewed before an AI agent connects.",
+  summary:
+    "This MCP server exposes file and command capabilities that should be reviewed before an AI agent connects.",
   capabilities: [
     ["TOOLS", "12 enumerated"],
     ["RESOURCES", "2 enumerated"],
-    ["PROMPTS", "0 enumerated"]
+    ["PROMPTS", "0 enumerated"],
   ],
-  decision: ["Reviewer", "Decision", "Restrictions", "Expires"]
+  decision: ["Reviewer", "Decision", "Restrictions", "Expires"],
 };
 
 const capabilityColumns = [
   {
     title: "ENUMERATE",
-    items: ["tools/list", "resources/list", "prompts/list", "server metadata"]
+    items: ["tools/list", "resources/list", "prompts/list", "server metadata"],
   },
   {
     title: "CHECK",
-    items: ["prompt injection signals", "dangerous capabilities", "secret exposure", "transport issues"]
+    items: [
+      "prompt injection signals",
+      "dangerous capabilities",
+      "secret exposure",
+      "transport issues",
+    ],
   },
   {
     title: "REPORT",
-    items: ["terminal summary", "JSON report", "Markdown report", "payload_stored=false"]
-  }
+    items: [
+      "terminal summary",
+      "JSON report",
+      "Markdown report",
+      "payload_stored=false",
+    ],
+  },
 ];
 
 const scopeItems = [
@@ -74,21 +90,45 @@ const scopeItems = [
   "no prompt upload",
   "no secret upload",
   "no raw MCP response storage",
-  "payload_stored=false"
+  "payload_stored=false",
 ];
 
 const problemRows = [
-  ["Before", "MCP servers were often added to agent configs because they were useful, not because their exposed tools had been reviewed."],
-  ["Now", "AI agents can connect to MCP servers that read files, make network requests, execute commands, or expose sensitive metadata."],
-  ["Gap", "Reviewers need a local way to see what an MCP server exposes before trusting it."],
-  ["mcpscan", "mcpscan enumerates the server surface and emits deterministic findings a reviewer can inspect."]
+  [
+    "Before",
+    "MCP servers were often added to agent configs because they were useful, not because their exposed tools had been reviewed.",
+  ],
+  [
+    "Now",
+    "AI agents can connect to MCP servers that read files, make network requests, execute commands, or expose sensitive metadata.",
+  ],
+  [
+    "Gap",
+    "Reviewers need a local way to see what an MCP server exposes before trusting it.",
+  ],
+  [
+    "mcpscan",
+    "mcpscan enumerates the server surface and emits deterministic findings a reviewer can inspect.",
+  ],
 ];
 
 const differenceRows = [
-  ["Pre-connection", "Run mcpscan before an AI agent connects to a new MCP server."],
-  ["Capability-first", "Findings describe exposed server behavior: files, network, commands, metadata, prompts, and transport."],
-  ["Local evidence", "Reports are generated locally with no cloud upload and payload_stored=false."],
-  ["Narrow scope", "The alpha focuses on stdio and tested Streamable HTTP MCP server review. MCP-002 baseline drift is deferred."]
+  [
+    "Pre-connection",
+    "Run mcpscan before an AI agent connects to a new MCP server.",
+  ],
+  [
+    "Capability-first",
+    "Findings describe exposed server behavior: files, network, commands, metadata, prompts, and transport.",
+  ],
+  [
+    "Local evidence",
+    "Reports are generated locally with no cloud upload and payload_stored=false.",
+  ],
+  [
+    "Narrow scope",
+    "The alpha focuses on stdio and tested Streamable HTTP MCP server review. MCP-002 baseline drift is deferred.",
+  ],
 ];
 
 const projectFocus = [
@@ -98,7 +138,7 @@ const projectFocus = [
     href: siteConfig.links.mcpscanRepo,
     summary: mcpscanProduct.tagline,
     role: "Current flagship. Review MCP servers locally before AI agents connect.",
-    emphasis: "primary"
+    emphasis: "primary",
   },
   {
     name: "Scout",
@@ -106,7 +146,7 @@ const projectFocus = [
     href: "/scout",
     summary: "Repo-local AI-agent approval artifact.",
     role: "Kept as a community/portfolio artifact, not the current focus.",
-    emphasis: "secondary"
+    emphasis: "secondary",
   },
   {
     name: "Guard / Relay / Review",
@@ -114,15 +154,15 @@ const projectFocus = [
     href: "#product-architecture",
     summary: "Portfolio/community ideas, not part of the current site focus.",
     role: "Not part of the current public product story.",
-    emphasis: "future"
-  }
+    emphasis: "future",
+  },
 ];
 
 const proofStats = [
   ["active release", mcpscanRelease.version],
   ["primary command", "mcpscan scan"],
   ["reports", "terminal + JSON + Markdown"],
-  ["privacy", "no uploads"]
+  ["privacy", "no uploads"],
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -159,30 +199,53 @@ function ScanArtifact() {
         {[
           ["Target", scanArtifact.target],
           ["Release", scanArtifact.release],
-          ["Scope", scanArtifact.scope]
+          ["Scope", scanArtifact.scope],
         ].map(([key, value]) => (
-          <div key={key} className="border-r border-[var(--rule)] p-5 last:border-r-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">{key}</p>
-            <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{value}</p>
+          <div
+            key={key}
+            className="border-r border-[var(--rule)] p-5 last:border-r-0"
+          >
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">
+              {key}
+            </p>
+            <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">
+              {value}
+            </p>
           </div>
         ))}
       </div>
       <div className="p-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">Capability Summary</p>
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--ink)]">{scanArtifact.summary}</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
+          Capability Summary
+        </p>
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--ink)]">
+          {scanArtifact.summary}
+        </p>
       </div>
       <div className="grid border-t border-[var(--rule)] md:grid-cols-3">
         {scanArtifact.capabilities.map(([capability, detail]) => (
-          <div key={capability} className="border-b border-r border-[var(--rule)] p-5 md:border-b-0">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">{capability}</p>
-            <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{detail}</p>
+          <div
+            key={capability}
+            className="border-b border-r border-[var(--rule)] p-5 md:border-b-0"
+          >
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">
+              {capability}
+            </p>
+            <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">
+              {detail}
+            </p>
           </div>
         ))}
       </div>
       <div className="grid border-t border-[var(--rule)] md:grid-cols-4">
         {scanArtifact.decision.map((field) => (
-          <div key={field} className="min-h-24 border-b border-r border-[var(--rule)] p-5 md:border-b-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">{field}</p>
+          <div
+            key={field}
+            className="min-h-24 border-b border-r border-[var(--rule)] p-5 md:border-b-0"
+          >
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
+              {field}
+            </p>
           </div>
         ))}
       </div>
@@ -206,13 +269,26 @@ export default function HomePage() {
             Local-first security scanner for MCP servers.
           </p>
           <p className="mt-5 max-w-[20rem] text-base leading-7 text-[var(--ink-dim)] sm:max-w-2xl">
-            Scan an MCP server before connecting it to an AI agent. mcpscan enumerates exposed tools, resources, prompts, and metadata, then runs deterministic checks without uploading source code, prompts, secrets, or raw MCP responses.
+            Scan an MCP server before connecting it to an AI agent. mcpscan
+            enumerates exposed tools, resources, prompts, and metadata, then
+            runs deterministic checks without uploading source code, prompts,
+            secrets, or raw MCP responses.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+            <a
+              href={siteConfig.links.mcpscanRepo}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
+            >
               View GitHub
             </a>
-            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+            <a
+              href={mcpscanRelease.url}
+              target="_blank"
+              rel="noreferrer"
+              className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
+            >
               View {mcpscanRelease.version} release
             </a>
           </div>
@@ -224,7 +300,10 @@ export default function HomePage() {
 
       <div className="container-shell h-px bg-[var(--rule)]" />
 
-      <section id="product-architecture" className="container-shell py-20 md:py-28">
+      <section
+        id="product-architecture"
+        className="container-shell py-20 md:py-28"
+      >
         <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
           <Label>Current focus</Label>
           <div className="min-w-0">
@@ -232,7 +311,9 @@ export default function HomePage() {
               mcpscan is the active Orisan project.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is keeping the public story narrow: a local-first MCP server scanner first. Scout remains a secondary community artifact. Other ideas stay out of the current site focus.
+              Orisan is keeping the public story narrow: a local-first MCP
+              server scanner first. Scout remains a secondary community
+              artifact. Other ideas stay out of the current site focus.
             </p>
           </div>
         </div>
@@ -247,10 +328,18 @@ export default function HomePage() {
                 product.emphasis === "future" ? "opacity-55" : ""
               } ${product.emphasis === "primary" ? "bg-[rgba(236,231,218,0.03)]" : ""}`}
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{product.status}</p>
-              <h3 className="mt-14 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">{product.name}</h3>
-              <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{product.summary}</p>
-              <p className="mt-8 border-t border-[var(--rule)] pt-5 text-xs leading-6 text-[var(--ink-faint)]">{product.role}</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">
+                {product.status}
+              </p>
+              <h3 className="mt-14 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">
+                {product.name}
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">
+                {product.summary}
+              </p>
+              <p className="mt-8 border-t border-[var(--rule)] pt-5 text-xs leading-6 text-[var(--ink-faint)]">
+                {product.role}
+              </p>
               <div className="mt-5 h-0.5 w-5 bg-[var(--sun)] transition group-hover:w-10" />
             </a>
           ))}
@@ -260,9 +349,16 @@ export default function HomePage() {
       <section className="container-shell py-20 md:py-28">
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
           {proofStats.map(([label, value]) => (
-            <div key={label} className="border-b border-r border-[var(--rule)] p-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">{label}</p>
-              <p className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">{value}</p>
+            <div
+              key={label}
+              className="border-b border-r border-[var(--rule)] p-5"
+            >
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
+                {label}
+              </p>
+              <p className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">
+                {value}
+              </p>
             </div>
           ))}
         </div>
@@ -276,13 +372,23 @@ export default function HomePage() {
               MCP servers changed what an agent can reach.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is focused on the moment before trust. Developers are connecting agents to local and remote MCP servers, while reviewers still need clear evidence about exposed tools, resources, prompts, and metadata.
+              Orisan is focused on the moment before trust. Developers are
+              connecting agents to local and remote MCP servers, while reviewers
+              still need clear evidence about exposed tools, resources, prompts,
+              and metadata.
             </p>
             <div className="mt-10 grid border-l border-t border-[var(--rule)]">
               {problemRows.map(([title, body]) => (
-                <div key={title} className="grid gap-5 border-b border-r border-[var(--rule)] p-5 md:grid-cols-[9rem_1fr]">
-                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</p>
-                  <p className="text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
+                <div
+                  key={title}
+                  className="grid gap-5 border-b border-r border-[var(--rule)] p-5 md:grid-cols-[9rem_1fr]"
+                >
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">
+                    {title}
+                  </p>
+                  <p className="text-sm leading-7 text-[var(--ink-dim)]">
+                    {body}
+                  </p>
                 </div>
               ))}
             </div>
@@ -298,7 +404,9 @@ export default function HomePage() {
               mcpscan turns MCP exposure into a reviewable report.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              The report says what was enumerated, which deterministic checks fired, what evidence is safe to store, and why a server may need review before an AI agent connects.
+              The report says what was enumerated, which deterministic checks
+              fired, what evidence is safe to store, and why a server may need
+              review before an AI agent connects.
             </p>
             <div className="mt-10">
               <ScanArtifact />
@@ -316,9 +424,16 @@ export default function HomePage() {
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {differenceRows.map(([title, body]) => (
-                <div key={title} className="min-h-48 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]">
-                  <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</h3>
-                  <p className="mt-8 text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
+                <div
+                  key={title}
+                  className="min-h-48 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]"
+                >
+                  <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">
+                    {title}
+                  </h3>
+                  <p className="mt-8 text-sm leading-7 text-[var(--ink-dim)]">
+                    {body}
+                  </p>
                 </div>
               ))}
             </div>
@@ -335,11 +450,19 @@ export default function HomePage() {
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-3">
           {capabilityColumns.map((column) => (
-            <div key={column.title} className="border-b border-r border-[var(--rule)] p-7">
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">{column.title}</h3>
+            <div
+              key={column.title}
+              className="border-b border-r border-[var(--rule)] p-7"
+            >
+              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">
+                {column.title}
+              </h3>
               <ul className="mt-8 space-y-4">
                 {column.items.map((item) => (
-                  <li key={item} className="border-t border-[var(--rule)] pt-4 text-[var(--ink-dim)]">
+                  <li
+                    key={item}
+                    className="border-t border-[var(--rule)] pt-4 text-[var(--ink-dim)]"
+                  >
                     {item}
                   </li>
                 ))}
@@ -358,7 +481,10 @@ export default function HomePage() {
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {scopeItems.map((item) => (
-                <div key={item} className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase tracking-[0.12em] text-[var(--ink-dim)]">
+                <div
+                  key={item}
+                  className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase tracking-[0.12em] text-[var(--ink-dim)]"
+                >
                   {item}
                 </div>
               ))}
@@ -375,17 +501,29 @@ export default function HomePage() {
               Scan the MCP server before connecting the agent.
             </h2>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              Current verified installation is from source in a local Python environment. No PyPI, Homebrew, pipx, or curl install path is claimed for mcpscan yet.
+              Current verified installation is from source in a local Python
+              environment. No PyPI, Homebrew, pipx, or curl install path is
+              claimed for mcpscan yet.
             </p>
             <pre className="mt-8 max-w-2xl whitespace-pre-wrap break-words border border-[var(--rule-2)] bg-[#0E1716] p-5 font-mono text-xs leading-6 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
               <code>{mcpscanRelease.installCommands.join("\n")}</code>
             </pre>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
-            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
+            <a
+              href={siteConfig.links.mcpscanRepo}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
+            >
               View GitHub
             </a>
-            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
+            <a
+              href={mcpscanRelease.url}
+              target="_blank"
+              rel="noreferrer"
+              className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
+            >
               View release
             </a>
           </div>

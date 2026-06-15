@@ -8,7 +8,7 @@ const socialIcons = {
   LinkedIn: Linkedin,
   "Twitter/X": Twitter,
   Instagram: Instagram,
-  Facebook: Facebook
+  Facebook: Facebook,
 };
 
 export function Footer() {
@@ -17,13 +17,20 @@ export function Footer() {
       <div className="container-shell grid gap-12 border-t border-[var(--rule)] py-14 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <BrandMark tone="light" />
-          <p className="mt-5 max-w-sm text-lg text-[var(--ink-dim)]">{siteConfig.tagline}</p>
+          <p className="mt-5 max-w-sm text-lg text-[var(--ink-dim)]">
+            {siteConfig.tagline}
+          </p>
           <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-[var(--ink-faint)]">
             Instrument, not brochure.
           </p>
         </div>
-        <nav className="grid content-start gap-3" aria-label="Footer navigation">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--sun)]">Navigate</p>
+        <nav
+          className="grid content-start gap-3"
+          aria-label="Footer navigation"
+        >
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--sun)]">
+            Navigate
+          </p>
           {navigation.map((item) =>
             item.href.startsWith("http") ? (
               <a
@@ -36,14 +43,20 @@ export function Footer() {
                 {item.label}
               </a>
             ) : (
-              <Link key={item.href} href={item.href} className="text-[var(--ink-dim)] transition hover:text-[var(--ink)]">
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
+              >
                 {item.label}
               </Link>
-            )
+            ),
           )}
         </nav>
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--sun)]">Signals</p>
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--sun)]">
+            Signals
+          </p>
           <div className="mt-4 flex flex-wrap gap-3">
             {socialLinks.map((item) => {
               const Icon = socialIcons[item.label as keyof typeof socialIcons];
@@ -62,7 +75,9 @@ export function Footer() {
               );
             })}
           </div>
-          <p className="mt-8 text-sm text-[var(--ink-faint)]">© 2026 Orisan. All rights reserved.</p>
+          <p className="mt-8 text-sm text-[var(--ink-faint)]">
+            © 2026 Orisan. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

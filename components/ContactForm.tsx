@@ -9,7 +9,9 @@ const fieldClass =
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
-  const action = siteConfig.formspreeId ? `https://formspree.io/f/${siteConfig.formspreeId}` : `mailto:${siteConfig.email}`;
+  const action = siteConfig.formspreeId
+    ? `https://formspree.io/f/${siteConfig.formspreeId}`
+    : `mailto:${siteConfig.email}`;
 
   return (
     <form
@@ -20,18 +22,19 @@ export function ContactForm() {
     >
       <div className="grid gap-4">
         <div>
-          <label htmlFor="name" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-dim)]">
+          <label
+            htmlFor="name"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-dim)]"
+          >
             Name
           </label>
-          <input
-            id="name"
-            name="name"
-            required
-            className={fieldClass}
-          />
+          <input id="name" name="name" required className={fieldClass} />
         </div>
         <div>
-          <label htmlFor="email" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-dim)]">
+          <label
+            htmlFor="email"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-dim)]"
+          >
             Email
           </label>
           <input
@@ -43,7 +46,10 @@ export function ContactForm() {
           />
         </div>
         <div>
-          <label htmlFor="message" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-dim)]">
+          <label
+            htmlFor="message"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-dim)]"
+          >
             Message
           </label>
           <textarea
@@ -61,7 +67,11 @@ export function ContactForm() {
       >
         Send <Send size={16} />
       </button>
-      {submitted ? <p className="mt-4 text-sm font-medium text-[var(--sun)]">Thank you. Your message is ready to send.</p> : null}
+      {submitted ? (
+        <p className="mt-4 text-sm font-medium text-[var(--sun)]">
+          Thank you. Your message is ready to send.
+        </p>
+      ) : null}
     </form>
   );
 }
