@@ -8,10 +8,7 @@ type BrandMarkProps = {
 
 export function BrandMark({ tone = "dark", size = "md" }: BrandMarkProps) {
   const dimensions = size === "sm" ? "h-9 w-[144px]" : "h-10 w-[160px]";
-  const src =
-    tone === "light"
-      ? "/logo-lockup-orisan.svg"
-      : "/logo-lockup-orisan-dark.svg";
+  const src = tone === "light" ? "/logo-lockup-orisan.svg" : "/logo-lockup-orisan-dark.svg";
 
   return (
     <Link

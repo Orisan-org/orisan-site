@@ -8,41 +8,28 @@ export const metadata: Metadata = {
   description: pageMetadata.validateScout.description,
   robots: {
     index: false,
-    follow: false,
+    follow: false
   },
   alternates: { canonical: "/scout/validate" },
   openGraph: {
     title: pageMetadata.validateScout.title,
     description: pageMetadata.validateScout.description,
     url: "/scout/validate",
-    images: [
-      {
-        url: "/og-image-scout.svg",
-        width: 1200,
-        height: 630,
-        alt: "Validate Orisan Scout.",
-      },
-    ],
+    images: [{ url: "/og-image-scout.svg", width: 1200, height: 630, alt: "Validate Orisan Scout." }]
   },
   twitter: {
     card: "summary_large_image",
     title: pageMetadata.validateScout.title,
     description: pageMetadata.validateScout.description,
-    images: ["/og-image-scout.svg"],
-  },
+    images: ["/og-image-scout.svg"]
+  }
 };
 
 const steps = [
   ["1. Install like a user", scoutRelease.installCommand],
   ["2. Run local repos", "orisan scout\norisan scout --repo /path/to/repo"],
-  [
-    "3. Inspect artifacts",
-    "Read terminal output, Markdown, and JSON. Check payload_stored=false, git metadata, and report hash.",
-  ],
-  [
-    "4. Decide readiness",
-    "Would we send this report to an AppSec engineer without explaining it live?",
-  ],
+  ["3. Inspect artifacts", "Read terminal output, Markdown, and JSON. Check payload_stored=false, git metadata, and report hash."],
+  ["4. Decide readiness", "Would we send this report to an AppSec engineer without explaining it live?"]
 ];
 
 const feedback = [
@@ -52,7 +39,7 @@ const feedback = [
   "Were any findings wrong, noisy, or confusing?",
   "Did Scout miss obvious repo-local AI-agent config?",
   "Would this report help an approval or remediation workflow?",
-  "Would we send this externally without live explanation?",
+  "Would we send this externally without live explanation?"
 ];
 
 const copy = `Internal Scout dogfood note
@@ -75,11 +62,7 @@ Final gate:
 Would we send this report to an AppSec engineer without explaining it live?`;
 
 function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">
-      {children}
-    </p>
-  );
+  return <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
 }
 
 export default function ValidateScoutPage() {
@@ -95,20 +78,13 @@ export default function ValidateScoutPage() {
             Archived internal QA note from the Scout phase.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            Retained as background only. The current Orisan homepage and public
-            story lead with mcpscan.
+            Retained as background only. The current Orisan homepage and public story lead with mcpscan.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/scout/run"
-              className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
-            >
+            <Link href="/scout/run" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
               Runbook
             </Link>
-            <Link
-              href="/scout/sample-report"
-              className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]"
-            >
+            <Link href="/scout/sample-report" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
               Sample report
             </Link>
           </div>
@@ -135,16 +111,9 @@ export default function ValidateScoutPage() {
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
           {steps.map(([title, body]) => (
-            <div
-              key={title}
-              className="min-h-48 border-b border-r border-[var(--rule)] p-6"
-            >
-              <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">
-                {title}
-              </h3>
-              <p className="mt-8 whitespace-pre-wrap break-words text-sm leading-7 text-[var(--ink-dim)]">
-                {body}
-              </p>
+            <div key={title} className="min-h-48 border-b border-r border-[var(--rule)] p-6">
+              <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</h3>
+              <p className="mt-8 whitespace-pre-wrap break-words text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
             </div>
           ))}
         </div>
@@ -155,10 +124,7 @@ export default function ValidateScoutPage() {
           <Label>Feedback checklist</Label>
           <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-2">
             {feedback.map((item) => (
-              <div
-                key={item}
-                className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase leading-6 tracking-[0.1em] text-[var(--ink-dim)]"
-              >
+              <div key={item} className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase leading-6 tracking-[0.1em] text-[var(--ink-dim)]">
                 {item}
               </div>
             ))}

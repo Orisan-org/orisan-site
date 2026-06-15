@@ -3,14 +3,12 @@ import { navigation, siteConfig } from "@/lib/constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const paths = Array.from(
-    new Set(["/", ...navigation.map((item) => item.href)]),
-  ).filter((path) => path.startsWith("/"));
+  const paths = Array.from(new Set(["/", ...navigation.map((item) => item.href)])).filter((path) => path.startsWith("/"));
 
   return paths.map((path) => ({
     url: `${siteConfig.url}${path}`,
     lastModified: now,
     changeFrequency: "monthly",
-    priority: path === "/" ? 1 : 0.8,
+    priority: path === "/" ? 1 : 0.8
   }));
 }

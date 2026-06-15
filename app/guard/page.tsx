@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: pageMetadata.guard.description,
   robots: {
     index: false,
-    follow: false,
+    follow: false
   },
   alternates: { canonical: "/guard" },
   openGraph: {
@@ -19,39 +19,23 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "Orisan Guard - sensitive context protection for AI tools.",
-      },
-    ],
+        alt: "Orisan Guard - sensitive context protection for AI tools."
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: pageMetadata.guard.title,
     description: pageMetadata.guard.description,
-    images: ["/og-image.svg"],
-  },
+    images: ["/og-image.svg"]
+  }
 };
 
 const flow = [
-  [
-    "01",
-    "Raw prompt",
-    "A user drafts a prompt or pastes context intended for an AI tool.",
-  ],
-  [
-    "02",
-    "Sensitive context detected",
-    "Guard classifies spans such as credentials, internal hosts, identifiers, and private material.",
-  ],
-  [
-    "03",
-    "Safe rewrite",
-    "Sensitive spans are replaced with collision-resistant placeholders while preserving syntax where possible.",
-  ],
-  [
-    "04",
-    "Evidence event",
-    "The output records what was protected without storing raw prompt payloads.",
-  ],
+  ["01", "Raw prompt", "A user drafts a prompt or pastes context intended for an AI tool."],
+  ["02", "Sensitive context detected", "Guard classifies spans such as credentials, internal hosts, identifiers, and private material."],
+  ["03", "Safe rewrite", "Sensitive spans are replaced with collision-resistant placeholders while preserving syntax where possible."],
+  ["04", "Evidence event", "The output records what was protected without storing raw prompt payloads."]
 ];
 
 const alphaCore = [
@@ -61,26 +45,19 @@ const alphaCore = [
   "local redact CLI",
   "synthetic benchmark fixtures",
   "evidence-safe harness",
-  "payload_stored=false model",
+  "payload_stored=false model"
 ];
 
 const nonClaims = [
   "no Chrome Web Store release yet",
-  "no released browser extension download yet",
-  "local fixture is the primary tested adapter",
-  "ChatGPT adapter is experimental",
-  "no Claude, Gemini, or Perplexity adapter",
+  "no browser extension download yet",
   "no cloud sync",
   "no raw prompt upload",
-  "no LLM calls in the core",
+  "no LLM calls in the core"
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">
-      {children}
-    </p>
-  );
+  return <p className="max-w-[18rem] break-words font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
 }
 
 export default function GuardPage() {
@@ -96,16 +73,10 @@ export default function GuardPage() {
             Guard is not the current Orisan product.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            This page is kept as a portfolio note for an unreleased
-            sensitive-context experiment. The active public project is mcpscan.
+            This page is kept as a portfolio note for an unreleased sensitive-context experiment. The active public project is mcpscan.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a
-              href={siteConfig.links.mcpscanRepo}
-              target="_blank"
-              rel="noreferrer"
-              className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]"
-            >
+            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
               View mcpscan
             </a>
             <a
@@ -124,9 +95,7 @@ export default function GuardPage() {
             Can this prompt or context be safely sent to an AI tool?
           </p>
           <p className="mt-6 leading-8 text-[var(--ink-dim)]">
-            Guard is not published to the Chrome Web Store and is not part of
-            the current install path. The local fixture is the source-of-truth
-            adapter, and ChatGPT support is experimental.
+            Guard is not released as a browser extension. It should not be treated as part of the current site focus or install path.
           </p>
         </div>
       </section>
@@ -142,19 +111,10 @@ export default function GuardPage() {
         </div>
         <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
           {flow.map(([number, title, body]) => (
-            <div
-              key={title}
-              className="min-h-56 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]"
-            >
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">
-                {number}
-              </p>
-              <h3 className="mt-14 text-lg font-semibold text-[var(--ink)]">
-                {title}
-              </h3>
-              <p className="mt-3 text-sm leading-6 text-[var(--ink-dim)]">
-                {body}
-              </p>
+            <div key={title} className="min-h-56 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{number}</p>
+              <h3 className="mt-14 text-lg font-semibold text-[var(--ink)]">{title}</h3>
+              <p className="mt-3 text-sm leading-6 text-[var(--ink-dim)]">{body}</p>
               <div className="mt-5 h-0.5 w-5 bg-[var(--sun)]" />
             </div>
           ))}
@@ -170,10 +130,7 @@ export default function GuardPage() {
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-3">
               {alphaCore.map((item) => (
-                <div
-                  key={item}
-                  className="min-h-32 border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase leading-6 tracking-[0.1em] text-[var(--ink-dim)]"
-                >
+                <div key={item} className="min-h-32 border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase leading-6 tracking-[0.1em] text-[var(--ink-dim)]">
                   {item}
                 </div>
               ))}
@@ -191,9 +148,7 @@ export default function GuardPage() {
             </h2>
             <div className="mt-10 border border-[var(--rule-2)] bg-[#0E1716]">
               <div className="border-b border-[var(--rule)] px-5 py-4">
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
-                  guard-alpha-redact
-                </p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">guard-alpha-redact</p>
               </div>
               <pre className="whitespace-pre-wrap break-words p-5 font-mono text-sm leading-7 text-[var(--ink-dim)]">
                 <code>{`go run ./cmd/guard-alpha-redact \\
@@ -221,10 +176,7 @@ browser interception is not active yet`}</code>
             </h2>
             <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
               {nonClaims.map((item) => (
-                <div
-                  key={item}
-                  className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--ink-dim)]"
-                >
+                <div key={item} className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--ink-dim)]">
                   {item}
                 </div>
               ))}
@@ -241,12 +193,7 @@ browser interception is not active yet`}</code>
               mcpscan is the current public project.
             </h2>
           </div>
-          <a
-            href={siteConfig.links.mcpscanRepo}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)] md:mt-0"
-          >
+          <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="mt-8 inline-flex bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)] md:mt-0">
             View mcpscan
           </a>
         </div>

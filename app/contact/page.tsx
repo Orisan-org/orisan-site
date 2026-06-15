@@ -5,24 +5,20 @@ import { pageMetadata, siteConfig, socialLinks } from "@/lib/constants";
 export const metadata: Metadata = {
   title: pageMetadata.contact.title,
   description: pageMetadata.contact.description,
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: "/contact" }
 };
 
 const contactLinks = [
   {
     label: "Email",
     value: siteConfig.email,
-    href: `mailto:${siteConfig.email}`,
+    href: `mailto:${siteConfig.email}`
   },
-  ...socialLinks,
+  ...socialLinks
 ];
 
 function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="max-w-[18rem] font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">
-      {children}
-    </p>
-  );
+  return <p className="max-w-[18rem] font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
 }
 
 export default function ContactPage() {
@@ -38,22 +34,13 @@ export default function ContactPage() {
             Reach out.
           </h1>
           <p className="mt-7 max-w-xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            Whether you are evaluating mcpscan, reviewing MCP server exposure,
-            or want to compare notes, we are listening.
+            Whether you are evaluating mcpscan, reviewing MCP server exposure, or want to compare notes, we are listening.
           </p>
           <div className="mt-10 grid border-l border-t border-[var(--rule)]">
             {contactLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="grid gap-1 border-b border-r border-[var(--rule)] p-4 transition hover:bg-[var(--bg-2)]"
-              >
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">
-                  {item.label}
-                </span>
-                <span className="break-words text-[var(--ink-dim)]">
-                  {item.value}
-                </span>
+              <a key={item.label} href={item.href} className="grid gap-1 border-b border-r border-[var(--rule)] p-4 transition hover:bg-[var(--bg-2)]">
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">{item.label}</span>
+                <span className="break-words text-[var(--ink-dim)]">{item.value}</span>
               </a>
             ))}
           </div>

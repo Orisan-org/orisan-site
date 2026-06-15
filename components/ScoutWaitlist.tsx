@@ -5,9 +5,7 @@ import { siteConfig } from "@/lib/constants";
 
 export function ScoutWaitlist() {
   const [submitted, setSubmitted] = useState(false);
-  const action = siteConfig.formspreeId
-    ? `https://formspree.io/f/${siteConfig.formspreeId}`
-    : `mailto:${siteConfig.email}`;
+  const action = siteConfig.formspreeId ? `https://formspree.io/f/${siteConfig.formspreeId}` : `mailto:${siteConfig.email}`;
 
   return (
     <form
@@ -37,9 +35,7 @@ export function ScoutWaitlist() {
         </button>
       </div>
       {submitted ? (
-        <p className="px-2 pt-4 text-sm text-[var(--sun)]">
-          Request received. We&apos;ll reach out about Scout access.
-        </p>
+        <p className="px-2 pt-4 text-sm text-[var(--sun)]">Request received. We&apos;ll reach out about Scout access.</p>
       ) : null}
     </form>
   );
