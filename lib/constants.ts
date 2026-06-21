@@ -1,176 +1,119 @@
+// Single source of truth for site content. Kept honest on purpose: only the
+// public org link is referenced (the individual product repos are private and
+// would 404 for visitors), no invented email, no unverified social accounts.
+
 export const siteConfig = {
   name: "Orisan",
   domain: "orisan.org",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://orisan.org",
-  email: "team@orisan.org",
-  tagline: "Alpha local-first MCP server security scanning.",
-  subtagline: "Alpha local-first security tooling for MCP server review.",
+  tagline: "Security tooling to see what your AI and agents do — and stop them when needed.",
   description:
-    "Orisan builds alpha local-first security tooling for teams reviewing MCP server exposure before AI agents connect.",
+    "Orisan builds local-first security tools for AI and MCP (Model Context Protocol). See what your AI agents can reach and do, and stop them when needed. mcpscan is the active project; the control plane is the direction.",
+  // Optional Formspree form id. When unset, the contact page points to GitHub
+  // instead of an invented email address.
   formspreeId: process.env.NEXT_PUBLIC_FORMSPREE_ID || "",
   links: {
     github: "https://github.com/Orisan-org",
-    mcpscanRepo: "https://github.com/Orisan-org/mcpscan",
-    scoutRepo:
-      process.env.NEXT_PUBLIC_SCOUT_REPO_URL ||
-      "https://github.com/Orisan-org/orisan-scout",
-    guardRepo:
-      process.env.NEXT_PUBLIC_GUARD_REPO_URL ||
-      "https://github.com/Orisan-org/orisan-guard",
-    linkedin: "https://linkedin.com/company/orisan",
-    twitter: "https://x.com/OrisanTeam",
-    facebook: "https://www.facebook.com/profile.php?id=61589315133319",
-    instagram: "https://instagram.com/orisanhq",
-    founderGithub: "",
-    founderLinkedin: "",
   },
 };
 
-export const mcpscanRelease = {
-  version: "v0.1.0-alpha.2",
-  url: `${siteConfig.links.mcpscanRepo}/releases/tag/v0.1.0-alpha.2`,
-  installCommands: [
+export const mcpscan = {
+  name: "mcpscan",
+  status: "Active · alpha (v0.1.0-alpha.2)",
+  tagline: "Local-first security scanner for MCP servers.",
+  description:
+    "mcpscan inspects an MCP server before you connect an AI agent to it. It enumerates the tools, resources, prompts, and metadata the server exposes, then runs deterministic checks — locally, with nothing uploaded.",
+  // The honest source-install path. Requires repository access while mcpscan is
+  // pre-publication (no PyPI, pipx, Homebrew, or curl|sh installer is claimed).
+  install: [
     "git clone https://github.com/Orisan-org/mcpscan",
     "cd mcpscan",
-    "python3 -m venv .venv",
-    "source .venv/bin/activate",
+    "python3 -m venv .venv && source .venv/bin/activate",
     'python -m pip install -e ".[dev]"',
     "mcpscan scan --command '<your MCP server command>'",
   ],
-  description:
-    "Alpha local-first security scanner for MCP servers. Enumerates tools, resources, prompts, and metadata, then runs deterministic checks without uploads.",
-  status: "Alpha software. Useful for local MCP server review and validation.",
+  note: "Alpha software, pre-publication. Source access is available to organizations on request — there is no public package or one-line installer yet.",
 };
 
-export const scoutRelease = {
-  version: "v0.2.0-alpha.2",
-  url: `${siteConfig.links.scoutRepo}/releases/tag/v0.2.0-alpha.2`,
-  installCommand: "curl -fsSL https://orisan.org/install | sh",
-  windowsInstallCommand: "irm https://orisan.org/install.ps1 | iex",
-  developerInstallCommand:
-    "go install github.com/Orisan-org/orisan-scout/cmd/orisan@v0.2.0-alpha.2",
-  macArm64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.2.0-alpha.2/orisan-scout_darwin_arm64.tar.gz`,
-  macAmd64Asset: `${siteConfig.links.scoutRepo}/releases/download/v0.2.0-alpha.2/orisan-scout_darwin_amd64.tar.gz`,
-  feedbackUrl: `${siteConfig.links.scoutRepo}/issues/new?template=alpha-feedback.yml`,
-  sampleReportUrl: "/scout/sample-report",
-  validateUrl: "/scout/validate",
-};
+// A small, representative slice of mcpscan output. Illustrative, not a live feed.
+export const sampleReport = `$ mcpscan scan --command "python -m my_mcp_server"
 
+  target        my_mcp_server (stdio)
+  protocol      MCP / 2025-06-18
+  enumerated    7 tools   3 resources   1 prompt
+
+  FINDING  MCP-TOOL-013   high
+    tool "run_shell" accepts an unconstrained command string
+    evidence: input schema has no allow-list or pattern (redacted)
+
+  FINDING  MCP-RES-004    medium
+    resource "files://" exposes the working directory tree
+
+  FINDING  MCP-META-002   low
+    server does not declare a tools list-changed capability
+
+  3 findings   payload_stored=false   no network egress
+  report written to ./mcpscan-report.json`;
+
+// The product lineup, each at its honest maturity. Only mcpscan is shipping.
+export const lineup = [
+  {
+    name: "mcpscan",
+    status: "Active · alpha",
+    summary: "Local-first security scanner for MCP servers. Enumerate and check a server before an agent connects.",
+  },
+  {
+    name: "Control Plane",
+    status: "Product direction",
+    summary: "The organizational layer: aggregate findings from the tools below, see what agents are doing, and stop them when needed.",
+  },
+  {
+    name: "Scout",
+    status: "In development",
+    summary: "Repo-level evidence of what an AI agent can read, run, or change before agentic work is approved.",
+  },
+  {
+    name: "Relay",
+    status: "In development",
+    summary: "Local-first mediation for agent tool calls — a checkpoint between an agent and the tools it invokes.",
+  },
+  {
+    name: "Review",
+    status: "In development",
+    summary: "Diff-aware review routing for AI-assisted changes to security-sensitive code.",
+  },
+  {
+    name: "Guard",
+    status: "Parked experiment",
+    summary: "Local protection for sensitive context handed to AI tools. Retained as background while focus stays on mcpscan.",
+  },
+];
+
+// Footer/contact: GitHub org only. No unverified social accounts, no invented email.
 export const socialLinks = [
-  {
-    label: "GitHub",
-    value: "github.com/Orisan-org",
-    href: siteConfig.links.github,
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/company/orisan",
-    href: siteConfig.links.linkedin,
-  },
-  {
-    label: "Twitter/X",
-    value: "@OrisanTeam",
-    href: siteConfig.links.twitter,
-  },
-  {
-    label: "Instagram",
-    value: "@orisanhq",
-    href: siteConfig.links.instagram,
-  },
-  {
-    label: "Facebook",
-    value: "Facebook page",
-    href: siteConfig.links.facebook,
-  },
+  { label: "GitHub", value: "github.com/Orisan-org", href: siteConfig.links.github },
 ];
 
 export const navigation = [
   { href: "/", label: "mcpscan" },
-  { href: siteConfig.links.mcpscanRepo, label: "GitHub" },
-  { href: mcpscanRelease.url, label: "Release" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: siteConfig.links.github, label: "GitHub" },
 ];
-
-export const mcpscanProduct = {
-  title: "mcpscan",
-  status: mcpscanRelease.version,
-  href: siteConfig.links.mcpscanRepo,
-  tagline: "Alpha local-first security scanner for MCP servers.",
-  description: mcpscanRelease.description,
-  preview:
-    "Alpha scanner for stdio and tested Streamable HTTP MCP servers before connecting them to AI agents. Findings use safe evidence and payload_stored=false.",
-  tags: ["MCP Security", "Local-first", "Deterministic Checks", "Alpha"],
-};
-
-export const scoutProduct = {
-  title: "Orisan Scout",
-  status: "Secondary community artifact",
-  href: "/scout",
-  tagline: "Repo-local approval artifact for AI-agent exposure.",
-  description:
-    "Orisan Scout uses deterministic local checks for repo-local MCP configuration risk and repo-level agent instruction risk, then explains what AI agents can read, execute, or change without uploading source code.",
-  preview:
-    "Scout helps teams understand where AI agents can act, what instructions they inherit, and which local configuration choices create exposure before agentic development is approved in a repository.",
-  tags: ["AI Security", "MCP", "Repository Risk", "Local-first"],
-};
-
-export const guardProduct = {
-  title: "Orisan Guard",
-  status: "Parked experiment",
-  href: "/guard",
-  tagline: "Parked sensitive-context handling experiment.",
-  description:
-    "Orisan Guard is a parked local experiment. It is not part of the current public story.",
-  preview:
-    "Guard is retained as portfolio context while Orisan focuses on mcpscan.",
-};
 
 export const pageMetadata = {
   home: {
-    title: "mcpscan | Alpha local-first security scanner for MCP servers",
+    title: "Orisan — local-first security for AI and MCP",
     description:
-      "mcpscan is an alpha MCP server scanner that audits locally, enumerates exposed tools, resources, prompts, and metadata, and emits deterministic findings before AI agents connect.",
+      "Orisan builds local-first security tools for AI and MCP. mcpscan, the active project, scans MCP servers before agents connect. The control plane is the direction.",
   },
   about: {
-    title: "About Orisan | Local-first MCP security tools",
+    title: "About — Orisan",
     description:
-      "Learn why Orisan is focused on local-first MCP server security review and why mcpscan is the current active project.",
-  },
-  scout: {
-    title: "Orisan Scout | Repo-local AI-agent approval artifact",
-    description:
-      "Orisan Scout produces a local approval artifact for MCP configuration risk and repo-level agent instruction risk without source upload.",
-  },
-  guard: {
-    title:
-      "Orisan Guard | Experimental sensitive-context handling for AI tools",
-    description:
-      "Orisan Guard is a parked Orisan experiment. mcpscan is the current active project.",
-  },
-  brief: {
-    title: "Archived Scout Alpha Brief | Orisan",
-    description:
-      "Archived Scout alpha brief. mcpscan is the current active Orisan project.",
-  },
-  runScout: {
-    title: "Archived Scout Runbook | Orisan",
-    description:
-      "Archived Scout-specific runbook. mcpscan is the current active Orisan project.",
-  },
-  sampleReport: {
-    title: "Archived Scout Sample Report | Orisan",
-    description:
-      "Archived Scout sample report retained as background. mcpscan is the current active Orisan project.",
-  },
-  validateScout: {
-    title: "Archived Scout Internal QA | Orisan",
-    description:
-      "Archived Scout QA note retained as background. mcpscan is the current active Orisan project.",
+      "What Orisan is building, how the open-core model works, and the honest maturity of each tool. Local-first, no telemetry, no data harvesting.",
   },
   contact: {
-    title: "Contact | Orisan",
-    description:
-      "Reach Orisan about mcpscan, MCP server security review, collaboration, or work.",
+    title: "Contact — Orisan",
+    description: "Reach Orisan about mcpscan, MCP server security, access, or collaboration.",
   },
 };

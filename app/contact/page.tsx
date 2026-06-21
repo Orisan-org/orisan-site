@@ -1,51 +1,47 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
-import { pageMetadata, siteConfig, socialLinks } from "@/lib/constants";
+import { pageMetadata, siteConfig } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: pageMetadata.contact.title,
   description: pageMetadata.contact.description,
-  alternates: { canonical: "/contact" }
 };
 
-const contactLinks = [
-  {
-    label: "Email",
-    value: siteConfig.email,
-    href: `mailto:${siteConfig.email}`
-  },
-  ...socialLinks
-];
-
-function Label({ children }: { children: React.ReactNode }) {
-  return <p className="max-w-[18rem] font-mono text-[11px] uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">{children}</p>;
-}
+const hasForm = Boolean(siteConfig.formspreeId);
 
 export default function ContactPage() {
   return (
-    <div className="bg-[var(--bg)] pt-16 text-[var(--ink)]">
-      <section className="container-shell grid gap-14 py-20 md:grid-cols-[0.9fr_1.1fr] md:py-28">
-        <div>
-          <div className="mb-7 flex items-center gap-4">
-            <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>Contact</Label>
-          </div>
-          <h1 className="max-w-3xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.04em]">
-            Reach out.
-          </h1>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-[var(--ink-dim)] md:text-xl">
-            Whether you are evaluating mcpscan, reviewing MCP server exposure, or want to compare notes, we are listening.
+    <div className="pt-16">
+      <section className="container-shell max-w-2xl py-20 md:py-28">
+        <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--ink-faint)]">Contact</p>
+        <h1 className="mt-5 text-4xl font-semibold leading-[1.1] tracking-[-0.02em]">Get in touch</h1>
+        <p className="mt-6 text-lg text-[var(--ink-dim)]">
+          Questions about mcpscan, MCP server security, access to the source, or collaboration — reach out through
+          GitHub. Everything Orisan builds lives under the organization there.
+        </p>
+
+        <div className="mt-10 border border-[var(--rule)] bg-[var(--bg-2)] p-6 md:p-8">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--sun)]">GitHub</p>
+          <a
+            href={siteConfig.links.github}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-block font-mono text-lg text-[var(--ink)] underline decoration-[var(--rule-2)] underline-offset-4 transition hover:decoration-[var(--sun)]"
+          >
+            github.com/Orisan-org
+          </a>
+          <p className="mt-4 text-sm text-[var(--ink-dim)]">
+            Open an issue or discussion on the relevant repository, or request access to mcpscan. We don&apos;t publish a
+            contact email — this keeps the path real instead of pointing at an inbox that isn&apos;t monitored.
           </p>
-          <div className="mt-10 grid border-l border-t border-[var(--rule)]">
-            {contactLinks.map((item) => (
-              <a key={item.label} href={item.href} className="grid gap-1 border-b border-r border-[var(--rule)] p-4 transition hover:bg-[var(--bg-2)]">
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">{item.label}</span>
-                <span className="break-words text-[var(--ink-dim)]">{item.value}</span>
-              </a>
-            ))}
-          </div>
         </div>
-        <ContactForm />
+
+        {hasForm ? (
+          <div className="mt-10">
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-[var(--ink-faint)]">Or send a message</p>
+            <ContactForm />
+          </div>
+        ) : null}
       </section>
     </div>
   );

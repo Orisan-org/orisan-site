@@ -1,82 +1,68 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { siteConfig } from "@/lib/constants";
-
-const display = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display"
-});
+import { pageMetadata, siteConfig } from "@/lib/constants";
 
 const body = Inter({
   subsets: ["latin"],
-  variable: "--font-body"
+  variable: "--font-body",
 });
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono"
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Orisan | Local-first security tooling for AI-assisted software development",
-    template: "%s"
+    default: pageMetadata.home.title,
+    template: "%s",
   },
   description: siteConfig.description,
-  alternates: {
-    canonical: "/"
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: "Orisan | Local-first security tooling for AI-assisted software development",
+    title: pageMetadata.home.title,
     description: siteConfig.description,
     url: siteConfig.url,
-    images: [
-      {
-        url: "/og-image.svg",
-        width: 1200,
-        height: 630,
-        alt: "Orisan - local-first security tooling for AI-assisted software development."
-      }
-    ]
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Orisan" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Orisan | Local-first security tooling for AI-assisted software development",
+    title: pageMetadata.home.title,
     description: siteConfig.description,
-    images: ["/og-image.svg"]
+    images: ["/og-image.svg"],
   },
-  robots: {
-    index: true,
-    follow: true
-  },
+  robots: { index: true, follow: true },
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" }
-    ],
-    shortcut: "/favicon.svg"
-  }
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: "/favicon.svg",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
-  initialScale: 1
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`${body.variable} ${mono.variable}`}>
       <body className="font-sans antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-[var(--ink)] focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:text-[var(--bg)]"
+        >
+          Skip to content
+        </a>
         <Header />
-        <main>{children}</main>
+        <main id="main">{children}</main>
         <Footer />
       </body>
     </html>

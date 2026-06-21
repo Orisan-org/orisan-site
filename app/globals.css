@@ -4,16 +4,17 @@
 
 :root {
   color-scheme: dark;
-  --bg: #141E1D;
-  --bg-2: #182423;
-  --ink: #ECE7DA;
+  --bg: #0F1311;          /* neutral, faintly warm dark */
+  --bg-2: #141917;
+  --ink: #ECE7DA;          /* warm off-white, not pure white */
   --ink-dim: #9DAAA5;
-  --ink-faint: #5E6E69;
-  --rule: rgba(236,231,218,0.10);
-  --rule-2: rgba(236,231,218,0.18);
-  --sun: #E8A02C;
-  --earth: #5B8AA6;
-  --grain-opacity: 0.035;
+  --ink-faint: #8B958F;
+  --rule: rgba(236, 231, 218, 0.10);
+  --rule-2: rgba(236, 231, 218, 0.18);
+  --sun: #E8A02C;          /* the one signal color: amber */
+  --amber-soft: rgba(232, 160, 44, 0.12);
+  --amber-border: rgba(232, 160, 44, 0.45);
+  --grain-opacity: 0.03;
 }
 
 * {
@@ -60,6 +61,7 @@ body {
   color: var(--ink);
 }
 
+/* Faint graph-paper grid — field-notebook texture, not decoration. */
 body::before {
   content: "";
   position: fixed;
