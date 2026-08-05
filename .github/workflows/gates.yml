@@ -1,0 +1,56 @@
+name: gates
+
+# The gates. An agent may not modify this file as part of a feature slice.
+# Changing a gate to make work pass is a process defect, not a fix.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+
+      - run: npm ci
+
+      - name: Types
+        run: npx tsc --noEmit
+
+      - name: Lint (design system enforcement)
+        run: npx next lint --max-warnings=0
+
+      - name: Build
+        run: npm run build
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Visual regression + design assertions
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-diff
+          path: test-results/
+          retention-days: 7
+
+  budget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci && npm run build
+      - name: Lighthouse budgets
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: http://localhost:3000/
+          startServerCommand: npm run start
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
