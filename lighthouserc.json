@@ -1,6 +1,13 @@
 {
   "ci": {
-    "collect": { "numberOfRuns": 3, "settings": { "preset": "desktop" } },
+    "collect": {
+      "numberOfRuns": 3,
+      "startServerCommand": "npm run start",
+      "startServerReadyPattern": "Ready in|Local:|started server on",
+      "startServerReadyTimeout": 60000,
+      "url": ["http://localhost:3000/"],
+      "settings": { "preset": "desktop" }
+    },
     "assert": {
       "assertions": {
         "categories:accessibility":   ["error", { "minScore": 1.0 }],
@@ -18,6 +25,7 @@
         "uses-responsive-images":     "error",
         "prefers-reduced-motion":     "off"
       }
-    }
+    },
+    "upload": { "target": "filesystem", "outputDir": ".lighthouseci" }
   }
 }
