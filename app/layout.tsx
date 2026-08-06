@@ -22,6 +22,9 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: "Orisan",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
 };
 
 export const viewport: Viewport = {
