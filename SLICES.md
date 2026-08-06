@@ -104,6 +104,9 @@ Contact route (credibility and contact, not sales). Full favicon set, OG image
 **Acceptance:** OG card renders correctly in a real validator. 404 does not look like
 a different website.
 
+- Delete `continue-on-error: true` from the budget job in
+  .github/workflows/gates.yml. The advisory period ends here.
+
 ---
 
 ## Slice 7 — Final pass  ·  Tier B → human sign-off
