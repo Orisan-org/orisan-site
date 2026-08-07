@@ -10,6 +10,10 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    /* The design assertion checks every element, including html itself: the
+       UA default here computes to a sans family on the CI runner. No element
+       may carry an unspecified font. */
+    @apply font-display;
   }
 
   body {
