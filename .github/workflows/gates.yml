@@ -81,13 +81,9 @@ jobs:
 
   budget:
     runs-on: ubuntu-latest
-    # ADVISORY UNTIL SLICE 6, THEN BLOCKING.
-    # The SEO assertion requires a meta description, and page metadata is not
-    # written until slice 6. Rather than delete the assertion (which hides the
-    # gap) or leave the job permanently red (which trains everyone to ignore it),
-    # this job reports without blocking, and slice 6's acceptance criteria
-    # include deleting this line. The obligation is recorded in SLICES.md.
-    continue-on-error: true
+    # Blocking since slice 6, as SLICES.md required. The advisory period ended
+    # when page metadata landed and Lighthouse measured 1.0 across all four
+    # categories.
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
