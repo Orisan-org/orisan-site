@@ -21,6 +21,9 @@ Agents may add rows with status `UNVERIFIED`. Only a human may set `VERIFIED`.
 | 9 | Terminal output shown on the page | proof section | Must be a verbatim copy of a real run, with the command and date recorded here | UNVERIFIED | — |
 | 10 | The reactor "safety control rod axe man" backronym | catastrophe spine marginalia | Disputed folklore. Use the imagery; do not assert the etymology as fact. | UNVERIFIED — do not assert | — |
 | 11 | Test counts, supported Python versions | anywhere | CI matrix must actually test every version claimed | STALE | — |
+| 12 | "mcpscan reads what a server exposes — tools, resources, prompts — and runs deterministic checks before an AI agent connects" | hero lede | Live fetch, pypi.org/pypi/orisan-mcpscan/json (2026-08-07): summary "an alpha, local-first security scanner for Model Context Protocol servers"; description "enumerates exposed tools/resources/prompts/metadata, runs deterministic checks, and emits terminal, JSON, or Markdown findings before an AI agent trusts that server". Cross-refs rows 3, 7. Deliberately omits transports (row 8). | VERIFIED (agent, live fetch per CLAUDE.md v2) | 2026-08-07 |
+| 13 | "On your machine, uploading nothing" | hero lede | Rows 5 and 6, human-verified 2026-08-04: payload_stored=false observed in live output; runs locally, uploads nothing. | VERIFIED (via rows 5–6) | 2026-08-07 |
+| 14 | Hero primary link: github.com/Orisan-org is Orisan's public GitHub organisation | hero link | Anonymous fetch 2026-08-07: org page loads publicly; public repo orisan-site ("Orisan website and Scout landing pages"). NOTE: PyPI 0.1.0 metadata links github.com/Orisan-org/mcpscan, which 404s anonymously — do not link product source anywhere until that repo is public; fix the URL in 0.1.1. | VERIFIED (agent, live fetch per CLAUDE.md v2) | 2026-08-07 |
 
 ## Rules
 - Version numbers, install commands, test counts and platform lists rot. Re-verify
