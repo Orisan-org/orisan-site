@@ -26,7 +26,9 @@ const config: Config = {
       ink: "#16150F",
       grey: {
         1: "#4A4740", // secondary text
-        2: "#807B70", // tertiary text, labels
+        2: "#6A665B", // tertiary text, labels. Darkened from #807B70 (3.67:1,
+        // failed WCAG AA for its own stated text purpose); now 5.00:1 on
+        // paper, 4.53:1 on paper-deep.
         3: "#B8B2A4", // BORDERS ONLY. Never text, fails contrast.
       },
       // Accents carry fixed meaning. Never choose one for looks.
