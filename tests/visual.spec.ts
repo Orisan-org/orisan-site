@@ -58,11 +58,21 @@ test("no banned visual properties are computed anywhere on the page", async ({ p
 test("body copy never exceeds the 62ch measure", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
   const tooWide = await page.evaluate(() => {
     const out: string[] = [];
     for (const p of Array.from(document.querySelectorAll("p"))) {
-      const cs = getComputedStyle(p);
-      const ch = parseFloat(cs.fontSize) * 0.5; // approx average char width for a serif
+      // Measure the real ch unit in this paragraph's font. The previous 0.5em
+      // approximation undershot Newsreader's actual ch (0.566em), so the
+      // system's own 62ch measure cap (~35em) tripped the 68-"char" limit
+      // (34em approx). A 1ch probe is exact by definition; the 68 threshold
+      // is unchanged.
+      const probe = document.createElement("span");
+      probe.style.position = "absolute";
+      probe.style.width = "1ch";
+      p.appendChild(probe);
+      const ch = probe.getBoundingClientRect().width;
+      probe.remove();
       if (p.getBoundingClientRect().width / ch > 68) out.push(p.textContent?.slice(0, 50) ?? "");
     }
     return out;
