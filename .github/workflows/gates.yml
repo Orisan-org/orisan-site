@@ -94,11 +94,23 @@ jobs:
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npm run build
-      - name: Lighthouse budgets
-        run: npx lhci autorun
+      # Split from `lhci autorun`: autorun runs assert before upload, so a
+      # failing assertion aborts the run and the filesystem report is never
+      # written — an advisory job that fails without preserving the evidence
+      # it exists to produce. Collect, then preserve, then judge.
+      - name: Lighthouse collect
+        run: npx lhci collect
+      - name: Preserve Lighthouse report
+        if: always()
+        run: npx lhci upload
+      - name: Lighthouse assert
+        run: npx lhci assert
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lighthouse-report
           path: .lighthouseci/
           retention-days: 7
+          # .lighthouseci is a dot-directory; upload-artifact@v4 treats its
+          # contents as hidden and silently uploads nothing without this.
+          include-hidden-files: true
