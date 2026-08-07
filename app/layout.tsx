@@ -21,7 +21,13 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Orisan",
+  metadataBase: new URL("https://orisan.org"),
+  title: {
+    default: "Orisan",
+    template: "%s — Orisan",
+  },
+  description:
+    "Local-first security instruments for AI agents. The first, mcpscan, reads what an MCP server exposes — tools, resources, prompts — before an agent connects.",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },

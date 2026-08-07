@@ -17,7 +17,7 @@ const VIEWPORTS = [
   { name: "desktop", width: 1440, height: 900 },
 ];
 
-const PAGES = ["/", "/components"]; // add routes as slices land
+const PAGES = ["/", "/components", "/contact", "/no-such-page-404-proof"]; // add routes as slices land; the last exercises not-found
 
 for (const page_ of PAGES) {
   for (const vp of VIEWPORTS) {
