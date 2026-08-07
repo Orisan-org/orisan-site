@@ -1,0 +1,92 @@
+import { test, expect } from "@playwright/test";
+
+/**
+ * VISUAL REGRESSION — the gate prose review cannot provide.
+ *
+ * Baselines in tests/__screenshots__/ are APPROVED ARTEFACTS.
+ * Agents must never regenerate them to make a test pass. If a diff is intended,
+ * state what changed and why, and let a human run `npm run baseline`.
+ *
+ * This catches the failure mode where every individual change is defensible and
+ * the cumulative result no longer looks like the brand.
+ */
+
+const VIEWPORTS = [
+  { name: "mobile",  width: 390,  height: 844 },
+  { name: "tablet",  width: 768,  height: 1024 },
+  { name: "desktop", width: 1440, height: 900 },
+];
+
+const PAGES = ["/"]; // add routes as slices land
+
+for (const page_ of PAGES) {
+  for (const vp of VIEWPORTS) {
+    test(`${page_} @ ${vp.name}`, async ({ page }) => {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+      await page.emulateMedia({ reducedMotion: "reduce" }); // deterministic: no animation mid-shot
+      await page.goto(page_);
+      await page.waitForLoadState("networkidle");
+      await page.evaluate(() => document.fonts.ready);
+      await expect(page).toHaveScreenshot(
+        `${page_.replace(/\//g, "_") || "_root"}-${vp.name}.png`,
+        { fullPage: true, maxDiffPixelRatio: 0.01, animations: "disabled" }
+      );
+    });
+  }
+}
+
+/** Design-system assertions. These fail loudly on drift the eye forgives. */
+test("no banned visual properties are computed anywhere on the page", async ({ page }) => {
+  await page.goto("/");
+  const violations = await page.evaluate(() => {
+    const bad: string[] = [];
+    for (const el of Array.from(document.querySelectorAll("*"))) {
+      const s = getComputedStyle(el);
+      const tag = el.tagName.toLowerCase() + (el.className ? "." + String(el.className).slice(0, 40) : "");
+      if (s.backgroundImage.includes("gradient")) bad.push(`gradient on ${tag}`);
+      if (s.boxShadow !== "none") bad.push(`box-shadow on ${tag}`);
+      if (s.backdropFilter && s.backdropFilter !== "none") bad.push(`backdrop-filter on ${tag}`);
+      const r = parseFloat(s.borderRadius);
+      if (r > 2 && r < 9999 && s.borderRadius !== "50%") bad.push(`border-radius ${s.borderRadius} on ${tag}`);
+      if (/inter|helvetica|arial|system-ui|-apple-system/i.test(s.fontFamily)) bad.push(`sans-serif on ${tag}`);
+    }
+    return Array.from(new Set(bad));
+  });
+  expect(violations, violations.join("\n")).toHaveLength(0);
+});
+
+test("body copy never exceeds the 62ch measure", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const tooWide = await page.evaluate(() => {
+    const out: string[] = [];
+    for (const p of Array.from(document.querySelectorAll("p"))) {
+      const cs = getComputedStyle(p);
+      const ch = parseFloat(cs.fontSize) * 0.5; // approx average char width for a serif
+      if (p.getBoundingClientRect().width / ch > 68) out.push(p.textContent?.slice(0, 50) ?? "");
+    }
+    return out;
+  });
+  expect(tooWide, tooWide.join(" | ")).toHaveLength(0);
+});
+
+test("every image has a decided alt state", async ({ page }) => {
+  await page.goto("/");
+  const missing = await page.evaluate(() =>
+    Array.from(document.querySelectorAll("img"))
+      .filter((i) => i.getAttribute("alt") === null)
+      .map((i) => i.getAttribute("src") ?? "unknown")
+  );
+  expect(missing, missing.join(", ")).toHaveLength(0);
+});
+
+test("the page is complete and correct with video disabled", async ({ page }) => {
+  await page.route("**/*.{mp4,webm}", (r) => r.abort());
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForLoadState("domcontentloaded");
+  await expect(page).toHaveScreenshot("root-desktop-novideo.png", {
+    fullPage: true,
+    maxDiffPixelRatio: 0.01,
+  });
+});

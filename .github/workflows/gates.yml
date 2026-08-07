@@ -1,0 +1,116 @@
+name: gates
+
+# The gates. An agent may not modify this file as part of a feature slice.
+# Changing a gate to make work pass is a process defect, not a fix.
+#
+# v3 — corrections proven by CI on PR #4, not by reasoning:
+#   * `next lint` was removed in Next 16. Uses the ESLint CLI directly.
+#     (v1 failed with: unknown option '--max-warnings=0')
+#   * treosh/lighthouse-ci-action does NOT accept `startServerCommand`, so the
+#     server never started and Lighthouse died on CHROME_INTERSTITIAL_ERROR.
+#     The action is dropped; lhci is driven directly and starts the server
+#     itself via lighthouserc.json.
+#   * `tsc --noEmit` before `build` was predicted to fail on a fresh checkout.
+#     It did not. Order kept build-first anyway (harmless, and correct if Next
+#     ever does start generating route types at build time), but noted as NOT
+#     load-bearing so nobody later mistakes it for a fix.
+
+on:
+  pull_request:
+  push:
+    branches: [main, launch]
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Types
+        run: npx tsc --noEmit
+
+      - name: Lint (design system enforcement)
+        run: npx eslint . --max-warnings=0
+
+      # Compiler-level proof that the theme was actually replaced.
+      # eslint-plugin-tailwindcss reads tailwind.config.ts on its own, so a clean
+      # lint run does not prove Tailwind itself honours the config.
+      #
+      # The positive control is the point: three "absent" results mean nothing if
+      # the grep is pointed at the wrong file. Asserting that a token we DO expect
+      # is present is what makes the absences meaningful.
+      - name: Assert default palette does not compile
+        run: |
+          set -e
+          CSS=$(find .next -name "*.css" -not -path "*/cache/*" | head -20)
+          if [ -z "$CSS" ]; then echo "FAIL: no built CSS found"; exit 1; fi
+          if ! grep -qiF "#F4EFE4" $CSS; then
+            echo "FAIL: positive control missing. The paper token is absent from"
+            echo "built CSS, so this grep proves nothing about what else is absent."
+            exit 1
+          fi
+          echo "ok: positive control present (#F4EFE4)"
+          for token in "oklch(0.623 0.214 259.815)" "#3b82f6" "rgb(59,130,246)"; do
+            if grep -qiF "$token" $CSS; then
+              echo "FAIL: Tailwind default blue-500 present in built CSS."
+              echo "The theme was NOT replaced at compile time."
+              exit 1
+            fi
+          done
+          echo "ok: default palette absent from built CSS"
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Visual regression + design assertions
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-diff
+          path: test-results/
+          retention-days: 7
+
+  budget:
+    runs-on: ubuntu-latest
+    # ADVISORY UNTIL SLICE 6, THEN BLOCKING.
+    # The SEO assertion requires a meta description, and page metadata is not
+    # written until slice 6. Rather than delete the assertion (which hides the
+    # gap) or leave the job permanently red (which trains everyone to ignore it),
+    # this job reports without blocking, and slice 6's acceptance criteria
+    # include deleting this line. The obligation is recorded in SLICES.md.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      # Split from `lhci autorun`: autorun runs assert before upload, so a
+      # failing assertion aborts the run and the filesystem report is never
+      # written — an advisory job that fails without preserving the evidence
+      # it exists to produce. Collect, then preserve, then judge.
+      - name: Lighthouse collect
+        run: npx lhci collect
+      - name: Preserve Lighthouse report
+        if: always()
+        run: npx lhci upload
+      - name: Lighthouse assert
+        run: npx lhci assert
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 7
+          # .lighthouseci is a dot-directory; upload-artifact@v4 treats its
+          # contents as hidden and silently uploads nothing without this.
+          include-hidden-files: true
