@@ -64,7 +64,7 @@ export default function ComponentsPage() {
           the floor held, raised, damage. On product pages it appears only
           beside real output — this reference row is the one exception.
         </p>
-        <ul className="flex list-none gap-4 p-0">
+        <ul className="flex list-none flex-wrap gap-4 p-0">
           {GRADES.map((g) => (
             <li key={g}>
               <GradeStamp grade={g} />
