@@ -17,7 +17,7 @@ const VIEWPORTS = [
   { name: "desktop", width: 1440, height: 900 },
 ];
 
-const PAGES = ["/"]; // add routes as slices land
+const PAGES = ["/", "/components"]; // add routes as slices land
 
 for (const page_ of PAGES) {
   for (const vp of VIEWPORTS) {

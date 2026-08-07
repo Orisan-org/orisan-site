@@ -96,6 +96,18 @@ const config: Config = {
 
     opacity: { 0: "0", 35: "0.35", 50: "0.5", 75: "0.75", 88: "0.88", 100: "1" },
 
+    // The margin rail's one layout: a fixed 190px editorial rail beside the
+    // measure (SLICES.md slice 1). No other grid template exists on the site.
+    gridTemplateColumns: {
+      rail: "190px minmax(0, 1fr)",
+    },
+
+    // The grade stamp's hand-stamped tilt (SLICES.md slice 1). Replacing the
+    // key deletes the default rotation scale: ±8deg is the only rotation.
+    rotate: {
+      8: "8deg",
+    },
+
     extend: {
       keyframes: {
         // The ONE permitted animation: the stop rule snapping into place.
