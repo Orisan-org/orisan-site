@@ -34,16 +34,19 @@ export default function Home() {
           <MarginRail
             note={
               <>
-                &ldquo;Quidquid id est, timeo Danaos et dona ferentis.&rdquo;
-                &mdash; Virgil, <cite>Aeneid</cite> II.49
+                The golem obeys the letter of its instruction, animated by a
+                word on paper and stopped only by taking that word back out.
+                In the oldest written telling it grew until it killed the man
+                who made it, in the act of being shut down.
               </>
             }
           >
             <p>
-              The oldest supply-chain story is a gift wheeled inside the walls
-              because refusing it felt rude. An MCP server arrives the same
-              way: useful, offered, and inside the agent&rsquo;s trust boundary
-              before anyone asks what it carries.
+              A servant that does exactly what it was told is not safe, only
+              faithful. The danger lives in the gap between what someone meant
+              and what they actually wrote down &mdash; and an MCP server
+              declares what it can do before it does any of it. That
+              declaration is the last moment reading it costs nothing.
             </p>
           </MarginRail>
         </div>
