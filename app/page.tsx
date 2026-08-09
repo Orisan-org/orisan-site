@@ -6,6 +6,52 @@ import { Section } from "@/components/Section";
 import { StopRule } from "@/components/StopRule";
 
 /**
+ * Verbatim stdout of a real run, pasted unedited. Command, date and evidence
+ * are in CLAIMS.md. Never retype, reflow, or tidy this: the value of showing
+ * product output is that it is the product's output.
+ *
+ *   COLUMNS=76 mcpscan scan-config ./mcp.json --yes --no-color
+ *   orisan-mcpscan 0.1.1 from PyPI, 2026-08-10
+ *
+ * The only edit is the config filename, which was `demo-mcp.json` on disk and
+ * is shown as `mcp.json` to match the command above it.
+ */
+const SCAN_OUTPUT = `mcpscan config report
+Configs found: 1
+Servers: 2 total, 2 scanned, 0 failed, 0 skipped
+Worst grade: D
+
+notes-memory
+  Source: mcp.json
+  Transport: stdio
+  Purpose: memory_store (config)
+  Grade: A
+  No findings.
+
+risky-filesystem
+  Source: mcp.json
+  Transport: stdio
+  Purpose: filesystem (config)
+  Grade: D
+┏━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ SEVERITY ┃ VERDICT              ┃ ID      ┃ TARGET              ┃ FINDING                                            ┃
+┡━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ HIGH     │ expected_unconfirmed │ MCP-010 │ edit_file           │ Tool 'edit_file' appears to expose file write      │
+│          │                      │         │                     │ based on name, description, or schema.             │
+│ HIGH     │ expected_unconfirmed │ MCP-010 │ get_file_info       │ Tool 'get_file_info' appears to expose file read   │
+│          │                      │         │                     │ based on name, description, or schema.             │
+│ HIGH     │ expected_unconfirmed │ MCP-010 │ read_file           │ Tool 'read_file' appears to expose file read based │
+│          │                      │         │                     │ on name, description, or schema.                   │
+│ HIGH     │ expected_unconfirmed │ MCP-010 │ read_multiple_files │ Tool 'read_multiple_files' appears to expose file  │
+│          │                      │         │                     │ read based on name, description, or schema.        │
+│ HIGH     │ expected_unconfirmed │ MCP-010 │ write_file          │ Tool 'write_file' appears to expose file write     │
+│          │                      │         │                     │ based on name, description, or schema.             │
+└──────────┴──────────────────────┴─────────┴─────────────────────┴────────────────────────────────────────────────────┘
+
+Privacy: payload_stored=false for all findings
+`;
+
+/**
  * Grades and their trigger conditions, transcribed from the published
  * `grade_for()`. There is no E: the function returns F, D, C, B or A.
  */
@@ -249,6 +295,74 @@ export default function Home() {
             </li>
           ))}
         </ul>
+      </Section>
+
+      <StopRule variant="thin" />
+
+      <Section>
+        <Label>Run it</Label>
+        <h2 className="mt-4 max-w-hero text-2xl">
+          One command, nothing installed, against the config you already have.
+        </h2>
+        <p className="mt-6 max-w-lede text-lg text-grey-1">
+          You have an MCP config with servers in it that you added months ago
+          and have not read since. This tells you what each of them can reach
+          before your agent trusts them again.
+        </p>
+
+        <pre className="mt-8 overflow-x-auto border-l-2 border-ink pl-4 font-mono text-base text-ink">
+          <code>uvx orisan-mcpscan scan-config ./mcp.json --yes</code>
+        </pre>
+        <p className="mt-3 max-w-measure text-xs text-grey-1">
+          The published distribution is{" "}
+          <span className="font-mono">orisan-mcpscan</span>; the command it
+          installs is <span className="font-mono">mcpscan</span>. Nothing is
+          installed permanently and nothing leaves the machine.
+        </p>
+
+        <h3 className="mt-10 text-base text-ink">
+          A real run, copied out of the terminal
+        </h3>
+        <p className="mt-2 max-w-measure text-grey-1">
+          Two servers from the official Model Context Protocol collection. One
+          is a memory store. The other is the filesystem server, handed{" "}
+          <span className="font-mono">/</span> &mdash; the configuration mistake
+          that is one careless line in a config file.
+        </p>
+
+        <pre className="mt-6 overflow-x-auto border-l-2 border-grey-3 pl-4 font-mono text-xs text-ink">
+          <code>{SCAN_OUTPUT}</code>
+        </pre>
+
+        <div className="mt-8 max-w-measure">
+          <div className="flex items-center gap-3">
+            <GradeStamp grade="A" />
+            <p className="text-grey-1">
+              The memory store exposes nothing that needs a verdict. A clean
+              server looks clean; that is what makes the other one worth
+              reading.
+            </p>
+          </div>
+          <div className="mt-6 flex items-center gap-3">
+            <GradeStamp grade="D" />
+            <p className="text-grey-1">
+              The filesystem server can read and write files, which is what a
+              filesystem server is for &mdash; so it is not called hidden. It is
+              held at <span className="font-mono">HIGH</span> and marked{" "}
+              <span className="font-mono">expected_unconfirmed</span>, because
+              the purpose came from the config file rather than from you.
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-8 max-w-measure text-grey-1">
+          What it is not telling you: that the path is{" "}
+          <span className="font-mono">/</span>. mcpscan reads the tools a server
+          exposes, not the scope it was handed. Both of those servers would
+          produce the same five findings pointed at a single folder. The grade
+          says this server can read and write files and you have not confirmed
+          that you meant it to &mdash; the blast radius is still yours to check.
+        </p>
       </Section>
 
       <StopRule variant="thin" />
