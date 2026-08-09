@@ -17,9 +17,19 @@ const VIEWPORTS = [
   { name: "desktop", width: 1440, height: 900 },
 ];
 
-const PAGES = ["/", "/components", "/contact", "/no-such-page-404-proof"]; // add routes as slices land; the last exercises not-found
+// Per-page screenshot tolerance. Content pages reflow whenever copy changes, so
+// a small ratio there is noise. /components is the design-system reference page,
+// where the whole point is that a component looks the way it is supposed to: an
+// entire grade stamp was removed once and passed under the 1% tolerance, because
+// one 32px mark is 0.07% of a tall page. That is what the tighter ratio catches.
+const PAGES = [
+  { path: "/", maxDiffPixelRatio: 0.01 },
+  { path: "/components", maxDiffPixelRatio: 0.001 },
+  { path: "/contact", maxDiffPixelRatio: 0.01 },
+  { path: "/no-such-page-404-proof", maxDiffPixelRatio: 0.01 },
+]; // add routes as slices land; the last exercises not-found
 
-for (const page_ of PAGES) {
+for (const { path: page_, maxDiffPixelRatio } of PAGES) {
   for (const vp of VIEWPORTS) {
     test(`${page_} @ ${vp.name}`, async ({ page }) => {
       await page.setViewportSize({ width: vp.width, height: vp.height });
@@ -29,7 +39,7 @@ for (const page_ of PAGES) {
       await page.evaluate(() => document.fonts.ready);
       await expect(page).toHaveScreenshot(
         `${page_.replace(/\//g, "_") || "_root"}-${vp.name}.png`,
-        { fullPage: true, maxDiffPixelRatio: 0.01, animations: "disabled" }
+        { fullPage: true, maxDiffPixelRatio, animations: "disabled" }
       );
     });
   }
