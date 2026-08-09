@@ -267,10 +267,12 @@ export default function Home() {
 
         <div className="mt-8 max-w-measure">
           <h3 className="text-base text-ink">
-            A well-behaved server can be graded F for doing its job
+            A well-behaved server can be graded{" "}
+            <span className="font-mono">F</span> for doing its job
           </h3>
           <p className="mt-2 text-grey-1">
-            When <span className="font-mono">mcpscan</span> works out a
+            When <span className="font-mono">mcpscan</span>{" "}
+            works out a
             server&rsquo;s purpose from the server&rsquo;s own metadata instead
             of from an explicit flag, it prints that purpose and then does not
             use it. Scanning a standard filesystem server with no flags, the
