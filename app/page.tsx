@@ -251,6 +251,65 @@ export default function Home() {
         </ul>
       </Section>
 
+      <StopRule variant="thin" />
+
+      <Section>
+        <Label>Status</Label>
+        <h2 className="mt-4 max-w-hero text-2xl">
+          Alpha, and here is what is broken.
+        </h2>
+        <p className="mt-6 max-w-lede text-lg text-grey-1">
+          Version 0.1.0 is published and it is alpha software. Two defects are
+          confirmed by running that published package, and both are listed here
+          rather than left for you to find at a worse moment. Fixes are in
+          flight for 0.1.1.
+        </p>
+
+        <div className="mt-8 max-w-measure">
+          <h3 className="text-base text-ink">
+            A well-behaved server can be graded F for doing its job
+          </h3>
+          <p className="mt-2 text-grey-1">
+            When <span className="font-mono">mcpscan</span> works out a
+            server&rsquo;s purpose from the server&rsquo;s own metadata instead
+            of from an explicit flag, it prints that purpose and then does not
+            use it. Scanning a standard filesystem server with no flags, the
+            header reads <span className="font-mono">Purpose: filesystem</span>{" "}
+            and <span className="font-mono">write_file</span> is still marked{" "}
+            <span className="font-mono">undeclared</span> and escalated to{" "}
+            <span className="font-mono">CRITICAL</span>, for a grade of{" "}
+            <span className="font-mono">F</span>. Passing the purpose explicitly
+            grades the same server <span className="font-mono">B</span>, with
+            the same tool marked{" "}
+            <span className="font-mono">expected_by_purpose</span>. What it
+            means for you: the plainest way to run it is the one that produces
+            false alarms, and the report contradicts its own header.
+          </p>
+        </div>
+
+        <div className="mt-6 max-w-measure">
+          <h3 className="text-base text-ink">
+            Remote scanning over Streamable HTTP fails on a clean install
+          </h3>
+          <p className="mt-2 text-grey-1">
+            The package does not pin the MCP SDK it depends on, and a newer SDK
+            renamed the function <span className="font-mono">mcpscan</span>{" "}
+            calls to open that connection. Installed fresh today, a scan against
+            an <span className="font-mono">http://</span> server cannot connect.
+            Scanning local stdio servers is unaffected: that path does not touch
+            the renamed function. What it means for you: only local scanning can
+            be relied on until the pin lands.
+          </p>
+        </div>
+
+        <p className="mt-8 max-w-measure text-grey-1">
+          This page carries no install command for the same reason it carries no
+          proof recording: 0.1.0 is not the version anyone should be told to
+          install, and a command that fails for most people is worse than no
+          command at all.
+        </p>
+      </Section>
+
       <StopRule />
     </>
   );
