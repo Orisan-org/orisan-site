@@ -326,8 +326,9 @@ export default function Home() {
         <p className="mt-2 max-w-measure text-grey-1">
           Two servers from the official Model Context Protocol collection. One
           is a memory store. The other is the filesystem server, handed{" "}
-          <span className="font-mono">/</span> &mdash; the configuration mistake
-          that is one careless line in a config file.
+          <span className="font-mono">/</span>{" "}
+          &mdash; the configuration mistake that is one careless line in a
+          config file.
         </p>
 
         <pre className="mt-6 overflow-x-auto border-l-2 border-grey-3 pl-4 font-mono text-xs text-ink">
