@@ -279,8 +279,8 @@ export default function Home() {
             plainest invocation. Scanning the same server with{" "}
             <span className="font-mono">0.1.1</span> and no flags now reads{" "}
             <span className="font-mono">Purpose: filesystem (invocation)</span>{" "}
-            and grades <span className="font-mono">B</span> &mdash; identical to
-            passing the purpose explicitly. The header and the verdict column no
+            and grades <span className="font-mono">B</span>{" "}
+            &mdash; identical to passing the purpose explicitly. The header and the verdict column no
             longer disagree.
           </p>
           <p className="mt-2 text-grey-1">
