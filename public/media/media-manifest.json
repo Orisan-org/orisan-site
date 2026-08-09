@@ -1,0 +1,15 @@
+[
+  {
+    "slug": "mcpscan-scan-config",
+    "kind": "terminal-recording",
+    "cast": "/media/mcpscan-scan-config.cast",
+    "gif": "/media/mcpscan-scan-config.gif",
+    "poster": "/media/mcpscan-scan-config-poster.png",
+    "alt": "A terminal. The command uvx orisan-mcpscan scan-config ./mcp.json --yes runs and prints a report: two servers scanned, worst grade D. The first server, notes-memory, is graded A with no findings. The second, risky-filesystem, is graded D above a table of five rows, each HIGH, each verdict expected_unconfirmed, each check MCP-010, naming the tools edit_file, get_file_info, read_file, read_multiple_files and write_file. The last line reads: Privacy: payload_stored=false for all findings.",
+    "recorded": "2026-08-10",
+    "tool": "orisan-mcpscan 0.1.1 from PyPI, run through uvx",
+    "pipeline": "asciinema 3 rec --cols 120 --rows 40, rendered with agg 1.9.0 --font-size 13 --theme asciinema",
+    "duration_seconds": 2.57,
+    "reenacted": false
+  }
+]
