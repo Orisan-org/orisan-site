@@ -42,6 +42,12 @@ test("no banned visual properties are computed anywhere on the page", async ({ p
     const bad: string[] = [];
     for (const el of Array.from(document.querySelectorAll("*"))) {
       const s = getComputedStyle(el);
+      // Elements that never get a box — <source>, <track> — return an entirely
+      // empty CSSStyleDeclaration, so every property reads "" and every check
+      // below fires on a value that does not exist. Skipping them polices
+      // nothing less: display:none elements still resolve fully ("none", not
+      // "") and stay checked.
+      if (!s.display) continue;
       const tag = el.tagName.toLowerCase() + (el.className ? "." + String(el.className).slice(0, 40) : "");
       if (s.backgroundImage.includes("gradient")) bad.push(`gradient on ${tag}`);
       if (s.boxShadow !== "none") bad.push(`box-shadow on ${tag}`);
