@@ -88,6 +88,13 @@ the generated stills and video land.
 **Acceptance:** the no-video Playwright test passes and the page still looks finished.
 Media budget holds. Reduced-motion path verified by hand.
 
+- **Per-asset inspection record in the PR.** This applies to any slice that commits
+  media, not just this one. For every asset: who looked at it, at full size,
+  confirming all four corners are clean. One line per asset, named individually — a
+  blanket "inspected the media" is not a record.
+- Deliberately no CI check on that record. The record is automatable; the looking is
+  not, and a gate on the record alone would certify inspections nobody did.
+
 ---
 
 ## Slice 5 — Proof  ·  HUMAN-GATED
