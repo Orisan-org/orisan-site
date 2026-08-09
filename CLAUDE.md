@@ -144,6 +144,10 @@ converts the gate into a formality. So:
 - **Poster first, video second.** Every video has a required `poster` still. The page
   must be complete and good-looking with video disabled entirely.
 - No text, letters, or logos inside any image or video. All type is HTML.
+- **No generated asset is committed until a human has inspected it at full size,
+  including all four corners, and the PR records that inspection.** Generator
+  watermarks appear in corners and survive resizing. This check cannot be automated,
+  so it must be scheduled.
 - Autoplay media is `muted loop playsinline preload="none"`, started by an
   IntersectionObserver, hidden under `prefers-reduced-motion` with the poster shown.
 - Media in `public/media/` is produced by `scripts/prep-media.sh`. Do not re-encode,
