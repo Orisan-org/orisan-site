@@ -20,11 +20,13 @@ const VIEWPORTS = [
 // Per-page screenshot tolerance. Content pages reflow whenever copy changes, so
 // a small ratio there is noise. /components is the design-system reference page,
 // where the whole point is that a component looks the way it is supposed to: an
-// entire grade stamp was removed once and passed under the 1% tolerance, because
-// one 32px mark is 0.07% of a tall page. That is what the tighter ratio catches.
+// entire grade stamp was removed once and passed under the 1% tolerance.
+// Measured, not estimated: that removal changes 1,137 of 3,114,720 pixels, a
+// ratio of 0.000365. 0.001 was tried first and still passed. 0.0001 catches it
+// with roughly 3x headroom for antialiasing noise.
 const PAGES = [
   { path: "/", maxDiffPixelRatio: 0.01 },
-  { path: "/components", maxDiffPixelRatio: 0.001 },
+  { path: "/components", maxDiffPixelRatio: 0.0001 },
   { path: "/contact", maxDiffPixelRatio: 0.01 },
   { path: "/no-such-page-404-proof", maxDiffPixelRatio: 0.01 },
 ]; // add routes as slices land; the last exercises not-found
