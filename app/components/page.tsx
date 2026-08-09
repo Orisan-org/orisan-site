@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const GRADES = ["A", "B", "C", "D", "E", "F"] as const;
+const GRADES = ["A", "B", "C", "D", "F"] as const;
 
 export default function ComponentsPage() {
   return (

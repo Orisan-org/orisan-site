@@ -1,16 +1,20 @@
-type Grade = "A" | "B" | "C" | "D" | "E" | "F";
+/**
+ * The grades mcpscan actually emits. There is no E: the published
+ * `grade_for()` returns F, D, C, B or A and nothing else, so a stamp for E
+ * would advertise a verdict the product cannot produce.
+ */
+type Grade = "A" | "B" | "C" | "D" | "F";
 
 /**
  * Colour is bound to meaning, never chosen for looks. SLICES.md anchors three
  * grades (A holding, D suspicion, F harm); neighbours share their band:
- * A-B the floor held, C-D raised, E-F damage.
+ * A-B the floor held, C-D raised, F damage.
  */
 const gradeColor: Record<Grade, string> = {
   A: "border-holding text-holding",
   B: "border-holding text-holding",
   C: "border-suspicion text-suspicion",
   D: "border-suspicion text-suspicion",
-  E: "border-harm text-harm",
   F: "border-harm text-harm",
 };
 
