@@ -1,6 +1,5 @@
 import { Label } from "@/components/Label";
 import { MarginRail } from "@/components/MarginRail";
-import { MediaOpener } from "@/components/MediaOpener";
 import { Section } from "@/components/Section";
 import { StopRule } from "@/components/StopRule";
 
@@ -42,7 +41,6 @@ export default function Home() {
               </>
             }
           >
-            <MediaOpener slug="from-c-motion-block-the-c-2" />
             <p>
               A servant that does exactly what it was told is not safe, only
               faithful. The danger lives in the gap between what someone meant
@@ -67,7 +65,6 @@ export default function Home() {
               </>
             }
           >
-            <MediaOpener slug="from-c-motion-block-the-n" />
             <p>
               The code had worked for years, on hardware that made its faults
               unobservable. When the interlocks went away, reading what the
@@ -91,7 +88,6 @@ export default function Home() {
               </>
             }
           >
-            <MediaOpener slug="style-hand-drawn-graphite-pen" />
             <p>
               Disputed or not, the image holds a truth: from the first
               criticality onward, someone stands ready to cut the connection.
