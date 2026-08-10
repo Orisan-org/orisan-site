@@ -76,7 +76,11 @@ const config: Config = {
       xl:    ["clamp(1.5rem, 1.2rem + 1.5vw, 2.1rem)", { lineHeight: "1.12", letterSpacing: "-0.025em" }],
       "2xl": ["clamp(2rem, 1.4rem + 3vw, 3.4rem)", { lineHeight: "1.04", letterSpacing: "-0.03em" }],
       "3xl": ["clamp(2.8rem, 1.9rem + 4.5vw, 5.4rem)", { lineHeight: "1", letterSpacing: "-0.035em" }],
-      "4xl": ["clamp(3.2rem, 1.9rem + 6.5vw, 6.8rem)", { lineHeight: "0.98", letterSpacing: "-0.035em" }],
+      // Steeper fluid curve than the other steps: the h1 is the only place four
+      // lines of display type can push the primary action off a 390px screen.
+      // Unchanged at 1440 (108.8px); 55.75px -> 44.1px at 390, which lifts the
+      // install command back above the fold without touching the sentence.
+      "4xl": ["clamp(2.6rem, 1.25rem + 6.2vw, 6.8rem)", { lineHeight: "0.98", letterSpacing: "-0.035em" }],
     },
 
     fontWeight: { normal: "400", medium: "500", semibold: "600" },
