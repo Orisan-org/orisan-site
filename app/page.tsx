@@ -180,6 +180,31 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="mt-9 border-t border-grey-4 pt-8">
+              <h3 className="max-w-hero text-xl font-semibold tracking-tight text-paper">
+                The approval you gave was for a name.
+              </h3>
+              <p className="mt-4 max-w-measure text-base text-grey-3">
+                A client that asks before connecting asks once, and what it asks about is a
+                server — not the five tools above. You approve a name against a list you have
+                not seen. The protocol then lets that list change underneath the approval: a
+                server declaring <span className="font-mono">listChanged</span> should send{" "}
+                <span className="font-mono">notifications/tools/list_changed</span> when its
+                tools change, and nothing requires the client to ask a second time.
+              </p>
+              <p className="mt-4 max-w-measure text-base text-grey-3">
+                That is the failure mode <span className="font-mono">MCP-002</span> was written
+                for. Hand a scan a previous report with{" "}
+                <span className="font-mono">--baseline</span> and mcpscan compares the tool
+                surface hash by hash, raising{" "}
+                <span className="font-mono">Tool definition drift</span> at{" "}
+                <span className="font-mono">HIGH</span> on anything that moved, with one
+                instruction: review the changed surface before trusting the server again. It is
+                the only check that cannot fire on a first run, because on a first run there is
+                nothing to have drifted from.
+              </p>
+            </div>
+
             <p className="mt-8 max-w-measure text-base text-grey-4">
               What it is not telling you: that the path is <span className="font-mono">/</span>.
               mcpscan reads the tools a server exposes, not the scope it was handed. A grade is
