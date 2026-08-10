@@ -131,6 +131,9 @@ const config: Config = {
     opacity: { 0: "0", 45: "0.45", 50: "0.5", 75: "0.75", 88: "0.88", 100: "1" },
 
     gridTemplateColumns: {
+      // The single-column state every card grid collapses to on a phone. Named
+      // for what it is rather than "1", so `grid-cols-stack` reads as a decision.
+      stack: "minmax(0, 1fr)",
       pair: "repeat(2, minmax(0, 1fr))",
       triad: "repeat(3, minmax(0, 1fr))",
       quartet: "repeat(4, minmax(0, 1fr))",
