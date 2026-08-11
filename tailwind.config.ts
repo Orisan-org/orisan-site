@@ -75,7 +75,11 @@ const config: Config = {
       lg:    ["clamp(1.1rem, 0.95rem + 0.75vw, 1.35rem)", { lineHeight: "1.5" }],
       xl:    ["clamp(1.5rem, 1.2rem + 1.5vw, 2.1rem)", { lineHeight: "1.12", letterSpacing: "-0.025em" }],
       "2xl": ["clamp(2rem, 1.4rem + 3vw, 3.4rem)", { lineHeight: "1.04", letterSpacing: "-0.03em" }],
-      "3xl": ["clamp(2.8rem, 1.9rem + 4.5vw, 5.4rem)", { lineHeight: "1", letterSpacing: "-0.035em" }],
+      // Floor and start lowered so the scale stays strictly ordered below 612px,
+      // where the steepened 4xl curve had overtaken it from underneath. Slope and
+      // ceiling unchanged; 4xl is deliberately untouched because Home's CTA
+      // depends on its current curve.
+      "3xl": ["clamp(2.2rem, 1.3rem + 4.5vw, 5.4rem)", { lineHeight: "1", letterSpacing: "-0.035em" }],
       // Steeper fluid curve than the other steps: the h1 is the only place four
       // lines of display type can push the primary action off a 390px screen.
       // Unchanged at 1440 (108.8px); 55.75px -> 44.1px at 390, which lifts the
