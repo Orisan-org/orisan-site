@@ -69,12 +69,12 @@ jobs:
 
           # Positive control: the paper token must be present in emitted form, so a
           # miss below means "absent", not "never compiled in the first place".
-          if ! grep -qiE "rgb\(244 239 228" $CSS; then
+          if ! grep -qiE "rgb\(250 250 249" $CSS; then
             echo "FAIL: positive control missing. The paper token is absent from"
             echo "built CSS, so this grep proves nothing about what else is absent."
             exit 1
           fi
-          echo "ok: positive control present (paper, rgb(244 239 228 ...))"
+          echo "ok: positive control present (paper, rgb(250 250 249 ...))"
 
           # Negative control: every form this Tailwind could emit for blue-500.
           for token in "rgb\(59 130 246" "rgb\(59,130,246" "#3b82f6" "oklch\(0\.623 0\.214 259\.815"; do
