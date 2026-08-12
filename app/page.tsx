@@ -189,7 +189,7 @@ export default function Home() {
                 server — not the five tools above. You approve a name against a list you have
                 not seen. The protocol then lets that list change underneath the approval: a
                 server declaring <span className="font-mono">listChanged</span> should send{" "}
-                <span className="font-mono">notifications/tools/list_changed</span> when its
+                <span className="break-words font-mono">notifications/tools/list_changed</span> when its
                 tools change, and nothing requires the client to ask a second time.
               </p>
               <p className="mt-4 max-w-measure text-base text-grey-3">
