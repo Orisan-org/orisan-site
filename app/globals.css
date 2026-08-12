@@ -50,6 +50,22 @@
     text-decoration-color: theme("colors.grey.3");
   }
 
+  /* Tailwind's preflight ships `::placeholder{color:#9ca3af}` — a default-palette
+     grey that survives replacing the theme, because preflight hardcodes it rather
+     than reading a token. It measures 2.21:1 on paper and 2.01:1 on paper-deep.
+     Nothing on the site renders a placeholder today, so nothing is unreadable yet;
+     this closes it before the first input exists rather than after.
+     grey-1 rather than a lighter grey: a placeholder is body text and the 7:1 bar
+     applies to it (8.08:1 on paper, 7.32:1 on paper-deep).
+     The selector matches preflight's element-qualified one deliberately: a bare
+     `::placeholder` loses to `input::placeholder` on specificity and silently
+     does nothing, which is how the first attempt at this failed. */
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-grey-1;
+    opacity: 1;
+  }
+
   /* Never remove. Focus visibility is an accessibility gate, checked in CI. */
   :focus-visible {
     outline: 2px solid theme("colors.suspicion");
