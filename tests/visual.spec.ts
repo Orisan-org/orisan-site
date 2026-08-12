@@ -26,6 +26,9 @@ const VIEWPORTS = [
 // with roughly 3x headroom for antialiasing noise.
 const PAGES = [
   { path: "/", maxDiffPixelRatio: 0.01 },
+  { path: "/product", maxDiffPixelRatio: 0.01 },
+  { path: "/gap", maxDiffPixelRatio: 0.01 },
+  { path: "/vision", maxDiffPixelRatio: 0.01 },
   { path: "/components", maxDiffPixelRatio: 0.0001 },
   { path: "/contact", maxDiffPixelRatio: 0.01 },
   { path: "/no-such-page-404-proof", maxDiffPixelRatio: 0.01 },
@@ -48,28 +51,74 @@ for (const { path: page_, maxDiffPixelRatio } of PAGES) {
 }
 
 /** Design-system assertions. These fail loudly on drift the eye forgives. */
-test("no banned visual properties are computed anywhere on the page", async ({ page }) => {
+// The three families the design system declares (tailwind.config.ts `fontFamily`).
+// Asserted positively: a page may compute these and nothing else.
+//
+// This replaced a denylist of forbidden family names on 2026-08-10. That list
+// checked for `inter|helvetica|arial|system-ui|-apple-system`, which meant a stack
+// of `"Some Grotesk", sans-serif` passed while being entirely sans-serif. A list of
+// what is forbidden can only ever be as complete as its author's imagination. A list
+// of what is permitted cannot have a hole in it.
+const PERMITTED_FONT_FAMILIES = ["Schibsted Grotesk", "JetBrains Mono", "Fraunces"];
+
+// Every value the radius scale can emit: none, sm, panel, feature, full.
+// Same reasoning. The previous check tested `> 2 && < 9999`, which permitted any
+// value in between by accident rather than by decision.
+const PERMITTED_RADII = ["0px", "2px", "20px", "32px", "9999px"];
+
+test("only permitted fonts, radii and visual properties compute anywhere on the page", async ({
+  page,
+}) => {
   await page.goto("/");
-  const violations = await page.evaluate(() => {
-    const bad: string[] = [];
-    for (const el of Array.from(document.querySelectorAll("*"))) {
-      const s = getComputedStyle(el);
-      // Elements that never get a box — <source>, <track> — return an entirely
-      // empty CSSStyleDeclaration, so every property reads "" and every check
-      // below fires on a value that does not exist. Skipping them polices
-      // nothing less: display:none elements still resolve fully ("none", not
-      // "") and stay checked.
-      if (!s.display) continue;
-      const tag = el.tagName.toLowerCase() + (el.className ? "." + String(el.className).slice(0, 40) : "");
-      if (s.backgroundImage.includes("gradient")) bad.push(`gradient on ${tag}`);
-      if (s.boxShadow !== "none") bad.push(`box-shadow on ${tag}`);
-      if (s.backdropFilter && s.backdropFilter !== "none") bad.push(`backdrop-filter on ${tag}`);
-      const r = parseFloat(s.borderRadius);
-      if (r > 2 && r < 9999 && s.borderRadius !== "50%") bad.push(`border-radius ${s.borderRadius} on ${tag}`);
-      if (/inter|helvetica|arial|system-ui|-apple-system/i.test(s.fontFamily)) bad.push(`sans-serif on ${tag}`);
-    }
-    return Array.from(new Set(bad));
-  });
+  await page.evaluate(() => document.fonts.ready);
+  const violations = await page.evaluate(
+    ({ families, radii }) => {
+      /** The family a stack actually asks for: the first entry, unquoted. */
+      const declaredFamily = (stack: string) =>
+        (stack.split(",")[0] ?? "").trim().replace(/^["']|["']$/g, "");
+
+      /** Every length in a radius, across shorthand corners and the elliptical `/` form. */
+      const radiusParts = (value: string) =>
+        value
+          .split("/")
+          .flatMap((side) => side.trim().split(/\s+/))
+          .filter(Boolean);
+
+      const bad: string[] = [];
+      for (const el of Array.from(document.querySelectorAll("*"))) {
+        const s = getComputedStyle(el);
+        // Elements that never get a box — <source>, <track> — return an entirely
+        // empty CSSStyleDeclaration, so every property reads "" and every check
+        // below fires on a value that does not exist. Skipping them polices
+        // nothing less: display:none elements still resolve fully ("none", not
+        // "") and stay checked.
+        if (!s.display) continue;
+        const tag =
+          el.tagName.toLowerCase() + (el.className ? "." + String(el.className).slice(0, 40) : "");
+
+        // Held bans. Neither is released by the design import.
+        if (s.backgroundImage.includes("gradient")) bad.push(`gradient on ${tag}`);
+        if (s.boxShadow !== "none") bad.push(`box-shadow on ${tag}`);
+        if (s.backdropFilter && s.backdropFilter !== "none") {
+          bad.push(`backdrop-filter on ${tag}`);
+        }
+
+        // Released bans, now allowlists.
+        const family = declaredFamily(s.fontFamily);
+        if (family && !families.includes(family)) {
+          bad.push(`font-family "${family}" on ${tag} is not a declared family`);
+        }
+        for (const part of radiusParts(s.borderRadius)) {
+          if (!radii.includes(part)) {
+            bad.push(`border-radius ${s.borderRadius} on ${tag} is not a token radius`);
+            break;
+          }
+        }
+      }
+      return Array.from(new Set(bad));
+    },
+    { families: PERMITTED_FONT_FAMILIES, radii: PERMITTED_RADII },
+  );
   expect(violations, violations.join("\n")).toHaveLength(0);
 });
 

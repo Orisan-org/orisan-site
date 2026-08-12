@@ -1,125 +1,164 @@
 import type { Config } from "tailwindcss";
 
 /**
- * ORISAN DESIGN SYSTEM
+ * ORISAN DESIGN SYSTEM  —  design import, 2026-08-10
  *
  * This REPLACES the Tailwind theme. It does not extend it.
  *
  * Consequence, and the entire point: `bg-blue-500`, `rounded-2xl`, `shadow-lg`,
- * `font-sans`, `p-[13px]` and every other generic utility DO NOT EXIST. They fail
- * to compile. The design system is enforced by the compiler, not by good intentions.
+ * `p-[13px]` and every other generic utility DO NOT EXIST. They fail to compile.
+ * The design system is enforced by the compiler, not by good intentions.
  *
- * Do not add keys to make a component work. If a value is missing, that is a design
- * decision for a human.
+ * Every value below is the design's own value. Where a design value could not be
+ * adopted, the reason is on the line, and it is always one of exactly two:
+ * a CLAUDE.md ban, or the 7:1 body-contrast gate.
  */
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
-    // ---- COLOUR: paper, ink, three greys, four meaning-carrying accents ----
     colors: {
       transparent: "transparent",
       current: "currentColor",
+
+      // Ground and ceiling.
       paper: {
         DEFAULT: "#F4EFE4",
-        deep: "#EBE4D6",
+        deep: "#EBE4D6", // raised card on paper
+        edge: "#EBDBCB", // selection only; the one place paper goes warmer
       },
-      ink: "#16150F",
+      ink: {
+        DEFAULT: "#16150F",
+        deep: "#0E0D09", // terminal ground: darker than ink so product output recedes
+      },
+
       grey: {
-        1: "#4A4740", // secondary text
-        2: "#6A665B", // tertiary text, labels. Darkened from #807B70 (3.67:1,
-        // failed WCAG AA for its own stated text purpose); now 5.00:1 on
-        // paper, 4.53:1 on paper-deep.
-        3: "#B8B2A4", // BORDERS ONLY. Never text, fails contrast.
+        1: "#4A4740", // secondary text on paper.        8.08:1 / 7.32:1 on deep
+        2: "#6A665B", // labels and meta on paper.       5.00:1 — never body copy
+        3: "#B8B2A4", // borders on paper; body text on ink, where it is 8.66:1
+        4: "#A6A299", // meta on ink. Design had #8B867A (5.04:1); lightened to 7.18:1
       },
-      // Accents carry fixed meaning. Never choose one for looks.
+
+      // The brand's own colour. It means "Orisan is present here" — the eyebrow,
+      // the dot in the wordmark, the stop. It is never a status.
+      orisan: {
+        mark: "#C2472E", // shapes, rules, dots. Design value, exact. Never carries type.
+        type: "#802F1E", // the same hue and saturation, darkened 34% so it can be read.
+        // Design used #C2472E for type at 4.32:1. Same colour at eyebrow scale,
+        // 7.82:1 on paper and 7.08:1 on paper-deep.
+        inverse: "#D68F7D", // the same again for type on ink. Design #C96A52 was 4.94:1.
+      },
+
+      // Status accents. Fixed meaning, never chosen for looks.
       harm: "#C4796C",      // damage, the thing that already went wrong
       holding: "#7E9070",   // the floor held, all clear
       watching: "#7D95AC",  // observation, discovery
       suspicion: "#B08A45", // raised, not yet stopped
     },
 
-    // ---- TYPE: no sans-serif exists on this site ----
     fontFamily: {
-      display: ["var(--font-newsreader)", "Iowan Old Style", "Palatino", "Georgia", "serif"],
+      // The design's voice. Replaces Newsreader across the site.
+      display: ["var(--font-schibsted)", "system-ui", "sans-serif"],
+      // Quotation and the founder's voice. Italic only.
+      alt: ["var(--font-fraunces)", "Georgia", "serif"],
+      // The product's own vocabulary: grades, check IDs, commands, file paths.
       mono: ["var(--font-jetbrains)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
-      alt: ["var(--font-fraunces)", "var(--font-newsreader)", "serif"], // drop caps + marginalia ONLY
     },
 
-    // ---- SCALE: 1.25 ratio, fluid. No other sizes exist. ----
+    // The design's ten sizes. Its 22 literal px values collapse into these; the
+    // largest resulting shift is 2px, which is below the threshold of noticing.
     fontSize: {
-      xs:   ["clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem)", { lineHeight: "1.5" }],
-      base: ["clamp(1rem, 0.96rem + 0.2vw, 1.0625rem)",     { lineHeight: "1.6" }],
-      lg:   ["clamp(1.25rem, 1.18rem + 0.35vw, 1.375rem)",  { lineHeight: "1.5" }],
-      xl:   ["clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem)",   { lineHeight: "1.25" }],
-      "2xl":["clamp(2rem, 1.7rem + 1.5vw, 2.75rem)",        { lineHeight: "1.1" }],
-      "3xl":["clamp(2.75rem, 2rem + 3.6vw, 5rem)",          { lineHeight: "1.06", letterSpacing: "-0.02em" }],
-      "4xl":["clamp(3.5rem, 2.2rem + 6vw, 7rem)",           { lineHeight: "1.0",  letterSpacing: "-0.03em" }],
+      micro: ["0.65625rem", { lineHeight: "1.6", letterSpacing: "0.16em" }], // mono footer/meta
+      label: ["0.6875rem", { lineHeight: "1.6", letterSpacing: "0.22em" }],  // mono eyebrow
+      xs:    ["0.8125rem", { lineHeight: "1.55" }],
+      sm:    ["0.96875rem", { lineHeight: "1.55" }],
+      base:  ["1.0625rem", { lineHeight: "1.55" }],
+      lg:    ["clamp(1.1rem, 0.95rem + 0.75vw, 1.35rem)", { lineHeight: "1.5" }],
+      xl:    ["clamp(1.5rem, 1.2rem + 1.5vw, 2.1rem)", { lineHeight: "1.12", letterSpacing: "-0.025em" }],
+      "2xl": ["clamp(2rem, 1.4rem + 3vw, 3.4rem)", { lineHeight: "1.04", letterSpacing: "-0.03em" }],
+      // Floor and start lowered so the scale stays strictly ordered below 612px,
+      // where the steepened 4xl curve had overtaken it from underneath. Slope and
+      // ceiling unchanged; 4xl is deliberately untouched because Home's CTA
+      // depends on its current curve.
+      "3xl": ["clamp(2.2rem, 1.3rem + 4.5vw, 5.4rem)", { lineHeight: "1", letterSpacing: "-0.035em" }],
+      // Steeper fluid curve than the other steps: the h1 is the only place four
+      // lines of display type can push the primary action off a 390px screen.
+      // Unchanged at 1440 (108.8px); 55.75px -> 44.1px at 390, which lifts the
+      // install command back above the fold without touching the sentence.
+      "4xl": ["clamp(2.6rem, 1.25rem + 6.2vw, 6.8rem)", { lineHeight: "0.98", letterSpacing: "-0.035em" }],
     },
 
-    fontWeight: { light: "300", normal: "400", medium: "500", semibold: "600" },
+    fontWeight: { normal: "400", medium: "500", semibold: "600" },
 
     letterSpacing: {
-      tight: "-0.02em",
+      tight: "-0.03em",  // display headings
       normal: "0",
-      label: "0.16em", // uppercase mono labels only
+      label: "0.22em",   // uppercase mono eyebrows
+      meta: "0.16em",    // uppercase mono footer and captions
     },
 
-    // ---- SPACE: 4px base. Nothing between steps. Ever. ----
+    // 4px ladder, complete. Steps widen as they grow, which is what the design does.
+    // Its 32 off-scale values snap here with a maximum error of 4px.
     spacing: {
-      0: "0",
-      1: "0.25rem", 2: "0.5rem",  3: "0.75rem", 4: "1rem",
-      5: "1.5rem",  6: "2rem",    7: "3rem",    8: "4rem",
-      9: "6rem",   10: "8rem",   11: "12rem",
-      px: "1px",
+      0: "0", px: "1px",
+      1: "0.25rem",  2: "0.5rem",   3: "0.75rem",  4: "1rem",     5: "1.25rem",
+      6: "1.5rem",   7: "1.75rem",  8: "2rem",     9: "2.25rem",  10: "2.5rem",
+      11: "3rem",    12: "3.5rem",  13: "4rem",    14: "4.5rem",  15: "5rem",
+      16: "6rem",    17: "7rem",    18: "8rem",    19: "10rem",   20: "12rem",
     },
 
-    borderWidth: { DEFAULT: "1px", 0: "0", 2: "2px", 14: "14px" },
+    borderWidth: { DEFAULT: "1px", 0: "0", 2: "2px", 3: "3px", 14: "14px" },
 
-    // ---- Circles only. There is no soft-corner aesthetic here. ----
-    borderRadius: { none: "0", sm: "2px", full: "9999px" },
+    // The design is built on soft panels. Two radii carry it; everything between
+    // 14px and 26px in the mockups resolves to `panel`.
+    borderRadius: {
+      none: "0",
+      sm: "2px",      // hairline detail
+      panel: "1.25rem",  // cards, buttons, terminal chrome
+      feature: "2rem",   // the large dark full-width panels
+      full: "9999px",    // pills and circles
+    },
 
-    // ---- Deleted on purpose. Depth is created by rule weight and space. ----
+    // Still deleted. The design's `inset 0 -1px 0` hairlines are real borders.
     boxShadow: { none: "none" },
-    backgroundImage: {},   // kills bg-gradient-to-*
+    backgroundImage: {},
     dropShadow: {},
     blur: {},
     backdropBlur: {},
 
     maxWidth: {
-      measure: "62ch",   // body copy cap
-      wrap: "1120px",
-      hero: "16ch",
+      measure: "62ch",  // body copy cap, gated
       lede: "52ch",
+      hero: "18ch",
+      wrap: "1200px",   // the design's wrap. Was 1120px.
       none: "none",
       full: "100%",
     },
 
-    screens: { sm: "640px", md: "768px", lg: "900px", xl: "1120px" },
+    screens: { sm: "640px", md: "768px", lg: "900px", xl: "1200px" },
 
-    opacity: { 0: "0", 35: "0.35", 50: "0.5", 75: "0.75", 88: "0.88", 100: "1" },
+    opacity: { 0: "0", 45: "0.45", 50: "0.5", 75: "0.75", 88: "0.88", 100: "1" },
 
-    // The margin rail's one layout: a fixed 190px editorial rail beside the
-    // measure (SLICES.md slice 1). No other grid template exists on the site.
     gridTemplateColumns: {
-      rail: "190px minmax(0, 1fr)",
+      // The single-column state every card grid collapses to on a phone. Named
+      // for what it is rather than "1", so `grid-cols-stack` reads as a decision.
+      stack: "minmax(0, 1fr)",
+      pair: "repeat(2, minmax(0, 1fr))",
+      triad: "repeat(3, minmax(0, 1fr))",
+      quartet: "repeat(4, minmax(0, 1fr))",
+      rail: "190px minmax(0, 1fr)", // the editorial margin rail
+      verdict: "minmax(0, 1fr) minmax(0, 11rem)", // finding row: body beside its grade
     },
 
-    // The grade stamp's hand-stamped tilt (SLICES.md slice 1). Replacing the
-    // key deletes the default rotation scale: ±8deg is the only rotation.
-    rotate: {
-      8: "8deg",
-    },
+    rotate: { 8: "8deg" },
 
     extend: {
       keyframes: {
-        // The ONE permitted animation: the stop rule snapping into place.
         drop: { from: { transform: "scaleX(0)" }, to: { transform: "scaleX(1)" } },
       },
       animation: { drop: "drop 0.5s cubic-bezier(0.2,0.9,0.1,1) both" },
     },
   },
   corePlugins: {
-    // Turn off the plugins whose mere existence invites the generic look.
     gradientColorStops: false,
     boxShadowColor: false,
     ringWidth: false,

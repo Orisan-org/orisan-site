@@ -71,15 +71,55 @@ utility classes do not exist.
   a slice, stop: that is a sign the design is being redesigned by accident.
 
 ### Banned outright
-Gradients. Box shadows. Border radius other than `none`, `sm` (2px), and `full`
-(circles only). Any sans-serif, including Inter. Emoji. Icon libraries. Centered body
-copy. Glassmorphism, backdrop blur. Scroll-triggered fade-ins. Anything that pulses,
-floats, or bounces. Dark mode (not in v1, do not add it speculatively).
+Gradients. Box shadows. Emoji. Icon libraries. Centered body copy. Glassmorphism,
+backdrop blur. Scroll-triggered fade-ins. Anything that pulses, floats, or bounces.
+Dark mode (not in v1, do not add it speculatively).
+
+### Decision record — the design import, 2026-08-10
+
+The design direction changed. Two bans were **released** and two of the four
+animation and blur bans were **argued and held**. This is a decision, not an
+erosion, and it is written down so that is legible later.
+
+**Released, and replaced by allowlists rather than deleted:**
+
+- *"Any sans-serif, including Inter."* Released. The design is set in Schibsted
+  Grotesk; there is no version of it that is not sans.
+- *"Border radius other than `none`, `sm` (2px), and `full`."* Released. The design
+  is built on soft panels between 14px and 32px.
+
+Both assertions in `tests/visual.spec.ts` were rewritten as **positive allowlists**:
+`PERMITTED_FONT_FAMILIES` and `PERMITTED_RADII`. This matters more than the release
+itself. The old font check was a denylist of names (`inter|helvetica|arial|system-ui`)
+and had a hole — a stack of `"Some Grotesk", sans-serif` passed it while being
+entirely sans-serif. The old radius check tested `> 2 && < 9999`, permitting
+everything in between by accident. A denylist is only as complete as its author's
+imagination. **The gate is stronger after this change than before it**, and any new
+family or radius must now be added to the list deliberately.
+
+**Held, and why:**
+
+- **Gradients and box shadows stay banned.** The design needs neither. Its
+  `inset 0 -1px 0` hairlines are real borders and its `inset 0 0 0 1px` rings are
+  real borders. Same pixels, permitted mechanism.
+- **Floating hero particles: rejected.** Looping decoration carrying no meaning.
+- **Scroll-triggered fade-ins: rejected** at the ~80 elements the design applies them
+  to. Fewer than five deliberate reveals may be proposed individually.
+- **Backdrop blur: rejected.** Sticky headers use solid `paper` with a hairline
+  border. Blur may be re-proposed only with evidence that the header text clears 7:1
+  over every section it scrolls past.
+
+**Granted, scoped:**
+
+- **The blinking caret is permitted, in the terminal replay only.** It is the one
+  place a pulse carries meaning: it marks a live shell. It may not appear anywhere
+  else, and the `prefers-reduced-motion` block in `globals.css` still stops it
+  absolutely.
 
 ### Required
-- **Type:** `font-display` (Newsreader) and `font-mono` (JetBrains Mono) only.
-  `font-alt` (Fraunces) for the drop cap and marginalia only. There is no sans on
-  this site.
+- **Type:** `font-display` (Schibsted Grotesk) and `font-mono` (JetBrains Mono).
+  `font-alt` (Fraunces) for quotation and the founder's voice, italic only. Three
+  families, and `tests/visual.spec.ts` permits exactly those three.
 - **Mono is reserved** for the product's own vocabulary: check IDs, grades, findings,
   commands, file paths. Never decorative.
 - **Measure:** body copy capped at 62ch via `max-w-measure`.

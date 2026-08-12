@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, JetBrains_Mono, Fraunces } from "next/font/google";
+import { Schibsted_Grotesk, JetBrains_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const newsreader = Newsreader({
+// Self-hosted by next/font. The design files load these from Google's CDN; the
+// site does not make third-party requests (CLAIMS.md row 19).
+const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
-  variable: "--font-newsreader",
+  variable: "--font-schibsted",
   display: "swap",
 });
 
@@ -42,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${jetbrains.variable} ${fraunces.variable}`}
+      className={`${schibsted.variable} ${jetbrains.variable} ${fraunces.variable}`}
     >
       <body>
         <main>{children}</main>

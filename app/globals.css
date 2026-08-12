@@ -23,7 +23,9 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Paper grain. Generated, not photographed: zero network cost, zero licensing. */
+  /* Paper grain. Generated, not photographed: zero network cost, zero licensing.
+     Kept: the design's flat #F4EFE4 reads as a screen; the grain is what makes it
+     paper, and it is the one thing carried forward from the previous system. */
   body::before {
     content: "";
     position: fixed;
@@ -35,8 +37,10 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
   }
 
+  /* The design sets headings at 500/600. The serif that justified font-normal is
+     gone; Schibsted Grotesk carries its display sizes at semibold. */
   h1, h2, h3, h4 {
-    @apply font-normal tracking-tight;
+    @apply font-semibold tracking-tight;
   }
 
   p {
@@ -48,6 +52,11 @@
     text-underline-offset: 0.22em;
     text-decoration-thickness: 1px;
     text-decoration-color: theme("colors.grey.3");
+  }
+
+  /* The design's hover. orisan.type rather than orisan.mark: this is type. */
+  a:hover {
+    color: theme("colors.orisan.type");
   }
 
   /* Tailwind's preflight ships `::placeholder{color:#9ca3af}` — a default-palette
@@ -74,13 +83,13 @@
 
   /* Never remove. Focus visibility is an accessibility gate, checked in CI. */
   :focus-visible {
-    outline: 2px solid theme("colors.suspicion");
+    outline: 2px solid theme("colors.orisan.type");
     outline-offset: 3px;
   }
 
   ::selection {
-    background: theme("colors.suspicion");
-    color: theme("colors.paper.DEFAULT");
+    background: theme("colors.paper.edge");
+    color: theme("colors.ink.DEFAULT");
   }
 }
 
