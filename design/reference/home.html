@@ -547,11 +547,6 @@ nav .lk a:hover{color:var(--txd)}
 .shipsec{padding:clamp(80px,11vw,150px) 0 0}
 .ship-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(30px,5vw,72px);align-items:start}
 @media(max-width:980px){.ship-grid{grid-template-columns:1fr}}
-.gradebox{display:flex;align-items:center;gap:28px;margin:34px 0 6px}
-.grade{font-family:var(--mono);font-weight:500;font-size:clamp(6rem,15vw,11rem);line-height:.8;
-       letter-spacing:-.06em;color:var(--stopped)}
-.gradebox .meta .eyebrow{margin-bottom:8px}
-.gradebox .meta div{font-size:.9rem;color:var(--tx2d);line-height:1.7}
 .termcap{font-family:var(--mono);font-size:.7rem;color:#8A8A86;margin-top:12px;letter-spacing:.03em}
 /* ── terminal recording component (from orisan-terminal-component) ── */
 .rsplit{display:grid;grid-template-columns:1fr;gap:2px;background:var(--rule-d);
@@ -856,15 +851,7 @@ footer .mono{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;colo
         <span class="eyebrow">Shipping now · mcpscan</span>
         <h2 class="d3" style="margin-top:20px;max-width:16ch;color:var(--txd)">Grade a server before you connect an agent to it.</h2>
 
-        <div class="gradebox">
-          <div class="grade">F</div>
-          <div class="meta">
-            <span class="eyebrow">Worst grade</span>
-            <div>2 servers scanned<br>2 findings at HIGH<br>exit 1</div>
-          </div>
-        </div>
-
-        <p style="margin-top:28px">
+        <p style="margin-top:40px">
           9 deterministic checks. Same server, same report, every time. No model sits in
           the decision path, so there is nothing there to prompt-inject.
         </p>
