@@ -22,6 +22,13 @@ const TOKENS = {
   "#4a4740": "grey.1", "#6a665b": "grey.2", "#b8b2a4": "grey.3", "#a6a299": "grey.4",
   "#c2472e": "orisan.mark", "#802f1e": "orisan.type", "#d68f7d": "orisan.inverse",
   "#c4796c": "harm", "#7e9070": "holding", "#7d95ac": "watching", "#b08a45": "suspicion",
+  // The readable pair for each mark. DEFAULT is a shape colour and measures
+  // 2.79-3.00:1 as type on paper; .text is the same hue darkened to 7.73-7.82:1,
+  // and .fill is the mark laid 10% into paper, opaque so a chip stays light on ink.
+  "#872917": "harm.text", "#3d4f36": "holding.text",
+  "#3a4b5c": "watching.text", "#5a4723": "suspicion.text",
+  "#efe3d8": "harm.fill", "#e8e6d8": "holding.fill",
+  "#e8e6de": "watching.fill", "#ede5d4": "suspicion.fill",
 };
 
 /**

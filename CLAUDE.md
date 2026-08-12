@@ -136,6 +136,10 @@ family or radius must now be added to the list deliberately.
    literary references.
 3. **Grade stamp** — the A-to-F mark from mcpscan's own output. Only where real
    product output is shown. Never decoration.
+   **The stamp's colour binding is to the mark, not to the glyph.** The ring and the
+   fill carry the meaning; the letter is ink. The mark values are shape colours and
+   measure 2.79:1 to 3.00:1 as type on paper, so a coloured glyph was an AA failure
+   dressed as a signature.
 
 ---
 
@@ -160,6 +164,13 @@ converts the gate into a formality. So:
   rule changed from 12px to 14px in commit X, so the hero baseline moved" is.
 - Never delete a baseline to force regeneration. That is the same act wearing a
   disguise.
+- **Do not diagnose a baseline diff on the host.** macOS and the Ubuntu runner do not
+  render the same page at the same height. Measured on the home page at 768px:
+  **macOS 8052px, Ubuntu 8012px — a 40px platform gap on identical code.** A real
+  change of 47px was chased locally and could not be reproduced, because a larger
+  platform difference was already sitting underneath it. Diff the CI images against
+  each other, or measure the cause directly (font metrics, element widths) rather
+  than comparing page heights across machines.
 - If a diff is large or you cannot account for it, revert the snapshot change, leave
   the test red, and escalate. **A red visual test is a working gate. A quietly updated
   baseline is a broken one.**
