@@ -119,6 +119,41 @@ test("only permitted fonts, radii and visual properties compute anywhere on the 
   expect(violations, violations.join("\n")).toHaveLength(0);
 });
 
+/**
+ * Lighthouse did not catch this: with no input on the page there is no element to
+ * audit, so a placeholder colour can sit at 2.21:1 in the stylesheet indefinitely
+ * and surface the day someone adds a form. Assert the rule itself, not a rendering
+ * of it.
+ */
+test("the placeholder colour is a token and clears the 7:1 body bar", async ({ page }) => {
+  await page.goto("/");
+  const result = await page.evaluate(() => {
+    const probe = document.createElement("input");
+    probe.placeholder = "probe";
+    probe.style.cssText = "position:absolute;visibility:hidden";
+    document.body.appendChild(probe);
+    const colour = getComputedStyle(probe, "::placeholder").color;
+    const paper = getComputedStyle(document.body).backgroundColor;
+    probe.remove();
+    const rgb = (v: string) => (v.match(/\d+(\.\d+)?/g) ?? []).slice(0, 3).map(Number);
+    const lum = ([r, g, b]: number[]) => {
+      const f = (c: number) => {
+        const x = c / 255;
+        return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+    };
+    const a = lum(rgb(colour));
+    const b = lum(rgb(paper));
+    const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    return { colour, paper, ratio: Math.round(ratio * 100) / 100 };
+  });
+  expect(
+    result.ratio,
+    `placeholder ${result.colour} on ${result.paper} is ${result.ratio}:1`,
+  ).toBeGreaterThanOrEqual(7);
+});
+
 test("body copy never exceeds the 62ch measure", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
