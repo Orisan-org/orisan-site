@@ -96,7 +96,7 @@ export default function Product() {
               ))}
             </ul>
             <p className="mt-8 max-w-measure text-base text-grey-4">
-              It runs on your machine and uploads nothing. It reports; it does not intervene
+              Nothing leaves your machine unless you send it. It reports; it does not intervene
               in anything.
             </p>
           </div>

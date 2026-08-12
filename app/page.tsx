@@ -118,7 +118,7 @@ export default function Home() {
             agent connects again.
           </p>
           <p className="mt-5 max-w-lede text-lg text-grey-1">
-            It runs on your machine and uploads nothing. Ten seconds, nothing installed.
+            Nothing leaves your machine unless you send it. Ten seconds, nothing installed.
           </p>
           <div className="mt-9">
             <InstallCommand command={INSTALL} />
@@ -135,8 +135,8 @@ export default function Home() {
             </h2>
             <p className="mt-5 max-w-lede text-lg text-grey-3">
               mcpscan enumerates the tools, resources and prompts an MCP server exposes, runs
-              deterministic checks over them and grades what it finds. It runs on your machine,
-              uploads nothing, and never drops a finding to make a server look cleaner. It
+              deterministic checks over them and grades what it finds. Nothing leaves your machine
+              unless you send it, and it never drops a finding to make a server look cleaner. It
               reports. It does not stop anything.
             </p>
 
