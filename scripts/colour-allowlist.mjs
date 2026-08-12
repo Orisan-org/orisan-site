@@ -29,8 +29,18 @@ const TOKENS = {
  * An exception is a decision to tolerate a colour, not a place to hide one.
  */
 const EXCEPTIONS = {
-  "#000000": "browser/UA defaults reflected by preflight; not authored by us",
-  "#ffffff": "browser/UA defaults reflected by preflight; not authored by us",
+  "#000000": "browser/UA default reflected by preflight; not authored by us",
+  "#ffffff": "browser/UA default reflected by preflight; not authored by us",
+  // Tokened, not tolerated. Tailwind's preflight hardcodes this in three rules --
+  // input::placeholder,textarea::placeholder and a -moz-placeholder variant of
+  // each -- and there is no way to stop it emitting them short of disabling
+  // preflight entirely. All three are overridden by matching selectors in
+  // globals.css, so the literal is dead in the cascade rather than merely unused.
+  // The override is proven by the placeholder-contrast assertion in
+  // tests/visual.spec.ts, which fails at 2.21:1 if it is ever removed.
+  // This exception is only safe while that assertion exists. Do not delete one
+  // without the other.
+  "#9ca3af": "preflight placeholder literal, overridden in all three rules; see tests/visual.spec.ts",
 };
 
 const norm = (r, g, b) =>

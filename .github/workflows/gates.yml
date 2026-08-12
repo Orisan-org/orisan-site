@@ -86,6 +86,9 @@ jobs:
           done
           echo "ok: default palette absent from built CSS"
 
+      - name: Assert every colour is a token or a named exception
+        run: node scripts/colour-allowlist.mjs
+
       - name: Install browser
         run: npx playwright install --with-deps chromium
 
