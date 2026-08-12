@@ -202,6 +202,35 @@ converts the gate into a formality. So:
 - Alt text comes from `media-manifest.json` verbatim. Never write your own.
 - Never generate or fake product footage. Demos are real terminal recordings only.
 
+### Fabricated figures carry the same marker as fabricated footage
+
+A diagram is not exempt from the honesty rule because it is an illustration.
+
+**If a figure contains specifics a reader could mistake for a real reading, it is
+labelled as fabricated, or the specifics come out.** Preferred is that the
+specifics come out, because then there is nothing to label and nothing to get
+out of date.
+
+A specific is anything that looks like it was measured: a count (`14
+repositories`), a named real path (`~/.ssh`, `notes.db`), a named branch
+(`prod branch`), a version, a duration, a grade, a severity, an ID. The test is
+not whether the figure is decorative in your mind — it is whether a reader
+skimming it would take the number away as a fact about our product or their
+system.
+
+This binds equally on:
+- terminal blocks and scan output,
+- SVG diagrams, flow charts, blast-radius maps, architecture drawings,
+- anything carrying the grade stamp.
+
+The failure mode is specific and worth naming, because we shipped it: a page
+carried a fabricated terminal that was correctly marked `Sample data`, and
+directly beside it a blast-radius diagram whose invented paths and counts
+carried no marker at all. The marked block was the less believable of the two.
+Labelling the obvious fabrication and leaving the plausible one bare is worse
+than labelling neither, because it teaches the reader that unlabelled means
+real.
+
 ---
 
 ## Accessibility
