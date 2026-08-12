@@ -17,11 +17,14 @@ export const metadata: Metadata = {
  *    accepted system-level invariants, or a finding carrying one. Exactly one
  *    qualifies and it is the actor-identity dependency below. Everything else
  *    that looks like a dependency is intent and is marked as intent.
- * 3. Composition safety is not claimed as proven. The threat model states two of
- *    its findings as test obligations against the built system rather than closed
- *    design proofs, and this page says so in its own copy.
+ * 3. Composition safety is not claimed as proven. Parts of the argument are test
+ *    obligations against the built system rather than closed design proofs, and
+ *    this page says so in its own copy.
  *
- * Source: System-Level Threat Model (Design-Level), sections 0, 4 and 5.
+ * Everything here is a first-party design commitment: a statement about how our
+ * own product is designed to behave, for which we are the source and there is
+ * nothing to cite. Publish properties, never findings — no identifiers, no
+ * severities, no dispositions, no named areas where something is unclosed.
  * CLAIMS.md rows 48-52.
  */
 
@@ -68,7 +71,7 @@ export default function Vision() {
           <p className="font-mono text-label uppercase tracking-label text-orisan-type">
             How it is designed
           </p>
-          <h1 className="mt-6 max-w-hero text-4xl font-semibold">
+          <h1 className="mt-6 max-w-hero text-3xl font-semibold">
             Every part we add can raise suspicion. None of them can grant permission.
           </h1>
           <p className="mt-6 max-w-lede text-lg text-grey-1">
@@ -115,12 +118,10 @@ export default function Vision() {
               Two of these are obligations, not proofs.
             </h2>
             <p className="mt-5 max-w-lede text-lg text-grey-3">
-              Our own threat model is explicit that composition safety is not fully closed
-              by design argument. Two of its findings — whether any combination of parts can
-              reconstitute a catastrophic capability, and whether the blast-radius map can be
-              abused to raise severity on false pretenses — require adversarial testing
-              against the built system. The model records them as test obligations rather
-              than closed design proofs, and so do we.
+              Parts of our composition-safety argument are not closed by design reasoning
+              alone. They are obligations to test the built system adversarially, and we
+              record them internally as obligations rather than as proofs. Nothing here
+              claims composition safety has been demonstrated.
             </p>
             <p className="mt-5 max-w-lede text-lg text-grey-3">
               Publishing that is the point. A composition-safety claim with no stated
@@ -142,10 +143,6 @@ export default function Vision() {
             map is wrong with it. This is architecture rather than scheduling: the map
             inherits identity&rsquo;s assurance and can never exceed it, so the map cannot be
             trusted for enforcement until the actor-identity plane is real.
-          </p>
-          <p className="mt-5 max-w-lede text-lg text-grey-1">
-            It is recorded in our threat model as a finding that cannot be accepted as a
-            risk for anything we ship externally.
           </p>
         </section>
 
