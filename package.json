@@ -6,21 +6,26 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint app components lib --ext .ts,.tsx"
+    "lint": "eslint .",
+    "gates": "next build && tsc --noEmit && eslint . --max-warnings=0 && playwright test",
+    "baseline": "playwright test --update-snapshots"
   },
   "dependencies": {
-    "lucide-react": "^0.468.0",
     "next": "^16.2.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^20.17.12",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.35",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.0",
+    "eslint-plugin-tailwindcss": "^3.18.3",
     "postcss": "^8.5.15",
     "prettier": "^3.8.4",
     "tailwindcss": "^3.4.17",

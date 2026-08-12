@@ -1,14 +1,9 @@
 import type { MetadataRoute } from "next";
-import { navigation, siteConfig } from "@/lib/constants";
 
+// /components is a noindexed internal reference and stays out on purpose.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  const paths = Array.from(new Set(["/", ...navigation.map((item) => item.href)])).filter((path) => path.startsWith("/"));
-
-  return paths.map((path) => ({
-    url: `${siteConfig.url}${path}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: path === "/" ? 1 : 0.8
-  }));
+  return [
+    { url: "https://orisan.org/", changeFrequency: "monthly", priority: 1 },
+    { url: "https://orisan.org/contact", changeFrequency: "monthly", priority: 0.5 },
+  ];
 }

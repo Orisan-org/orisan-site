@@ -1,407 +1,354 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { mcpscanProduct, mcpscanRelease, pageMetadata, siteConfig } from "@/lib/constants";
+import { GradeStamp } from "@/components/GradeStamp";
+import { InstallCommand } from "@/components/InstallCommand";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: pageMetadata.home.title,
-  description: pageMetadata.home.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: pageMetadata.home.title,
-    description: pageMetadata.home.description,
-    url: "/",
-    images: [
-      {
-        url: "/og-image.svg",
-        width: 1200,
-        height: 630,
-        alt: "mcpscan - local-first security scanner for MCP servers."
-      }
-    ]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: pageMetadata.home.title,
-    description: pageMetadata.home.description,
-    images: ["/og-image.svg"]
-  }
+  description:
+    "Local-first security instruments for AI agents. The first, mcpscan, reads what an MCP server exposes — tools, resources, prompts — before an agent connects.",
 };
 
-const mcpscanOutput = `$ mcpscan scan --command '<your MCP server command>'
+const INSTALL = "uvx orisan-mcpscan scan-config ./mcp.json --yes";
 
-Server: filesystem
-Enumerated: 12 tools, 2 resources, 0 prompts
+/**
+ * The summary block of a real run, verbatim and unedited. CLAIMS.md rows 34-38.
+ *
+ *   COLUMNS=76 mcpscan scan-config ./mcp.json --yes --no-color
+ *   orisan-mcpscan 0.1.1 from PyPI, 2026-08-10
+ *
+ * Only the summary is shown as text; the findings below are the same run's rows
+ * rendered as markup rather than as an ASCII table. Two reasons, both measured:
+ * the table's light box-drawing character U+2502 is outside the latin subset
+ * next/font loads for JetBrains Mono, so it fell back to a font 40% wider and
+ * broke the monospace grid; and at 120 columns the block was horizontally
+ * scrollable on the desktop, which trapped trackpad scrolling. An ASCII table is
+ * also unreadable to a screen reader.
+ *
+ * The only edit is the config filename, shown as `mcp.json` to match the command.
+ */
+const SCAN_SUMMARY = `mcpscan config report
+Configs found: 1
+Servers: 2 total, 2 scanned, 0 failed, 0 skipped
+Worst grade: D
 
-SEVERITY  ID       TARGET       FINDING
-HIGH      MCP-010  read_file    Arbitrary file read capability exposed
-HIGH      MCP-030  run_command  Unconstrained command input
+notes-memory
+  Source: mcp.json
+  Transport: stdio
+  Purpose: memory_store (config)
+  Grade: A
+  No findings.
 
-Grade: D
-Payload stored: false
-Uploads: none`;
+risky-filesystem
+  Source: mcp.json
+  Transport: stdio
+  Purpose: filesystem (config)
+  Grade: D`;
 
-const scanArtifact = {
-  target: "stdio MCP server",
-  release: mcpscanRelease.version,
-  scope: "tools, resources, prompts, and metadata",
-  summary: "This MCP server exposes file and command capabilities that should be reviewed before an AI agent connects.",
-  capabilities: [
-    ["TOOLS", "12 enumerated"],
-    ["RESOURCES", "2 enumerated"],
-    ["PROMPTS", "0 enumerated"]
-  ],
-  decision: ["Reviewer", "Decision", "Restrictions", "Expires"]
-};
+/** The same run's five findings. Values transcribed cell for cell. */
+const FINDINGS = [
+  { target: "edit_file", evidence: "Tool 'edit_file' appears to expose file write based on name, description, or schema." },
+  { target: "get_file_info", evidence: "Tool 'get_file_info' appears to expose file read based on name, description, or schema." },
+  { target: "read_file", evidence: "Tool 'read_file' appears to expose file read based on name, description, or schema." },
+  { target: "read_multiple_files", evidence: "Tool 'read_multiple_files' appears to expose file read based on name, description, or schema." },
+  { target: "write_file", evidence: "Tool 'write_file' appears to expose file write based on name, description, or schema." },
+];
 
-const capabilityColumns = [
+const REACH = [
+  "Change the source code",
+  "Push it live to the world",
+  "Move the money",
+  "Speak for you to a customer",
+];
+
+const VERBS = [
+  { title: "Watch", body: "Every native call — shell, MCP, browser, payments — becomes one common shape." },
+  { title: "Decide", body: "Same signal, same verdict: allow, hold for a human, or stop. Rules you can read." },
+  { title: "Stop", body: "Held at the boundary, not reported after. The record states the intent." },
+];
+
+/**
+ * Illustrations, not case studies. Every figure is invented to show the shape of a
+ * decision. The "planned" column describes behaviour that does not exist yet and
+ * the markup says so in words, not only in colour.
+ */
+const LEDGER = [
   {
-    title: "ENUMERATE",
-    items: ["tools/list", "resources/list", "prompts/list", "server metadata"]
+    kind: "Source code",
+    call: "write_file → services/auth/session.ts",
+    planned: "The change touches the authentication boundary. In scope for a human, out of scope for autonomy.",
+    today: "It is written and committed. Nothing was standing in the path.",
   },
   {
-    title: "CHECK",
-    items: ["prompt injection signals", "dangerous capabilities", "secret exposure", "transport issues"]
+    kind: "Live surface",
+    call: "deploy → orisan.org (production)",
+    planned: "The target is production and nothing in the plan reaches a staging surface first.",
+    today: "It ships. The rollback is manual and it starts after someone notices.",
   },
   {
-    title: "REPORT",
-    items: ["terminal summary", "JSON report", "Markdown report", "payload_stored=false"]
-  }
-];
-
-const scopeItems = [
-  "local-first",
-  "no source upload",
-  "no prompt upload",
-  "no secret upload",
-  "no raw MCP response storage",
-  "payload_stored=false"
-];
-
-const problemRows = [
-  ["Before", "MCP servers were often added to agent configs because they were useful, not because their exposed tools had been reviewed."],
-  ["Now", "AI agents can connect to MCP servers that read files, make network requests, execute commands, or expose sensitive metadata."],
-  ["Gap", "Reviewers need a local way to see what an MCP server exposes before trusting it."],
-  ["mcpscan", "mcpscan enumerates the server surface and emits deterministic findings a reviewer can inspect."]
-];
-
-const differenceRows = [
-  ["Pre-connection", "Run mcpscan before an AI agent connects to a new MCP server."],
-  ["Capability-first", "Findings describe exposed server behavior: files, network, commands, metadata, prompts, and transport."],
-  ["Local evidence", "Reports are generated locally with no cloud upload and payload_stored=false."],
-  ["Narrow scope", "The alpha focuses on stdio and tested Streamable HTTP MCP server review. MCP-002 baseline drift is deferred."]
-];
-
-const projectFocus = [
-  {
-    name: mcpscanProduct.title,
-    status: `Active alpha / ${mcpscanRelease.version}`,
-    href: siteConfig.links.mcpscanRepo,
-    summary: mcpscanProduct.tagline,
-    role: "Current flagship. Review MCP servers locally before AI agents connect.",
-    emphasis: "primary"
+    kind: "Money",
+    call: "payments.create → new payee, above threshold",
+    planned: "New payee, above threshold, unmatched to any order. This one always stops.",
+    today: "It settles. The payee arrived as a line of text in a ticket the agent read.",
   },
   {
-    name: "Scout",
-    status: "Secondary community artifact",
-    href: "/scout",
-    summary: "Repo-local AI-agent approval artifact.",
-    role: "Kept as a community/portfolio artifact, not the current focus.",
-    emphasis: "secondary"
+    kind: "Your voice",
+    call: "message.send → customer thread",
+    planned: "The message commits the company to a refund and a date no human agreed to.",
+    today: "The promise is in writing, sent under your name. It is a contract now.",
   },
-  {
-    name: "Guard / Relay / Review",
-    status: "De-emphasized",
-    href: "#product-architecture",
-    summary: "Portfolio/community ideas, not part of the current site focus.",
-    role: "Not part of the current public product story.",
-    emphasis: "future"
-  }
 ];
 
-const proofStats = [
-  ["active release", mcpscanRelease.version],
-  ["primary command", "mcpscan scan"],
-  ["reports", "terminal + JSON + Markdown"],
-  ["privacy", "no uploads"]
-];
-
-function Label({ children }: { children: React.ReactNode }) {
+export default function Home() {
   return (
-    <p className="max-w-[18rem] break-words font-mono text-[11px] font-medium uppercase leading-5 tracking-[0.22em] text-[var(--ink-dim)] sm:max-w-none">
-      {children}
-    </p>
-  );
-}
-
-function TerminalPreview() {
-  return (
-    <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716] font-mono text-[13px] leading-7">
-      <div className="flex items-center justify-between border-b border-[var(--rule)] px-4 py-3">
-        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">
-          Local scan output
-        </span>
-        <span className="text-[var(--sun)]">$</span>
-      </div>
-      <pre className="max-w-full whitespace-pre-wrap break-words p-5 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
-        <code>{mcpscanOutput}</code>
-      </pre>
-    </div>
-  );
-}
-
-function ScanArtifact() {
-  return (
-    <div className="min-w-0 border border-[var(--rule-2)] bg-[#0E1716]">
-      <div className="border-b border-[var(--rule)] px-5 py-4">
-        <Label>MCP Server Review</Label>
-      </div>
-      <div className="grid border-b border-[var(--rule)] md:grid-cols-3">
-        {[
-          ["Target", scanArtifact.target],
-          ["Release", scanArtifact.release],
-          ["Scope", scanArtifact.scope]
-        ].map(([key, value]) => (
-          <div key={key} className="border-r border-[var(--rule)] p-5 last:border-r-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sun)]">{key}</p>
-            <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{value}</p>
-          </div>
-        ))}
-      </div>
-      <div className="p-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">Capability Summary</p>
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-[var(--ink)]">{scanArtifact.summary}</p>
-      </div>
-      <div className="grid border-t border-[var(--rule)] md:grid-cols-3">
-        {scanArtifact.capabilities.map(([capability, detail]) => (
-          <div key={capability} className="border-b border-r border-[var(--rule)] p-5 md:border-b-0">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">{capability}</p>
-            <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{detail}</p>
-          </div>
-        ))}
-      </div>
-      <div className="grid border-t border-[var(--rule)] md:grid-cols-4">
-        {scanArtifact.decision.map((field) => (
-          <div key={field} className="min-h-24 border-b border-r border-[var(--rule)] p-5 md:border-b-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">{field}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default function HomePage() {
-  return (
-    <div className="overflow-hidden bg-[var(--bg)] pt-16 text-[var(--ink)]">
-      <section className="container-shell grid min-h-[calc(100svh-4rem)] min-w-0 gap-14 py-20 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-28">
-        <div className="min-w-0">
-          <div className="mb-7 flex items-center gap-4">
-            <span className="h-px w-7 bg-[var(--sun)]" />
-            <Label>{mcpscanRelease.status}</Label>
-          </div>
-          <h1 className="max-w-[20rem] text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-[var(--ink)] sm:max-w-4xl sm:text-[clamp(2.5rem,6vw,4.8rem)] sm:leading-[1.02]">
-            mcpscan
+    <>
+      <SiteHeader current="/" />
+      <main>
+        <section className="mx-auto max-w-wrap px-8 pt-13 sm:pt-16">
+          <p className="font-mono text-label uppercase tracking-label text-orisan-type">
+            mcpscan 0.1.1 &middot; shipped
+          </p>
+          <h1 className="mt-6 max-w-hero text-4xl font-semibold">
+            Your agent trusts every server in that config.
           </h1>
-          <p className="mt-8 max-w-[20rem] text-lg leading-8 text-[var(--ink-dim)] sm:max-w-2xl md:text-xl">
-            Local-first security scanner for MCP servers.
+          <p className="mt-6 max-w-lede text-lg text-grey-1">
+            You added them months ago and have not read them since. One of them can write to
+            your disk. mcpscan reads what each server actually exposes — tools, resources,
+            prompts — runs deterministic checks over it and grades what it finds, before your
+            agent connects again.
           </p>
-          <p className="mt-5 max-w-[20rem] text-base leading-7 text-[var(--ink-dim)] sm:max-w-2xl">
-            Scan an MCP server before connecting it to an AI agent. mcpscan enumerates exposed tools, resources, prompts, and metadata, then runs deterministic checks without uploading source code, prompts, secrets, or raw MCP responses.
+          <p className="mt-5 max-w-lede text-lg text-grey-1">
+            Nothing leaves your machine unless you send it. Ten seconds, nothing installed.
           </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              View GitHub
-            </a>
-            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              View {mcpscanRelease.version} release
-            </a>
+          <div className="mt-9">
+            <InstallCommand command={INSTALL} />
           </div>
-        </div>
-        <div className="min-w-0">
-          <TerminalPreview />
-        </div>
-      </section>
+        </section>
 
-      <div className="container-shell h-px bg-[var(--rule)]" />
-
-      <section id="product-architecture" className="container-shell py-20 md:py-28">
-        <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
-          <Label>Current focus</Label>
-          <div className="min-w-0">
-            <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              mcpscan is the active Orisan project.
-            </h2>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is keeping the public story narrow: a local-first MCP server scanner first. Scout remains a secondary community artifact. Other ideas stay out of the current site focus.
+        <section id="reach" className="mx-auto max-w-wrap px-8 pt-17">
+          <div className="rounded-feature bg-ink px-8 py-13">
+            <p className="font-mono text-label uppercase tracking-label text-orisan-inverse">
+              Shipped &middot; mcpscan 0.1.1
             </p>
-          </div>
-        </div>
-        <div className="grid min-w-0 border-l border-t border-[var(--rule)] md:grid-cols-[1.4fr_1fr_1fr]">
-          {projectFocus.map((product) => (
-            <a
-              key={product.name}
-              href={product.href}
-              target={product.href.startsWith("http") ? "_blank" : undefined}
-              rel={product.href.startsWith("http") ? "noreferrer" : undefined}
-              className={`group min-h-72 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)] ${
-                product.emphasis === "future" ? "opacity-55" : ""
-              } ${product.emphasis === "primary" ? "bg-[rgba(236,231,218,0.03)]" : ""}`}
-            >
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">{product.status}</p>
-              <h3 className="mt-14 text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">{product.name}</h3>
-              <p className="mt-4 text-sm leading-6 text-[var(--ink-dim)]">{product.summary}</p>
-              <p className="mt-8 border-t border-[var(--rule)] pt-5 text-xs leading-6 text-[var(--ink-faint)]">{product.role}</p>
-              <div className="mt-5 h-0.5 w-5 bg-[var(--sun)] transition group-hover:w-10" />
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-4">
-          {proofStats.map(([label, value]) => (
-            <div key={label} className="border-b border-r border-[var(--rule)] p-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-faint)]">{label}</p>
-              <p className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">{value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
-          <Label>The motive</Label>
-          <div className="min-w-0">
-            <h2 className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              MCP servers changed what an agent can reach.
+            <h2 className="mt-5 max-w-hero text-2xl font-semibold text-paper">
+              First, know what it can reach.
             </h2>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--ink-dim)]">
-              Orisan is focused on the moment before trust. Developers are connecting agents to local and remote MCP servers, while reviewers still need clear evidence about exposed tools, resources, prompts, and metadata.
+            <p className="mt-5 max-w-lede text-lg text-grey-3">
+              mcpscan enumerates the tools, resources and prompts an MCP server exposes, runs
+              deterministic checks over them and grades what it finds. Nothing leaves your machine
+              unless you send it, and it never drops a finding to make a server look cleaner. It
+              reports. It does not stop anything.
             </p>
-            <div className="mt-10 grid border-l border-t border-[var(--rule)]">
-              {problemRows.map(([title, body]) => (
-                <div key={title} className="grid gap-5 border-b border-r border-[var(--rule)] p-5 md:grid-cols-[9rem_1fr]">
-                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</p>
-                  <p className="text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section className="container-shell py-20 md:py-28">
-        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
-          <Label>Report artifact</Label>
-          <div className="min-w-0">
-            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              mcpscan turns MCP exposure into a reviewable report.
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              The report says what was enumerated, which deterministic checks fired, what evidence is safe to store, and why a server may need review before an AI agent connects.
-            </p>
-            <div className="mt-10">
-              <ScanArtifact />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
-          <Label>Why different</Label>
-          <div className="min-w-0">
-            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Focused local scanner. Narrow by design.
-            </h2>
-            <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
-              {differenceRows.map(([title, body]) => (
-                <div key={title} className="min-h-48 border-b border-r border-[var(--rule)] p-6 transition hover:bg-[var(--bg-2)]">
-                  <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--sun)]">{title}</h3>
-                  <p className="mt-8 text-sm leading-7 text-[var(--ink-dim)]">{body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="mb-12 grid gap-6 md:grid-cols-[12rem_1fr]">
-          <Label>Capability model</Label>
-          <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            Enumerate / check / report.
-          </h2>
-        </div>
-        <div className="grid border-l border-t border-[var(--rule)] md:grid-cols-3">
-          {capabilityColumns.map((column) => (
-            <div key={column.title} className="border-b border-r border-[var(--rule)] p-7">
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--sun)]">{column.title}</h3>
-              <ul className="mt-8 space-y-4">
-                {column.items.map((item) => (
-                  <li key={item} className="border-t border-[var(--rule)] pt-4 text-[var(--ink-dim)]">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="grid min-w-0 gap-10 md:grid-cols-[12rem_1fr]">
-          <Label>Scope and privacy</Label>
-          <div className="min-w-0">
-            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Local by design. Evidence-safe by default.
-            </h2>
-            <div className="mt-10 grid border-l border-t border-[var(--rule)] md:grid-cols-2">
-              {scopeItems.map((item) => (
-                <div key={item} className="border-b border-r border-[var(--rule)] p-5 font-mono text-xs uppercase tracking-[0.12em] text-[var(--ink-dim)]">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="container-shell py-20 md:py-28">
-        <div className="border-y border-[var(--rule)] py-14 md:flex md:items-center md:justify-between md:gap-12">
-          <div>
-            <Label>Preflight</Label>
-            <h2 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-              Scan the MCP server before connecting the agent.
-            </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--ink-dim)]">
-              Current verified installation is from source in a local Python environment. No PyPI, Homebrew, pipx, or curl install path is claimed for mcpscan yet.
-            </p>
-            <pre className="mt-8 max-w-2xl whitespace-pre-wrap break-words border border-[var(--rule-2)] bg-[#0E1716] p-5 font-mono text-xs leading-6 text-[var(--ink-dim)] [overflow-wrap:anywhere]">
-              <code>{mcpscanRelease.installCommands.join("\n")}</code>
+            <pre className="mt-9 overflow-x-auto rounded-panel bg-ink-deep p-6 font-mono text-xs text-paper-deep sm:overflow-x-visible">
+              <code>
+                <span className="text-grey-4">$ </span>
+                {INSTALL}
+                {"\n"}
+                {SCAN_SUMMARY}
+              </code>
             </pre>
-          </div>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row md:mt-0">
-            <a href={siteConfig.links.mcpscanRepo} target="_blank" rel="noreferrer" className="bg-[var(--ink)] px-6 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--bg)] transition hover:bg-[var(--sun)]">
-              View GitHub
-            </a>
-            <a href={mcpscanRelease.url} target="_blank" rel="noreferrer" className="border-b border-[var(--rule-2)] px-1 py-4 text-center font-mono text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)] transition hover:border-[var(--sun)] hover:text-[var(--sun)]">
-              View release
-            </a>
-          </div>
-        </div>
-      </section>
 
-      <div className="container-shell pb-20">
-        <Image
-          src="/logo-mark.svg"
-          alt=""
-          width={44}
-          height={44}
-          className="h-11 w-11 opacity-70"
-          unoptimized
-        />
-      </div>
-    </div>
+            <ul className="mt-6 list-none p-0">
+              {FINDINGS.map((f) => (
+                <li key={f.target} className="border-t border-grey-4 py-4">
+                  <p className="flex flex-wrap items-baseline gap-3 font-mono text-xs">
+                    <span className="text-suspicion">HIGH</span>
+                    <span className="text-grey-4">expected_unconfirmed</span>
+                    <span className="text-grey-4">MCP-010</span>
+                    <span className="text-paper">{f.target}</span>
+                  </p>
+                  <p className="mt-2 max-w-measure text-sm text-grey-3">{f.evidence}</p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-9 flex flex-wrap items-start gap-8">
+              <div className="flex items-center gap-3">
+                <GradeStamp grade="A" />
+                <p className="max-w-lede text-base text-grey-3">
+                  The memory store exposes nothing that needs a verdict.
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <GradeStamp grade="D" />
+                <p className="max-w-lede text-base text-grey-3">
+                  The filesystem server can read and write files, held at{" "}
+                  <span className="font-mono">HIGH</span> because nobody confirmed the purpose
+                  the config claimed.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-9 border-t border-grey-4 pt-8">
+              <h3 className="max-w-hero text-xl font-semibold tracking-tight text-paper">
+                The approval you gave was for a name.
+              </h3>
+              <p className="mt-4 max-w-measure text-base text-grey-3">
+                A client that asks before connecting asks once, and what it asks about is a
+                server — not the five tools above. You approve a name against a list you have
+                not seen. The protocol then lets that list change underneath the approval: a
+                server declaring <span className="font-mono">listChanged</span> should send{" "}
+                <span className="break-words font-mono">notifications/tools/list_changed</span> when its
+                tools change, and nothing requires the client to ask a second time.
+              </p>
+              <p className="mt-4 max-w-measure text-base text-grey-3">
+                That is the failure mode <span className="font-mono">MCP-002</span> was written
+                for. Hand a scan a previous report with{" "}
+                <span className="font-mono">--baseline</span> and mcpscan compares the tool
+                surface hash by hash, raising{" "}
+                <span className="font-mono">Tool definition drift</span> at{" "}
+                <span className="font-mono">HIGH</span> on anything that moved, with one
+                instruction: review the changed surface before trusting the server again. It is
+                the only check that cannot fire on a first run, because on a first run there is
+                nothing to have drifted from.
+              </p>
+            </div>
+
+            <p className="mt-8 max-w-measure text-base text-grey-4">
+              What it is not telling you: that the path is <span className="font-mono">/</span>.
+              mcpscan reads the tools a server exposes, not the scope it was handed. A grade is
+              knowledge, and knowledge is not a brake.
+            </p>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-wrap px-8 pt-17">
+          <p className="font-mono text-label uppercase tracking-label text-orisan-type">
+            Why one is not the other
+          </p>
+          <h2 className="mt-5 max-w-hero text-2xl font-semibold">
+            A scanner tells you what a thing can do.{" "}
+            <span className="text-orisan-type">A brake decides whether it does it.</span>
+          </h2>
+          <p className="mt-5 max-w-lede text-lg text-grey-1">
+            mcpscan is a scanner, and it is deliberately not more than one. Its verdicts are
+            deterministic and no model votes on them. But it reads a server before the fact; it
+            is not present at the moment an agent acts. The part that is present at that moment
+            is what the rest of this page describes, and it is not built yet.
+          </p>
+        </section>
+
+        <section className="mx-auto max-w-wrap px-8 pt-17">
+          <p className="font-mono text-label uppercase tracking-label text-orisan-type">
+            What your agent can already do
+          </p>
+          <h2 className="mt-5 max-w-hero text-2xl font-semibold">
+            You gave it access. Access became authority.
+          </h2>
+          <p className="mt-5 max-w-lede text-lg text-grey-1">
+            Nobody approved these individually. They were inherited — from a config file, a
+            tool list, a pasted instruction.
+          </p>
+          <ul className="mt-9 grid list-none grid-cols-stack gap-4 p-0 sm:grid-cols-pair lg:grid-cols-quartet">
+            {REACH.map((item, i) => (
+              <li
+                key={item}
+                className="flex min-h-15 flex-col justify-between gap-6 rounded-panel bg-paper-deep p-6"
+              >
+                <span className="font-mono text-label tracking-label text-orisan-type">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="text-xl font-semibold tracking-tight">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mx-auto max-w-wrap px-8 pt-17">
+          <p className="font-mono text-label uppercase tracking-label text-orisan-type">
+            The ledger &middot; not built yet
+          </p>
+          <h2 className="mt-5 max-w-hero text-2xl font-semibold">
+            What a kill switch would have to do.
+          </h2>
+          <p className="mt-5 max-w-lede text-lg text-grey-1">
+            Four illustrations, not case studies — nothing below describes a real incident. The
+            left column is what happens today, with nothing in the path. The right column is
+            behaviour Orisan does not have yet, written down so it can be argued with.
+          </p>
+          <ul className="mt-9 grid list-none grid-cols-stack gap-4 p-0 lg:grid-cols-pair">
+            {LEDGER.map((row) => (
+              <li key={row.kind} className="rounded-panel bg-paper-deep p-6">
+                <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
+                  {row.kind}
+                </p>
+                <p className="mt-4 font-mono text-sm text-ink">{row.call}</p>
+                <div className="mt-5 border-l-3 border-harm pl-4">
+                  <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
+                    Today, with nothing in the path
+                  </p>
+                  <p className="mt-2 text-base text-grey-1">{row.today}</p>
+                </div>
+                <div className="mt-4 border-l-3 border-grey-3 pl-4">
+                  <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
+                    Planned &middot; does not exist yet
+                  </p>
+                  <p className="mt-2 text-base text-grey-1">{row.planned}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mx-auto max-w-wrap px-8 pt-17">
+          <p className="font-mono text-label uppercase tracking-label text-orisan-type">
+            The plan &middot; not built yet
+          </p>
+          <h2 className="mt-5 max-w-hero text-2xl font-semibold">Three verbs. Nothing else.</h2>
+          <p className="mt-5 max-w-lede text-lg text-grey-1">
+            None of this ships today. It is the shape we are building towards, and the reason
+            mcpscan reads a server the way it does.
+          </p>
+          <ul className="mt-9 grid list-none grid-cols-stack gap-4 p-0 lg:grid-cols-triad">
+            {VERBS.map((v) => (
+              <li key={v.title} className="rounded-panel border border-grey-3 p-8">
+                <h3 className="text-xl font-semibold tracking-tight">{v.title}</h3>
+                <p className="mt-3 max-w-lede text-base text-grey-1">{v.body}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="mx-auto max-w-wrap px-8 pt-17">
+          <blockquote className="m-0">
+            <p className="max-w-lede font-alt text-2xl font-normal italic">
+              &ldquo;Hope is not a control. I wanted something in the path, automatic, that
+              would stop the action and then tell you why. It did not exist, so we started
+              building it. What exists so far only reads.&rdquo;
+            </p>
+            <footer className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-1">
+              Founder, Orisan
+            </footer>
+          </blockquote>
+        </section>
+
+        <section className="mx-auto max-w-wrap px-8 py-17">
+          <div className="rounded-feature bg-ink px-8 py-15">
+            <p className="font-mono text-label uppercase tracking-label text-orisan-inverse">
+              What we are building
+            </p>
+            <h2 className="mt-5 max-w-hero text-2xl font-semibold text-paper">
+              The kill switch for AI.
+            </h2>
+            <p className="mt-5 max-w-lede text-lg text-grey-3">
+              mcpscan reads a server before your agent trusts it. The part that stands in the
+              path at the moment an agent acts does not exist yet. Run the piece that does, then
+              tell us why the rest of it would not work — that is worth more to us than
+              agreement.
+            </p>
+            <div className="mt-9">
+              <InstallCommand command={INSTALL} tone="ink" />
+            </div>
+            <p className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-4">
+              <a href="mailto:team@orisan.org?subject=Orisan" className="text-grey-4">
+                team@orisan.org
+              </a>
+            </p>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
