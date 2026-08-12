@@ -49,10 +49,37 @@ const config: Config = {
       },
 
       // Status accents. Fixed meaning, never chosen for looks.
-      harm: "#C4796C",      // damage, the thing that already went wrong
-      holding: "#7E9070",   // the floor held, all clear
-      watching: "#7D95AC",  // observation, discovery
-      suspicion: "#B08A45", // raised, not yet stopped
+      //
+      // DEFAULT is the mark value: rules, dots, fills, borders. It is a shape
+      // colour and it is NOT readable as type -- measured on paper the four sit
+      // between 2.79:1 and 3.00:1, which fails AA, never mind the house 7:1 bar.
+      // `text` is the same hue darkened until it can be read: 7.73-7.82:1 on
+      // paper. `fill` is the mark laid 10% into paper, opaque, so a chip stays
+      // light on an ink ground as well as a paper one.
+      //
+      // The deck calls holding/suspicion "allowed"/"held". These keep the site's
+      // existing names so one config does not carry two vocabularies; the values
+      // are the deck's.
+      harm: {
+        DEFAULT: "#C4796C", // damage, the thing that already went wrong
+        text: "#872917",    // 7.76:1 on paper
+        fill: "#EFE3D8",    // the mark, 10% into paper
+      },
+      holding: {
+        DEFAULT: "#7E9070", // the floor held, all clear
+        text: "#3D4F36",    // 7.73:1 on paper
+        fill: "#E8E6D8",
+      },
+      watching: {
+        DEFAULT: "#7D95AC", // observation, discovery
+        text: "#3A4B5C",    // 7.82:1 on paper
+        fill: "#E8E6DE",
+      },
+      suspicion: {
+        DEFAULT: "#B08A45", // raised, not yet stopped
+        text: "#5A4723",    // 7.76:1 on paper
+        fill: "#EDE5D4",
+      },
     },
 
     fontFamily: {
