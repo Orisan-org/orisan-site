@@ -56,6 +56,13 @@ palette, radius scale, shadow scale, and font stack are deleted so that generic
 utility classes do not exist.
 
 - You may only use design tokens defined in `tailwind.config.ts`.
+- **`theme()` in raw CSS is permitted only for a token that already exists.** It
+  inlines a literal value at build time, so `theme("colors.foo")` for anything not
+  in the config either fails the build or bakes in a colour nothing else can see.
+  Enforced by `scripts/colour-allowlist.mjs`, which extracts every colour literal
+  from the built CSS and requires each to be a token or a named exception with a
+  reason. If you add a colour by any route — a utility, a `theme()` call, a raw
+  declaration, or a dependency's stylesheet — that gate will name it.
 - **Arbitrary values are banned.** No `bg-[#fff]`, no `p-[13px]`, no `rounded-[12px]`,
   no `text-[15px]`. ESLint fails the build on these.
 - If you need a value that does not exist, **you may now add it** — but adding a token
