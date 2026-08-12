@@ -219,9 +219,7 @@ export default function Home() {
           </p>
           <h2 className="mt-5 max-w-hero text-2xl font-semibold">
             A scanner tells you what a thing can do.{" "}
-            <span className="font-alt font-normal italic text-orisan-type">
-              A brake decides whether it does it.
-            </span>
+            <span className="text-orisan-type">A brake decides whether it does it.</span>
           </h2>
           <p className="mt-5 max-w-lede text-lg text-grey-1">
             mcpscan is a scanner, and it is deliberately not more than one. Its verdicts are
