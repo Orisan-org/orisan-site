@@ -219,7 +219,7 @@ export function GapWidget() {
         </div>
       </div>
 
-      <pre className="mt-4 overflow-x-auto rounded-panel border border-grey-3 p-6 font-mono text-xs text-ink sm:overflow-x-visible">
+      <pre className="mt-4 whitespace-pre-wrap break-words rounded-panel border border-grey-3 p-6 font-mono text-xs text-ink">
         <code data-testid="gap-command">{command}</code>
       </pre>
 
