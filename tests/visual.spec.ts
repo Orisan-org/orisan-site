@@ -26,6 +26,9 @@ const VIEWPORTS = [
 // with roughly 3x headroom for antialiasing noise.
 const PAGES = [
   { path: "/", maxDiffPixelRatio: 0.01 },
+  { path: "/product", maxDiffPixelRatio: 0.01 },
+  { path: "/gap", maxDiffPixelRatio: 0.01 },
+  { path: "/vision", maxDiffPixelRatio: 0.01 },
   { path: "/components", maxDiffPixelRatio: 0.0001 },
   { path: "/contact", maxDiffPixelRatio: 0.01 },
   { path: "/no-such-page-404-proof", maxDiffPixelRatio: 0.01 },
