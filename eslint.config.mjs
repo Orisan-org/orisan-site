@@ -47,8 +47,13 @@ const config = [
           message: "Gradients, backdrop-filter and box-shadows are banned. See CLAUDE.md.",
         },
         {
-          selector: "Literal[value=/\\bInter\\b|font-sans/]",
-          message: "There is no sans-serif on this site. Use font-display or font-mono.",
+          // The Inter literal ban is gone: B1 was reversed and Inter is now the
+          // display and body face. The `font-sans` half stays -- that utility
+          // reaches Tailwind's DEFAULT stack and bypasses the token system, which
+          // is a different fault and still a fault. Undeclared faces are caught at
+          // runtime by the font allowlist in tests/visual.spec.ts.
+          selector: "Literal[value=/font-sans/]",
+          message: "font-sans bypasses the token system. Use font-display, font-body, font-mono or font-alt.",
         },
       ],
 

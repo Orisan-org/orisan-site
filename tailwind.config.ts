@@ -20,98 +20,124 @@ const config: Config = {
       transparent: "transparent",
       current: "currentColor",
 
-      // Ground and ceiling.
-      paper: {
-        DEFAULT: "#F4EFE4",
-        deep: "#EBE4D6", // raised card on paper
-        edge: "#EBDBCB", // selection only; the one place paper goes warmer
-      },
+      // ── Surfaces. The design's :root, verbatim. ──────────────────────────────
       ink: {
-        DEFAULT: "#16150F",
-        deep: "#0E0D09", // terminal ground: darker than ink so product output recedes
+        DEFAULT: "#0F0F0F",
+        deep: "#151515",   // terminal panes, the build-log section
+        sunk: "#1C1414",   // the two failing rungs of the severity ladder
+        focus: "#221E1C",  // the highlighted terminal row
+        shape: "#1E1E1C",  // filled shapes inside the hero figure
+        hover: "#2A2A2A",
+      },
+      paper: {
+        DEFAULT: "#FAFAF9",
+        deep: "#F0F0EC",   // the design's --card: the weighted "shipping" cell
+        hover: "#E6E6E3",
       },
 
+      // ── Greys. Legacy names kept so the four other pages inherit the new
+      // palette without a markup change; values are the design's. ──────────────
       grey: {
-        1: "#4A4740", // secondary text on paper.        8.08:1 / 7.32:1 on deep
-        2: "#6A665B", // labels and meta on paper.       5.00:1 — never body copy
-        3: "#B8B2A4", // borders on paper; body text on ink, where it is 8.66:1
-        4: "#A6A299", // meta on ink. Design had #8B867A (5.04:1); lightened to 7.18:1
+        1: "#4B4B49", // body copy on paper, 8.37:1
+        2: "#565654", // secondary on paper, 7.04:1 — was #6A665B
+        3: "#C9C9C4", // BORDER ONLY, 1.59:1. Never type.
+        4: "#A6A6A2", // secondary on ink, 7.85:1
       },
 
-      // The brand's own colour. It means "Orisan is present here" — the eyebrow,
-      // the dot in the wordmark, the stop. It is never a status.
-      orisan: {
-        mark: "#C2472E", // shapes, rules, dots. Design value, exact. Never carries type.
-        type: "#802F1E", // the same hue and saturation, darkened 34% so it can be read.
-        // Design used #C2472E for type at 4.32:1. Same colour at eyebrow scale,
-        // 7.82:1 on paper and 7.08:1 on paper-deep.
-        inverse: "#D68F7D", // the same again for type on ink. Design #C96A52 was 4.94:1.
+      // ── Rules, strokes and figure furniture. ─────────────────────────────────
+      rule: {
+        DEFAULT: "#E6E6E5", // hairlines on paper
+        dark: "#282828",    // hairlines on ink
+        row: "#202020",     // the explainer rows beside the terminal
+        edge: "#3A3A3A",    // ghost button border
+        hover: "#6A6A6A",
+        bright: "#787878",
+        stroke: "#3E3E3C",  // hero figure node strokes
+        line: "#333331",    // hero figure connectors
+        dot: "#4A4A48",     // build-log timeline dots
+        node: "#C9C9C4",    // map figure node strokes
+        wire: "#D8D8D3",    // map figure edges
+        chrome: "#333333",  // terminal window dots
       },
 
-      // Status accents. Fixed meaning, never chosen for looks.
-      //
-      // DEFAULT is the mark value: rules, dots, fills, borders. It is a shape
-      // colour and it is NOT readable as type -- measured on paper the four sit
-      // between 2.79:1 and 3.00:1, which fails AA, never mind the house 7:1 bar.
-      // `text` is the same hue darkened until it can be read: 7.73-7.82:1 on
-      // paper. `fill` is the mark laid 10% into paper, opaque, so a chip stays
-      // light on an ink ground as well as a paper one.
-      //
-      // The deck calls holding/suspicion "allowed"/"held". These keep the site's
-      // existing names so one config does not carry two vocabularies; the values
-      // are the deck's.
-      harm: {
-        DEFAULT: "#C4796C", // damage, the thing that already went wrong
-        text: "#872917",    // 7.76:1 on paper
-        fill: "#EFE3D8",    // the mark, 10% into paper
+      // ── Type on ink. Two values darkened from the design; each was an AA
+      // failure at the size and ground it renders on, each now 7.04:1. ─────────
+      tx: {
+        d: "#FAFAF9",
+        "2d": "#A6A6A2",  // 7.85:1 on ink
+        "3d": "#9D9D99",  // was #6E6E6A (3.74) → 7.04
+        term: "#A1A19C",  // was #5E5E5A (2.80) on ink.deep → 7.04
+        label: "#C8C8C4", // figure labels, 11.42:1
       },
-      holding: {
-        DEFAULT: "#7E9070", // the floor held, all clear
-        text: "#3D4F36",    // 7.73:1 on paper
-        fill: "#E8E6D8",
-      },
-      watching: {
-        DEFAULT: "#7D95AC", // observation, discovery
-        text: "#3A4B5C",    // 7.82:1 on paper
-        fill: "#E8E6DE",
-      },
-      suspicion: {
-        DEFAULT: "#B08A45", // raised, not yet stopped
-        text: "#5A4723",    // 7.76:1 on paper
-        fill: "#EDE5D4",
-      },
+
+      // ── Accent. Rhetorical, display sizes only. ──────────────────────────────
+      accent: { DEFAULT: "#C63C21", d: "#D96A45" },
+      // Legacy names. `type` is NOT remapped to the accent: it carries eyebrow-
+      // sized text in 18 places and #C63C21 measures 4.94:1 on paper.
+      orisan: { mark: "#C63C21", type: "#802F1E", inverse: "#D96A45" },
+
+      // ── Semantic. Fixed meaning, never chosen for looks. The design's
+      // allowed/held/stopped ARE these four under other names, so one vocabulary
+      // is kept. DEFAULT is the mark, `lit` the on-ink type value, `text` the
+      // on-paper type value, `fill` the mark 10% into paper. ───────────────────
+      harm:      { DEFAULT: "#9E2B25", text: "#9E2B25", fill: "#F1E5E4", lit: "#C96A62" },
+      holding:   { DEFAULT: "#5E7953", text: "#475C3F", fill: "#EAEDE8", lit: "#8FAE83" },
+      suspicion: { DEFAULT: "#B08A45", text: "#685129", fill: "#F3EFE7", lit: "#C9A566", sub: "#8A7346" },
+      watching:  { DEFAULT: "#7D95AC", text: "#485664", fill: "#EEF0F1" },
+
+      // The inert dot on a "Designed" surface. Not semantic — it means "not yet".
+      dim: "#B8B8B4",
     },
 
     fontFamily: {
-      // The design's voice. Replaces Newsreader across the site.
-      display: ["var(--font-schibsted)", "system-ui", "sans-serif"],
-      // Quotation and the founder's voice. Italic only.
-      alt: ["var(--font-fraunces)", "Georgia", "serif"],
-      // The product's own vocabulary: grades, check IDs, commands, file paths.
-      mono: ["var(--font-jetbrains)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+      // Reversal of B1 ("Inter is out"). Founder taste call, recorded in the PR.
+      display: ["var(--font-inter)", "system-ui", "sans-serif"],
+      body: ["var(--font-inter)", "system-ui", "sans-serif"],
+      mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
+      // The italic emphasis face. Reversal of the 2026-08-12 ruling that the
+      // deck's italic device does not transfer. Founder taste call.
+      alt: ["var(--font-instrument)", "Georgia", "serif"],
     },
 
     // The design's ten sizes. Its 22 literal px values collapse into these; the
     // largest resulting shift is 2px, which is below the threshold of noticing.
     fontSize: {
-      micro: ["0.65625rem", { lineHeight: "1.6", letterSpacing: "0.16em" }], // mono footer/meta
-      label: ["0.6875rem", { lineHeight: "1.6", letterSpacing: "0.22em" }],  // mono eyebrow
-      xs:    ["0.8125rem", { lineHeight: "1.55" }],
-      sm:    ["0.96875rem", { lineHeight: "1.55" }],
-      base:  ["1.0625rem", { lineHeight: "1.55" }],
-      lg:    ["clamp(1.1rem, 0.95rem + 0.75vw, 1.35rem)", { lineHeight: "1.5" }],
-      xl:    ["clamp(1.5rem, 1.2rem + 1.5vw, 2.1rem)", { lineHeight: "1.12", letterSpacing: "-0.025em" }],
-      "2xl": ["clamp(2rem, 1.4rem + 3vw, 3.4rem)", { lineHeight: "1.04", letterSpacing: "-0.03em" }],
-      // Floor and start lowered so the scale stays strictly ordered below 612px,
-      // where the steepened 4xl curve had overtaken it from underneath. Slope and
-      // ceiling unchanged; 4xl is deliberately untouched because Home's CTA
-      // depends on its current curve.
-      "3xl": ["clamp(2.2rem, 1.3rem + 4.5vw, 5.4rem)", { lineHeight: "1", letterSpacing: "-0.035em" }],
-      // Steeper fluid curve than the other steps: the h1 is the only place four
-      // lines of display type can push the primary action off a 390px screen.
-      // Unchanged at 1440 (108.8px); 55.75px -> 44.1px at 390, which lifts the
-      // install command back above the fold without touching the sentence.
-      "4xl": ["clamp(2.6rem, 1.25rem + 6.2vw, 6.8rem)", { lineHeight: "0.98", letterSpacing: "-0.035em" }],
+      // The ten-step spine, remapped onto the design's scale. The names are kept
+      // so Product, The gap, Vision and Contact inherit the new type without a
+      // markup change; the values are standalone2's. Strictly ordered at every
+      // width — asserted by tests/scale.spec.ts.
+      micro: [".58rem", { lineHeight: "1.6", letterSpacing: ".16em" }],
+      label: [".62rem", { lineHeight: "1.6", letterSpacing: ".26em" }],
+      xs:    [".8rem", { lineHeight: "1.45" }],
+      sm:    [".9rem", { lineHeight: "1.55" }],
+      base:  ["1.0625rem", { lineHeight: "1.6" }],   // the design's 17px body
+      lg:    ["clamp(1.08rem,1.8vw,1.38rem)", { lineHeight: "1.55" }],
+      xl:    ["clamp(1.5rem,2.6vw,2.1rem)", { lineHeight: "1.15", letterSpacing: "-.025em" }],
+      "2xl": ["clamp(1.6rem,3vw,2.4rem)", { lineHeight: "1.12", letterSpacing: "-.025em" }],
+      "3xl": ["clamp(2.3rem,6vw,4.8rem)", { lineHeight: "1", letterSpacing: "-.04em" }],
+      "4xl": ["clamp(3.2rem,10.5vw,8.6rem)", { lineHeight: ".92", letterSpacing: "-.05em" }],
+
+      // Steps the design uses that the spine does not carry. Named for the role
+      // they play rather than their size, so a reader can tell why each exists.
+      chrome:  [".6rem", { lineHeight: "1.6", letterSpacing: ".2em" }],    // terminal pane label
+      meta:    [".66rem", { lineHeight: "1.6", letterSpacing: ".2em" }],   // timeline caption, footer rule
+      repo:    [".68rem", { lineHeight: "1.6" }],                          // package name under a surface
+      fine:    [".7rem", { lineHeight: "1.6", letterSpacing: ".05em" }],   // hero fine print, log dates
+      repoLg:  [".74rem", { lineHeight: "1.6" }],                          // the weighted cell's package name
+      legend:  [".86rem", { lineHeight: "1.55" }],                         // the two legend cells
+      colophon:[".87rem", { lineHeight: "1.55" }],                         // footer blurb
+      card:    [".88rem", { lineHeight: "1.55" }],                         // surface copy, explainer rows
+      nav:     [".89rem", { lineHeight: "1.5" }],                          // nav links
+      cta:     [".94rem", { lineHeight: "1.5" }],                          // button labels
+      standfirst: [".95rem", { lineHeight: "1.55" }],                      // build-log standfirst
+      h4:      ["1.02rem", { lineHeight: "1.35", letterSpacing: "-.01em" }],
+      entry:   ["1.05rem", { lineHeight: "1.5", letterSpacing: "-.015em" }],   // build-log heading
+      surface: ["1.12rem", { lineHeight: "1.4", letterSpacing: "-.02em" }],    // surface name
+      rung:    ["1.4rem", { lineHeight: "1", letterSpacing: "-.02em" }],       // severity ladder letter
+      ticker:  ["1.6rem", { lineHeight: "1.2", letterSpacing: "-.03em" }],     // the hero ticker figures
+      figure:  ["clamp(3rem,7.5vw,5.8rem)", { lineHeight: "1", letterSpacing: "-.045em" }],
+      feature: ["clamp(1.8rem,3vw,2.6rem)", { lineHeight: "1.05", letterSpacing: "-.03em" }],
+      lead:    ["clamp(1.5rem,2.6vw,2.1rem)", { lineHeight: "1.15", letterSpacing: "-.025em" }],
     },
 
     fontWeight: { normal: "400", medium: "500", semibold: "600" },
@@ -139,10 +165,12 @@ const config: Config = {
     // 14px and 26px in the mockups resolves to `panel`.
     borderRadius: {
       none: "0",
-      sm: "2px",      // hairline detail
-      panel: "1.25rem",  // cards, buttons, terminal chrome
-      feature: "2rem",   // the large dark full-width panels
-      full: "9999px",    // pills and circles
+      sm: "2px",       // hairline detail
+      ladder: "12px",  // the severity ladder
+      panel: "14px",   // the terminal split
+      full: "9999px",  // pills and circles. The design writes 999px; both clamp
+                       // to a pill and render identically, so this is a markup
+                       // difference with identical output, not a deviation.
     },
 
     // Still deleted. The design's `inset 0 -1px 0` hairlines are real borders.

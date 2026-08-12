@@ -17,18 +17,29 @@ import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 
 const TOKENS = {
-  "#f4efe4": "paper", "#ebe4d6": "paper.deep", "#ebdbcb": "paper.edge",
-  "#16150f": "ink", "#0e0d09": "ink.deep",
-  "#4a4740": "grey.1", "#6a665b": "grey.2", "#b8b2a4": "grey.3", "#a6a299": "grey.4",
-  "#c2472e": "orisan.mark", "#802f1e": "orisan.type", "#d68f7d": "orisan.inverse",
-  "#c4796c": "harm", "#7e9070": "holding", "#7d95ac": "watching", "#b08a45": "suspicion",
-  // The readable pair for each mark. DEFAULT is a shape colour and measures
-  // 2.79-3.00:1 as type on paper; .text is the same hue darkened to 7.73-7.82:1,
-  // and .fill is the mark laid 10% into paper, opaque so a chip stays light on ink.
-  "#872917": "harm.text", "#3d4f36": "holding.text",
-  "#3a4b5c": "watching.text", "#5a4723": "suspicion.text",
-  "#efe3d8": "harm.fill", "#e8e6d8": "holding.fill",
-  "#e8e6de": "watching.fill", "#ede5d4": "suspicion.fill",
+  // Surfaces
+  "#fafaf9": "paper", "#f0f0ec": "paper.deep", "#e6e6e3": "paper.hover",
+  "#0f0f0f": "ink", "#151515": "ink.deep", "#1c1414": "ink.sunk",
+  "#221e1c": "ink.focus", "#1e1e1c": "ink.shape", "#2a2a2a": "ink.hover",
+  // Greys
+  "#4b4b49": "grey.1", "#565654": "grey.2", "#c9c9c4": "grey.3", "#a6a6a2": "grey.4",
+  // Rules, strokes, figure furniture
+  "#e6e6e5": "rule", "#282828": "rule.dark", "#202020": "rule.row",
+  "#3a3a3a": "rule.edge", "#6a6a6a": "rule.hover", "#787878": "rule.bright",
+  "#3e3e3c": "rule.stroke", "#333331": "rule.line", "#4a4a48": "rule.dot",
+  "#d8d8d3": "rule.wire", "#333333": "rule.chrome",
+  // Type on ink
+  "#9d9d99": "tx.3d", "#a1a19c": "tx.term", "#c8c8c4": "tx.label",
+  // Accent
+  "#c63c21": "accent / orisan.mark", "#d96a45": "accent.d / orisan.inverse",
+  "#802f1e": "orisan.type",
+  // Semantic
+  "#9e2b25": "harm / harm.text", "#f1e5e4": "harm.fill", "#c96a62": "harm.lit",
+  "#5e7953": "holding", "#475c3f": "holding.text", "#eaede8": "holding.fill", "#8fae83": "holding.lit",
+  "#b08a45": "suspicion", "#685129": "suspicion.text", "#f3efe7": "suspicion.fill",
+  "#c9a566": "suspicion.lit", "#8a7346": "suspicion.sub",
+  "#7d95ac": "watching", "#485664": "watching.text", "#eef0f1": "watching.fill",
+  "#b8b8b4": "dim",
 };
 
 /**
@@ -86,7 +97,7 @@ for (const f of files) {
 
 // Positive control: if no token is present the extraction is broken, and a clean
 // result would mean nothing.
-if (!all.has("#f4efe4")) {
+if (!all.has("#fafaf9")) {
   console.error("FAIL: positive control missing. The paper token was not extracted,");
   console.error("so an empty unexpected-list proves nothing.");
   process.exit(1);
