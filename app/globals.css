@@ -59,9 +59,15 @@
      applies to it (8.08:1 on paper, 7.32:1 on paper-deep).
      The selector matches preflight's element-qualified one deliberately: a bare
      `::placeholder` loses to `input::placeholder` on specificity and silently
-     does nothing, which is how the first attempt at this failed. */
+     does nothing, which is how the first attempt at this failed.
+     Preflight emits three rules, not one: the standard selector plus separate
+     `-moz-placeholder` variants. Overriding only the standard one left Firefox on
+     #9ca3af. The colour allowlist gate found that; the Chromium-based assertion
+     below could not, because it resolves the standard selector. */
   input::placeholder,
-  textarea::placeholder {
+  textarea::placeholder,
+  input::-moz-placeholder,
+  textarea::-moz-placeholder {
     @apply text-grey-1;
     opacity: 1;
   }
