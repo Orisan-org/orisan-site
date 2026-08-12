@@ -272,18 +272,18 @@ export default function Home() {
           <ul className="mt-9 grid list-none grid-cols-stack gap-4 p-0 lg:grid-cols-pair">
             {LEDGER.map((row) => (
               <li key={row.kind} className="rounded-panel bg-paper-deep p-6">
-                <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                   {row.kind}
                 </p>
                 <p className="mt-4 font-mono text-sm text-ink">{row.call}</p>
                 <div className="mt-5 border-l-3 border-harm pl-4">
-                  <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                  <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                     Today, with nothing in the path
                   </p>
                   <p className="mt-2 text-base text-grey-1">{row.today}</p>
                 </div>
                 <div className="mt-4 border-l-3 border-grey-3 pl-4">
-                  <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                  <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                     Planned &middot; does not exist yet
                   </p>
                   <p className="mt-2 text-base text-grey-1">{row.planned}</p>
@@ -319,7 +319,7 @@ export default function Home() {
               would stop the action and then tell you why. It did not exist, so we started
               building it. What exists so far only reads.&rdquo;
             </p>
-            <footer className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-2">
+            <footer className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-1">
               Founder, Orisan
             </footer>
           </blockquote>
