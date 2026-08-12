@@ -131,8 +131,12 @@ const SEVERITY_INK: Record<Severity, string> = {
   critical: "text-harm",
   high: "text-suspicion",
   medium: "text-suspicion",
-  low: "text-grey-2",
-  info: "text-holding",
+  low: "text-grey-1",
+  // Was text-holding. #7E9070 measures 3.00:1 on paper -- an AA failure, not just a
+  // miss against the house 7:1 bar. Interim fix to the neutral until the semantic
+  // token is darkened; see the note in the PR. This collapses info and low to the
+  // same colour, which is a real if small loss.
+  info: "text-grey-1",
 };
 
 export function GapWidget() {
@@ -170,7 +174,7 @@ export function GapWidget() {
     <div>
       <div className="grid grid-cols-stack gap-8 rounded-panel bg-paper-deep p-8 lg:grid-cols-pair">
         <div>
-          <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+          <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
             Declared purpose
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -190,7 +194,7 @@ export function GapWidget() {
           </div>
         </div>
         <div className={locked ? "opacity-45" : undefined}>
-          <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+          <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
             Who declared it
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -226,7 +230,7 @@ export function GapWidget() {
       <div className="mt-4 rounded-panel border border-grey-3 p-8">
         <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-grey-3 pb-6">
           <p className="font-mono text-sm">secure-filesystem-server</p>
-          <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+          <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
             purpose{" "}
             <span data-testid="gap-purpose">
               {profile.category} ({profile.source})
@@ -245,17 +249,17 @@ export function GapWidget() {
                   {r.adjusted.toUpperCase()}
                   {r.adjusted !== r.original ? ` (was ${r.original.toUpperCase()})` : ""}
                 </span>
-                <span className="text-grey-2" data-testid={`verdict-${r.target}`}>
+                <span className="text-grey-1" data-testid={`verdict-${r.target}`}>
                   {r.verdict}
                 </span>
-                <span className="text-grey-2">{r.id}</span>
+                <span className="text-grey-1">{r.id}</span>
                 <span className="text-ink">{r.target}</span>
               </p>
               <p className="mt-2 max-w-measure text-sm text-grey-1">{r.evidence}</p>
             </li>
           ))}
         </ul>
-        <p className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-2">
+        <p className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-1">
           payload_stored false &middot; no findings suppressed
         </p>
       </div>

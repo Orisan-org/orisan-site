@@ -67,7 +67,7 @@ export default function Contact() {
           <ul className="mt-9 grid list-none grid-cols-stack gap-4 p-0 lg:grid-cols-pair">
             {PROMPTS.map((p) => (
               <li key={p.who} className="rounded-panel bg-paper-deep p-8">
-                <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                   {p.who}
                 </p>
                 <p className="mt-4 max-w-lede text-base text-grey-1">{p.body}</p>

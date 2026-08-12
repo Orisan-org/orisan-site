@@ -118,7 +118,7 @@ export default function Home() {
             agent connects again.
           </p>
           <p className="mt-5 max-w-lede text-lg text-grey-1">
-            It runs on your machine and uploads nothing. Ten seconds, nothing installed.
+            Nothing leaves your machine unless you send it. Ten seconds, nothing installed.
           </p>
           <div className="mt-9">
             <InstallCommand command={INSTALL} />
@@ -135,8 +135,8 @@ export default function Home() {
             </h2>
             <p className="mt-5 max-w-lede text-lg text-grey-3">
               mcpscan enumerates the tools, resources and prompts an MCP server exposes, runs
-              deterministic checks over them and grades what it finds. It runs on your machine,
-              uploads nothing, and never drops a finding to make a server look cleaner. It
+              deterministic checks over them and grades what it finds. Nothing leaves your machine
+              unless you send it, and it never drops a finding to make a server look cleaner. It
               reports. It does not stop anything.
             </p>
 
@@ -189,7 +189,7 @@ export default function Home() {
                 server — not the five tools above. You approve a name against a list you have
                 not seen. The protocol then lets that list change underneath the approval: a
                 server declaring <span className="font-mono">listChanged</span> should send{" "}
-                <span className="font-mono">notifications/tools/list_changed</span> when its
+                <span className="break-words font-mono">notifications/tools/list_changed</span> when its
                 tools change, and nothing requires the client to ask a second time.
               </p>
               <p className="mt-4 max-w-measure text-base text-grey-3">
@@ -219,9 +219,7 @@ export default function Home() {
           </p>
           <h2 className="mt-5 max-w-hero text-2xl font-semibold">
             A scanner tells you what a thing can do.{" "}
-            <span className="font-alt font-normal italic text-orisan-type">
-              A brake decides whether it does it.
-            </span>
+            <span className="text-orisan-type">A brake decides whether it does it.</span>
           </h2>
           <p className="mt-5 max-w-lede text-lg text-grey-1">
             mcpscan is a scanner, and it is deliberately not more than one. Its verdicts are
@@ -272,18 +270,18 @@ export default function Home() {
           <ul className="mt-9 grid list-none grid-cols-stack gap-4 p-0 lg:grid-cols-pair">
             {LEDGER.map((row) => (
               <li key={row.kind} className="rounded-panel bg-paper-deep p-6">
-                <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                   {row.kind}
                 </p>
                 <p className="mt-4 font-mono text-sm text-ink">{row.call}</p>
                 <div className="mt-5 border-l-3 border-harm pl-4">
-                  <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                  <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                     Today, with nothing in the path
                   </p>
                   <p className="mt-2 text-base text-grey-1">{row.today}</p>
                 </div>
                 <div className="mt-4 border-l-3 border-grey-3 pl-4">
-                  <p className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                  <p className="font-mono text-micro uppercase tracking-meta text-grey-1">
                     Planned &middot; does not exist yet
                   </p>
                   <p className="mt-2 text-base text-grey-1">{row.planned}</p>
@@ -319,7 +317,7 @@ export default function Home() {
               would stop the action and then tell you why. It did not exist, so we started
               building it. What exists so far only reads.&rdquo;
             </p>
-            <footer className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-2">
+            <footer className="mt-6 font-mono text-micro uppercase tracking-meta text-grey-1">
               Founder, Orisan
             </footer>
           </blockquote>

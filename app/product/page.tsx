@@ -96,7 +96,7 @@ export default function Product() {
               ))}
             </ul>
             <p className="mt-8 max-w-measure text-base text-grey-4">
-              It runs on your machine and uploads nothing. It reports; it does not intervene
+              Nothing leaves your machine unless you send it. It reports; it does not intervene
               in anything.
             </p>
           </div>
@@ -116,7 +116,7 @@ export default function Product() {
               <li key={l.verb} className="rounded-panel border border-grey-3 p-8">
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <h3 className="text-xl font-semibold tracking-tight">{l.verb}</h3>
-                  <span className="font-mono text-micro uppercase tracking-meta text-grey-2">
+                  <span className="font-mono text-micro uppercase tracking-meta text-grey-1">
                     {l.state}
                   </span>
                 </div>

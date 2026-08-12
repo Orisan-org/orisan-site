@@ -5,7 +5,7 @@
  */
 export function Label({ children }: { children: React.ReactNode }) {
   return (
-    <span className="font-mono text-xs uppercase tracking-label text-grey-2">
+    <span className="font-mono text-xs uppercase tracking-label text-grey-1">
       {children}
     </span>
   );
