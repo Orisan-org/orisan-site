@@ -96,9 +96,6 @@ export default function Home() {
                     Read the build log
                   </a>
                 </div>
-                <p className="mt-7 font-mono text-fine text-tx-3d">
-                  Seven pieces. One is shipping.
-                </p>
               </div>
 
               <div>

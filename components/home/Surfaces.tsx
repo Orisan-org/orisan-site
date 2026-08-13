@@ -69,27 +69,49 @@ export function Surfaces() {
             <p className={`${P} mt-5h max-w-ch34 flex-zero text-h4 leading-160 tracking-normal`}>
               Grade an MCP server before you connect an agent to it.
             </p>
+            {/*
+              Three clauses, each verified against mcpscan-work 9649575 before
+              shipping and cited in CLAIMS. "Offline" is deliberately NOT used: it
+              is ambiguous in the one direction that already bit us, and scanning a
+              server involves talking to it.
+            */}
+            <p className={`${P} mt-3h max-w-ch34 flex-zero text-card leading-160`}>
+              Deterministic. No model in the scanner. Nothing leaves your machine
+              unless you send it.
+            </p>
             <div className="mt-auto pt-7 font-mono text-label uppercase tracking-meta text-holding-status">
               Shipping now
             </div>
           </div>
 
-          {SURFACES.map((s) => (
-            <div key={s.name} className={`${CELL} ${PAD}`}>
+          {SURFACES.map((s, i) => (
+            // The last two sit alone on the closing row now that the legend cell has
+            // left the grid. Spanning them keeps the lattice closed rather than
+            // leaving two empty bordered boxes.
+            <div key={s.name} className={`${CELL} ${PAD} ${i >= 4 ? "col-span-2 to-600:col-span-1" : ""}`}>
               <div className="text-surface font-semibold leading-160 text-ink">{s.name}</div>
               <p className={`${P} mt-3h flex-1 text-card leading-160`}>{s.line}</p>
             </div>
           ))}
 
-          <div className={`${CELL} ${PAD} col-span-2 justify-end bg-transparent to-600:col-span-1`}>
-            <p className={`${P} text-legend leading-160`}>Public repositories are open and early.</p>
-            <div className="mt-3h font-mono text-label uppercase tracking-meta text-ink">
-              <a href="https://github.com/Orisan-org" className="border-b border-rule no-underline">
-                github.com/Orisan-org →
-              </a>
-            </div>
-          </div>
         </div>
+
+        {/*
+          Was a legend cell inside the grid. A legend explains badges and the badges
+          are gone, so the framing went and the sentence stayed: it makes no count
+          claim, and the link resolves to ground truth, so a reader who follows it
+          sees exactly two repositories and calibrates on the spot. Self-verifying
+          copy, and the only sentence in the section that touches publicness.
+        */}
+        <p className={`${P} mt-6 flex flex-wrap items-baseline gap-3h text-legend leading-160`}>
+          Public repositories are open and early.
+          <a
+            href="https://github.com/Orisan-org"
+            className="border-b border-rule font-mono text-label uppercase tracking-meta text-ink no-underline"
+          >
+            github.com/Orisan-org →
+          </a>
+        </p>
       </div>
     </section>
   );
