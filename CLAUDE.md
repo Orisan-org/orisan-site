@@ -148,6 +148,11 @@ The released-to-allowlist mechanism is unchanged and is the part that mattered.
   from a diff next time.
 - **Accent colour carries meaning:** `harm`, `holding`, `watching`, `suspicion`.
   Never pick an accent for looks. Accent never exceeds ~10% of a viewport.
+- **In copy describing unbuilt work, a finite present tense with an implied subject
+  asserts existence.** "Stands in the path of the action" reads as a thing doing
+  that now; "Stand in the path of an action" reads as purpose. Infinitives and noun
+  phrases describe intent, finite verbs describe behaviour. Grammatical form does
+  claim work, and it is cheap to check.
 - **No component accepts a `className` prop that can override a token.** Variants are
   explicit props with a fixed set of values, never an escape hatch.
 
