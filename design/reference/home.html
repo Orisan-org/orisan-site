@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orisan — Your AI agents are acting. Can you prove what they did?</title>
+<!--
+  ORISAN HOME v3 — craft pass on v2.
+  Copy, section order, colour values, semantic meanings and the five figures are unchanged.
+  Every visual on this page is SVG or CSS. No raster, no stock, no generated art.
+  PLACEHOLDER: the terminal in section 5 is fabricated output for layout only.
+  It must be replaced with a real recording before this is shown to anyone.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* latin-ext */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("50b90947-fbd6-4a3c-adc2-d0a29c8a36ea") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("57826478-25e2-495e-9063-b0b185a1ddc4") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("9d180829-e04f-4a23-a83b-a5a413216669") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("79acb897-0bc1-4526-872e-710d52d8cf68") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("c4cc4a2e-68df-455a-84c3-9b5c1f62a77f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("2c4e80c5-13a2-43aa-b6d2-38f0b71abc87") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6dd46e66-28ef-40f1-bb26-0f3c17940115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("7becc378-b6f9-439c-b139-8d0b61d725cb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("94b78459-5f44-4c73-b289-9e024fb02c17") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("9d180829-e04f-4a23-a83b-a5a413216669") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("79acb897-0bc1-4526-872e-710d52d8cf68") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("c4cc4a2e-68df-455a-84c3-9b5c1f62a77f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2c4e80c5-13a2-43aa-b6d2-38f0b71abc87") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("6dd46e66-28ef-40f1-bb26-0f3c17940115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("7becc378-b6f9-439c-b139-8d0b61d725cb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("94b78459-5f44-4c73-b289-9e024fb02c17") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("9d180829-e04f-4a23-a83b-a5a413216669") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("79acb897-0bc1-4526-872e-710d52d8cf68") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("c4cc4a2e-68df-455a-84c3-9b5c1f62a77f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("2c4e80c5-13a2-43aa-b6d2-38f0b71abc87") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("6dd46e66-28ef-40f1-bb26-0f3c17940115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("7becc378-b6f9-439c-b139-8d0b61d725cb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("94b78459-5f44-4c73-b289-9e024fb02c17") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("9d180829-e04f-4a23-a83b-a5a413216669") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("79acb897-0bc1-4526-872e-710d52d8cf68") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("c4cc4a2e-68df-455a-84c3-9b5c1f62a77f") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("2c4e80c5-13a2-43aa-b6d2-38f0b71abc87") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("6dd46e66-28ef-40f1-bb26-0f3c17940115") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("7becc378-b6f9-439c-b139-8d0b61d725cb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("94b78459-5f44-4c73-b289-9e024fb02c17") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("659f2520-f6b5-467e-b5d9-1c66fe5044ba") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("dc45d751-03f5-4208-9750-787486b0edf3") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("0840ba76-afdd-4045-90b7-102a171ecaea") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("2828d3d8-a82d-4a4a-ab8f-676a01ce2d11") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("ee946757-bd9a-42f1-9bde-5222e0b5bd2c") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("23630799-3dd1-416b-b4bf-5b6599a0f209") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("659f2520-f6b5-467e-b5d9-1c66fe5044ba") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("dc45d751-03f5-4208-9750-787486b0edf3") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("0840ba76-afdd-4045-90b7-102a171ecaea") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2828d3d8-a82d-4a4a-ab8f-676a01ce2d11") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("ee946757-bd9a-42f1-9bde-5222e0b5bd2c") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("23630799-3dd1-416b-b4bf-5b6599a0f209") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<script src="6e50fe47-a694-446e-bb03-a96456944491"></script>
+
+<style>
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@media print{
+  *{animation-delay:-99s !important;animation-duration:.001s !important;
+    animation-iteration-count:1 !important;animation-fill-mode:both !important;
+    animation-play-state:running !important;transition-duration:0s !important}
+  nav{position:static}
+}
+</style>
+<style>
+/* ═══════════ TOKENS ═══════════ */
+:root{
+  --ink:#0F0F0F; --ink-2:#151515; --paper:#FAFAF9; --card:#F0F0EC;
+  --rule:#E6E6E5; --rule-d:#282828;
+  --tx:#0F0F0F; --tx2:#4B4B49; --txd:#FAFAF9; --tx2d:#A6A6A2; --tx3d:#6E6E6A;
+  --accent:#C63C21; --accent-d:#D96A45;          /* rhetorical, display sizes only */
+  --allowed:#5E7953; --held:#B08A45; --stopped:#9E2B25;   /* semantic, never rhetorical */
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --serif:'Instrument Serif',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --g:clamp(20px,5vw,84px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--tx);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--g)}
+.narrow{max-width:920px;margin:0 auto;padding:0 var(--g)}
+a{color:inherit}
+p{color:var(--tx2);max-width:62ch}
+:focus-visible{outline:2px solid var(--tx);outline-offset:3px;border-radius:2px}
+.ink :focus-visible{outline-color:var(--txd)}
+
+/* type scale — pushed apart at both ends */
+.d1{font-size:clamp(3.2rem,10.5vw,8.6rem);line-height:.92;letter-spacing:-.05em;font-weight:600}
+.d2{font-size:clamp(2.3rem,6vw,4.8rem);line-height:1;letter-spacing:-.04em;font-weight:600}
+.d3{font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.12;letter-spacing:-.025em;font-weight:600}
+.h4{font-size:1.02rem;font-weight:600;letter-spacing:-.01em;line-height:1.35}
+.big-num{font-family:var(--mono);font-weight:500;letter-spacing:-.045em;line-height:1;
+         font-size:clamp(3rem,7.5vw,5.8rem)}
+.eyebrow{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.26em;
+         text-transform:uppercase;color:var(--tx2);display:block}
+.mono{font-family:var(--mono);font-size:.9em}
+.em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;color:var(--accent)}
+.ink .em{color:var(--accent-d)}
+.ink{background:var(--ink);color:var(--txd)}
+.ink p{color:var(--tx2d)} .ink .eyebrow{color:var(--tx3d)}
+.lede{font-size:clamp(1.08rem,1.8vw,1.38rem);line-height:1.55}
+.small{font-size:.9rem}
+
+.cta{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;
+     font-size:.94rem;font-weight:500;text-decoration:none;border:1px solid transparent;transition:.15s}
+.solid-l{background:var(--txd);color:var(--ink)} .solid-l:hover{background:#E6E6E3}
+.ghost-l{border-color:#3A3A3A;color:var(--txd)}  .ghost-l:hover{border-color:#787878}
+.solid-d{background:var(--ink);color:var(--paper)} .solid-d:hover{background:#2A2A2A}
+
+/* full-bleed hairline seams — the paper/ink transitions are cut on a rule, not a fade */
+.seam-d{border-top:1px solid var(--rule-d)}
+.seam-l{border-top:1px solid var(--rule)}
+
+/* ═══════════ NAV ═══════════ */
+nav{position:sticky;top:0;z-index:60;background:rgba(15,15,15,.94);border-bottom:1px solid var(--rule-d)}
+nav .wrap{display:flex;align-items:center;gap:34px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--txd);text-decoration:none;letter-spacing:-.015em}
+.brand i{width:6px;height:6px;border-radius:999px;background:var(--accent-d);display:block}
+nav .lk{margin-left:auto;display:flex;gap:26px;align-items:center}
+nav .lk a{color:var(--tx2d);text-decoration:none;font-size:.89rem}
+nav .lk a:hover{color:var(--txd)}
+@media(max-width:880px){nav .lk a:not(.cta){display:none}}
+
+/* ═══════════ 1 · HERO — tallest section on the page ═══════════ */
+.hero{padding:clamp(84px,13vw,176px) 0 0;overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(30px,5vw,80px);align-items:center}
+@media(max-width:980px){.hero .grid{grid-template-columns:1fr}}
+.hero .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:44px}
+.hero .fine{font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;color:var(--tx3d);margin-top:28px}
+
+.pulse{animation:pulse 9s infinite}
+.out-a{animation:outA 9s infinite}
+.out-h{animation:outH 9s infinite}
+.out-s{animation:outS 9s infinite}
+.flow{stroke-dasharray:4 5;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes outA{0%,6%{opacity:.18}12%,28%{opacity:1}34%,100%{opacity:.18}}
+@keyframes outH{0%,38%{opacity:.18}44%,60%{opacity:1}66%,100%{opacity:.18}}
+@keyframes outS{0%,70%{opacity:.18}76%,92%{opacity:1}98%,100%{opacity:.18}}
+@media(prefers-reduced-motion:reduce){
+  .pulse,.out-a,.out-h,.out-s,.flow{animation:none}
+  .out-a,.out-h,.out-s{opacity:1}
+}
+
+/* hero ticker — sits flush on the ink→paper seam, edge to edge */
+.ticker{border-top:1px solid var(--rule-d);margin-top:clamp(60px,8vw,110px)}
+.ticker .wrap{display:flex;gap:0;flex-wrap:wrap}
+.tick{flex:1 1 200px;padding:30px 28px 34px 0;border-right:1px solid var(--rule-d)}
+.tick:last-child{border-right:0}
+.tick b{display:block;font-family:var(--mono);font-size:1.6rem;font-weight:500;letter-spacing:-.03em;color:var(--txd)}
+.tick span{display:block;font-size:.8rem;color:var(--tx3d);margin-top:8px;line-height:1.45}
+@media(max-width:780px){.tick{border-right:0;border-bottom:1px solid var(--rule-d);padding-right:0}}
+
+/* ═══════════ 2 · CLOCK — deliberately denser than the hero ═══════════ */
+.clock{padding:clamp(56px,8vw,104px) 0 clamp(64px,9vw,120px)}
+.clock .head{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+@media(max-width:780px){.clock .head{grid-template-columns:1fr}}
+.rail{margin-top:clamp(44px,6vw,76px);position:relative}
+.rail:before{content:"";position:absolute;left:0;right:0;top:96px;height:1px;background:var(--rule)}
+.rail .row{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+@media(max-width:940px){.rail:before{display:none}.rail .row{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.rail .row{grid-template-columns:1fr}}
+.stop .when{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;color:var(--tx2);text-transform:uppercase}
+.stop .big-num{margin:12px 0 0}
+.stop .bar{height:1px;background:var(--rule);margin:28px 0 0;position:relative}
+.stop .bar i{position:absolute;left:0;top:-3.5px;width:7px;height:7px;border-radius:999px;background:var(--tx)}
+.stop h3{margin-top:24px}
+.stop p{font-size:.9rem;margin-top:9px}
+
+/* ═══════════ 3 · MANIFESTO — hard cut to ink, widest type on the page ═══════════ */
+.manifesto{padding:clamp(90px,13vw,180px) 0}
+.manifesto .cols{display:grid;grid-template-columns:1fr;gap:34px}
+.manifesto .body{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(30px,5vw,80px);margin-top:clamp(36px,5vw,64px);align-items:start}
+@media(max-width:880px){.manifesto .body{grid-template-columns:1fr}}
+
+/* ═══════════ 4 · SURFACES — asymmetric grid, shipping cell weighted ═══════════ */
+.surfaces{padding:clamp(72px,10vw,140px) 0}
+.surf{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(190px,auto);
+      border-top:1px solid var(--rule);border-left:1px solid var(--rule);margin-top:clamp(38px,5vw,64px)}
+@media(max-width:1000px){.surf{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.surf{grid-template-columns:1fr}}
+.sf{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:26px 24px 28px;display:flex;flex-direction:column}
+.sf .dots{display:flex;gap:5px;margin-bottom:20px}
+.sf .dots i{width:7px;height:7px;border-radius:999px;background:var(--rule);display:block}
+.sf.ship  .dots i:nth-child(-n+3){background:var(--allowed)}
+.sf.build .dots i:nth-child(-n+2){background:var(--held)}
+.sf.des   .dots i:nth-child(-n+1){background:#B8B8B4}
+.sf .nm{font-weight:600;font-size:1.12rem;letter-spacing:-.02em}
+.sf .rp{font-family:var(--mono);font-size:.68rem;color:var(--tx2);margin-top:4px}
+.sf p{font-size:.88rem;margin-top:14px;flex:1}
+.sf .st{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;margin-top:18px}
+.sf.ship .st{color:#3F5936} .sf.build .st{color:#8A6A2E} .sf.des .st{color:#7A7A76}
+/* the one shipping surface is the biggest thing in the grid */
+.sf.feature{grid-column:span 2;grid-row:span 2;background:var(--card);padding:40px 38px;justify-content:flex-start}
+.sf.feature .nm{font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.03em;line-height:1.05}
+.sf.feature .rp{font-size:.74rem;margin-top:10px}
+.sf.feature p{font-size:1.02rem;max-width:34ch;margin-top:22px;flex:0}
+.sf.feature .st{margin-top:auto;padding-top:28px}
+.sf.legend{background:transparent}
+.sf.legend p{font-size:.86rem}
+@media(max-width:1000px){.sf.feature{grid-column:span 2}}
+@media(max-width:600px){.sf.feature{grid-column:span 1}}
+
+/* ═══════════ 5 · SHIPPING — dark, terminal crosses the seam below ═══════════ */
+.shipsec{padding:clamp(80px,11vw,150px) 0 0}
+.ship-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(30px,5vw,72px);align-items:start}
+@media(max-width:980px){.ship-grid{grid-template-columns:1fr}}
+.termcap{font-family:var(--mono);font-size:.7rem;color:#8A8A86;margin-top:12px;letter-spacing:.03em}
+/* ── terminal recording component (from orisan-terminal-component) ── */
+.rsplit{display:grid;grid-template-columns:1fr;gap:2px;background:var(--rule-d);
+        border:1px solid var(--rule-d);border-radius:14px;overflow:hidden}
+.rpane{background:var(--ink-2)}
+.rhead{display:flex;align-items:center;gap:10px;padding:13px 20px;border-bottom:1px solid var(--rule-d)}
+.rhead .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3d)}
+.rdots{display:flex;gap:6px}
+.rdots i{width:9px;height:9px;border-radius:999px;background:#333;display:block}
+.rterm{padding:20px 24px 24px;font-family:var(--mono);font-size:.8rem;line-height:2;min-height:300px}
+.tline{opacity:0;transform:translateY(2px);transition:opacity .18s,transform .18s;white-space:pre}
+.tline.on{opacity:1;transform:none}
+.tline.dim{color:#5E5E5A}
+.tline.cmd{color:var(--txd)}
+.tline.high{color:#C9A566}
+.tline.crit{color:#C96A62}
+.tline.ok{color:#8FAE83}
+.tline.focus{background:#221E1C;margin:0 -24px;padding:0 24px}
+.rtr{padding:16px 24px 20px;display:flex;flex-direction:column;gap:2px}
+.trow2{opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .3s;padding:10px 0;border-bottom:1px solid #202020}
+.trow2.on{opacity:1;transform:none}
+.trow2:last-child{border-bottom:0}
+.trow2 .tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:5px}
+.trow2.t-high .tag{color:#C9A566}
+.trow2.t-crit .tag{color:#C96A62}
+.trow2.t-ok .tag{color:#8FAE83}
+.trow2.t-info .tag{color:var(--tx3d)}
+.trow2 p{font-size:.88rem;line-height:1.55;color:var(--tx2d);max-width:52ch}
+.rbtn{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+      background:none;border:1px solid #3A3A3A;color:var(--tx2d);padding:9px 16px;border-radius:999px;cursor:pointer}
+.rbtn:hover{border-color:#6A6A6A;color:var(--txd)}
+.sample-warn{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;
+             text-transform:uppercase;color:#C96A62;border:1px solid var(--stopped);
+             padding:5px 11px;border-radius:999px;margin-bottom:14px}
+@media(prefers-reduced-motion:reduce){.tline,.trow2{opacity:1!important;transform:none!important;transition:none}}
+/* the right column hangs past the bottom of the ink block — the seam is crossed on purpose */
+.hang{margin-bottom:calc(-1 * clamp(60px,9vw,130px))}
+.shipsec .pad-b{padding-bottom:clamp(80px,11vw,150px)}
+@media(max-width:980px){.hang{margin-bottom:0}.shipsec .pad-b{padding-bottom:clamp(60px,8vw,100px)}}
+
+.ladder{display:flex;gap:0;margin-top:26px;border:1px solid var(--rule-d);border-radius:12px;overflow:hidden;background:var(--ink)}
+.rung{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--rule-d);position:relative}
+.rung:last-child{border-right:0}
+.rung b{font-family:var(--mono);font-size:1.4rem;font-weight:500;display:block}
+.rung span{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--tx3d);display:block;margin-top:6px;text-transform:uppercase}
+.rung.x{background:#1C1414}
+
+/* ═══════════ 6 · MAP — the figure runs edge to edge ═══════════ */
+.mapsec{padding:clamp(140px,17vw,220px) 0 clamp(72px,10vw,140px)}
+@media(max-width:980px){.mapsec{padding-top:clamp(64px,9vw,110px)}}
+.mapbleed{margin-top:clamp(44px,6vw,76px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+          padding:clamp(30px,4vw,56px) 0;overflow-x:auto}
+.mapbleed .inner{max-width:1280px;margin:0 auto;padding:0 var(--g)}
+
+/* ═══════════ 7 · FLOOR ═══════════ */
+.floorsec{padding:clamp(72px,10vw,140px) 0}
+.floorwrap{margin-top:clamp(36px,5vw,64px);overflow-x:auto}
+
+/* ═══════════ 8 · BUILD LOG — date rail, newest entry displayed large ═══════════ */
+.logsec{padding:clamp(80px,11vw,150px) 0}
+.loghead{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+@media(max-width:780px){.loghead{grid-template-columns:1fr}}
+.log{margin-top:clamp(44px,6vw,72px);border-top:1px solid var(--rule-d)}
+.ent{display:grid;grid-template-columns:170px 1fr;gap:clamp(20px,3vw,54px);
+     padding:clamp(26px,3.4vw,42px) 0;border-bottom:1px solid var(--rule-d)}
+@media(max-width:680px){.ent{grid-template-columns:1fr;gap:10px}}
+.ent time{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--tx3d);text-transform:uppercase;padding-top:7px;display:flex;align-items:flex-start;gap:10px}
+.ent time i{width:7px;height:7px;border-radius:999px;background:transparent;border:1px solid #4A4A48;display:block;margin-top:3px;flex:none}
+.ent.now time i{background:var(--accent-d);border-color:var(--accent-d)}
+.ent h3{font-size:1.05rem;font-weight:600;color:var(--txd);letter-spacing:-.015em;max-width:30ch}
+.ent.now h3{font-size:clamp(1.5rem,2.6vw,2.1rem);letter-spacing:-.025em;line-height:1.15}
+.ent p{font-size:.9rem;margin-top:10px;max-width:58ch}
+
+/* ═══════════ 9 · CONTACT — the quietest and most generous section ═══════════ */
+.contact{padding:clamp(110px,16vw,220px) 0 clamp(90px,13vw,180px)}
+
+/* ═══════════ FOOTER ═══════════ */
+footer{padding:60px 0 76px;border-top:1px solid var(--rule)}
+footer .row{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+footer a{color:var(--tx2);text-decoration:none;display:block;font-size:.9rem;line-height:2.1}
+footer a:hover{color:var(--tx)}
+footer .mono{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tx2)}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav><div class="wrap">
+  <a class="brand" href="#"><svg width="18" height="18" viewBox="0 0 512 512" fill="none" aria-hidden="true"><defs><mask id="gc-nav"><rect width="512" height="512" fill="black"></rect><circle cx="256" cy="256" r="176" fill="white"></circle><circle cx="256" cy="256" r="106" fill="black"></circle><path d="M338 76 L438 125 L352 215 L306 174 Z" fill="black"></path></mask></defs><circle cx="256" cy="256" r="176" fill="#FAFAF9" mask="url(#gc-nav)"></circle></svg>Orisan<i></i></a>
+  <div class="lk">
+    <a href="#why">Why now</a><a href="#surfaces">Surfaces</a><a href="#ship">Shipping</a><a href="#log">Build log</a>
+    <a href="#contact" class="cta ghost-l">Talk to us</a>
+  </div>
+</div></nav>
+
+<!-- ══════════ 1 · HERO ══════════ -->
+<div class="ink">
+<section class="hero">
+  <div class="wrap"><div class="grid">
+    <div>
+      <span class="eyebrow" style="margin-bottom:30px">Orisan · Early access 2026</span>
+      <h1 class="d1">Your agents<br>are acting.<br><span class="em">Can you prove<br>what they did?</span></h1>
+      <p class="lede" style="margin-top:40px;max-width:46ch">
+        They read inboxes, call tools, move data and commit changes on their own.
+        When one goes wrong, most teams cannot reconstruct what it saw, decided or touched.
+      </p>
+      <div class="acts">
+        <a href="#surfaces" class="cta solid-l">What we are building</a>
+        <a href="#log" class="cta ghost-l">Read the build log</a>
+      </div>
+      <p class="fine">One surface shipping · four in build · everything dated</p>
+    </div>
+
+    <!-- FIGURE 1 · LIVE DECISION — unchanged -->
+    <div>
+    <svg viewBox="0 0 520 400" width="100%" role="img" aria-label="An agent's tool call reduces to one shape of actor, target and authority, which Orisan resolves to one of three outcomes: allowed, held for a human, or stopped.">
+      <defs><style>
+        .nd{fill:none;stroke:#3E3E3C;stroke-width:1.1}
+        .lb{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;fill:#C8C8C4}
+        .sm{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.1em;fill:#686864}
+        .ln{stroke:#333331;stroke-width:1;fill:none}
+      </style></defs>
+
+      <text class="sm" x="0" y="14">AGENT CALLS</text>
+      <rect class="nd" x="0" y="30" width="112" height="30" rx="15"></rect><text class="lb" x="56" y="49" text-anchor="middle">SHELL</text>
+      <rect class="nd" x="0" y="82" width="112" height="30" rx="15"></rect><text class="lb" x="56" y="101" text-anchor="middle">MCP</text>
+      <rect class="nd" x="0" y="134" width="112" height="30" rx="15"></rect><text class="lb" x="56" y="153" text-anchor="middle">BROWSER</text>
+
+      <path class="ln flow" d="M112 45 C 160 45, 168 92, 206 97"></path>
+      <path class="ln flow" d="M112 97 L 206 97"></path>
+      <path class="ln flow" d="M112 149 C 160 149, 168 102, 206 97"></path>
+
+      <rect x="206" y="76" width="150" height="44" rx="13" fill="#1E1E1C" stroke="#3E3E3C" stroke-width="1.1"></rect>
+      <text class="lb" x="281" y="95" text-anchor="middle">ONE SHAPE</text>
+      <text class="sm" x="281" y="109" text-anchor="middle">actor · target · authority</text>
+
+      <path class="ln" d="M281 120 L 281 176"></path>
+      <circle cx="281" cy="200" r="24" fill="none" stroke="#3E3E3C" stroke-width="1.1"></circle>
+      <circle cx="281" cy="200" r="7" fill="#D96A45" class="pulse"></circle>
+      <text class="lb" x="281" y="246" text-anchor="middle">ORISAN</text>
+      <text class="sm" x="281" y="259" text-anchor="middle">deterministic · in-path · local</text>
+
+      <path class="ln" d="M305 195 C 350 186, 356 316, 396 316" opacity=".55"></path>
+      <path class="ln" d="M305 200 C 350 200, 356 250, 396 250" opacity=".55"></path>
+      <path class="ln" d="M305 205 C 350 214, 356 382, 396 382" opacity=".55"></path>
+
+      <g class="out-a">
+        <rect x="396" y="300" width="124" height="32" rx="16" fill="none" stroke="#5E7953" stroke-width="1.4"></rect>
+        <text class="lb" x="458" y="320" text-anchor="middle" fill="#8FAE83">ALLOWED</text>
+      </g>
+      <g class="out-h">
+        <rect x="396" y="234" width="124" height="32" rx="16" fill="none" stroke="#B08A45" stroke-width="1.4"></rect>
+        <text class="lb" x="458" y="248" text-anchor="middle" fill="#C9A566">HELD</text>
+        <text class="sm" x="458" y="260" text-anchor="middle" fill="#8A7346">for a human</text>
+      </g>
+      <g class="out-s">
+        <rect x="396" y="366" width="124" height="32" rx="16" fill="none" stroke="#9E2B25" stroke-width="1.4"></rect>
+        <text class="lb" x="458" y="386" text-anchor="middle" fill="#C96A62">STOPPED</text>
+        <path d="M362 376 l11 11 M373 376 l-11 11" stroke="#9E2B25" stroke-width="1.6"></path>
+      </g>
+    </svg>
+    </div>
+  </div></div>
+
+  <div class="ticker"><div class="wrap">
+    <div class="tick"><b>2 Aug 2026</b><span>EU AI Act Article 12 applicable to high-risk systems</span></div>
+    <div class="tick"><b>€15M</b><span>or 3% of worldwide turnover, whichever is higher</span></div>
+    <div class="tick"><b>1 Jan 2026</b><span>Texas TRAIGA in effect, NIST AI RMF an affirmative defence</span></div>
+    <div class="tick"><b>7</b><span>surfaces designed, one shipping, status stated on each</span></div>
+  </div></div>
+</section>
+</div>
+
+<!-- ══════════ 2 · CLOCK ══════════ -->
+<section class="clock" id="why">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Why now</span>
+        <h2 class="d2" style="margin-top:22px;max-width:16ch">The questions are already arriving.</h2>
+      </div>
+    </div>
+
+    <div class="rail"><div class="row">
+      <div class="stop">
+        <span class="when">EU · in force</span>
+        <div class="big-num">08.26</div>
+        <div class="bar"><i></i></div>
+        <h3 class="h4">Article 12 record-keeping</h3>
+        <p>Applicable to high-risk systems since 2 August 2026.</p>
+      </div>
+      <div class="stop">
+        <span class="when">Texas</span>
+        <div class="big-num">01.26</div>
+        <div class="bar"><i></i></div>
+        <h3 class="h4">TRAIGA in effect</h3>
+        <p>NIST AI RMF compliance is an affirmative defence.</p>
+      </div>
+      <div class="stop">
+        <span class="when">Procurement</span>
+        <div class="big-num">42001</div>
+        <div class="bar"><i></i></div>
+        <h3 class="h4">Questionnaires gate deals</h3>
+        <p>Auditors certify evidence, not intentions.</p>
+      </div>
+      <div class="stop">
+        <span class="when">Every incident</span>
+        <div class="big-num">—</div>
+        <div class="bar"><i></i></div>
+        <h3 class="h4">No statute needed</h3>
+        <p>"We cannot tell you what the agent did" is a position, and not a good one.</p>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ══════════ 3 · WHAT WE ARE BUILDING ══════════ -->
+<div class="ink seam-d">
+<section class="manifesto">
+  <div class="wrap">
+    <span class="eyebrow">What we are building</span>
+    <h2 class="d1" style="margin-top:28px;max-width:12ch">An evidence layer.<br><span class="em">And a brake.</span></h2>
+    <div class="body">
+      <p class="lede" style="max-width:52ch">
+        One local binary in the path of an agent's actions. Every call reduced to the same
+        shape, attributed to an actor, written to a record a third party can check. The
+        binary that watches is the one that can stop an action before it lands.
+      </p>
+      <p class="small" style="max-width:40ch">
+        None of that ships yet. What exists today is below, with dates. Every factual claim
+        on this site is listed in a public file with the source that verifies it.
+      </p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ══════════ 4 · SURFACES ══════════ -->
+<section class="surfaces" id="surfaces">
+  <div class="wrap">
+    <span class="eyebrow">The surfaces</span>
+    <h2 class="d2" style="margin-top:22px;max-width:14ch">Seven pieces.<br>One is shipping.</h2>
+
+    <div class="surf">
+      <div class="sf ship feature"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">mcpscan</div><div class="rp">orisan-mcpscan</div>
+        <p>Grades an MCP server before an agent connects to it. Deterministic, offline, no model in the scanner.</p>
+        <div class="st">Shipping</div></div>
+
+      <div class="sf build"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">Scout</div><div class="rp">orisan-scout</div>
+        <p>Finds the agents, servers and automations already running, including the unregistered ones.</p>
+        <div class="st">In build</div></div>
+
+      <div class="sf build"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">Guard</div><div class="rp">orisan-guard</div>
+        <p>Watches what leaves the machine and marks the paths where sensitive context escapes.</p>
+        <div class="st">In build</div></div>
+
+      <div class="sf build"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">Relay</div><div class="rp">orisan-relay</div>
+        <p>The in-path binary. Sees each tool call before it executes and decides whether it proceeds.</p>
+        <div class="st">In build</div></div>
+
+      <div class="sf des"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">Review</div><div class="rp">—</div>
+        <p>Judges what an agent produced, and marks actors whose output stops being trustworthy.</p>
+        <div class="st">Designed</div></div>
+
+      <div class="sf des"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">Control plane</div><div class="rp">—</div>
+        <p>The fleet view. Requests, never compels. No central switch that acts on every endpoint at once.</p>
+        <div class="st">Designed</div></div>
+
+      <div class="sf des"><div class="dots"><i></i><i></i><i></i></div>
+        <div class="nm">The map</div><div class="rp">—</div>
+        <p>A shared blast-radius graph. What each actor can reach, and how far a mistake travels.</p>
+        <div class="st">Designed</div></div>
+
+      <div class="sf legend">
+        <p style="flex:1">
+          Each status is literal. <span class="mono">Shipping</span>: installable today, every
+          claim verified. <span class="mono">In build</span>: repository public and early,
+          nothing claimed. <span class="mono">Designed</span>: specified and threat-modelled,
+          no code to rely on.
+        </p>
+      </div>
+
+      <div class="sf legend" style="justify-content:flex-end">
+        <p style="font-size:.86rem">Public repositories are open and early.</p>
+        <div class="st" style="margin-top:14px"><a href="https://github.com/Orisan-org" style="text-decoration:none;border-bottom:1px solid var(--rule)">github.com/Orisan-org →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 5 · SHIPPING NOW ══════════ -->
+<div class="ink seam-d">
+<section class="shipsec" id="ship">
+  <div class="wrap">
+    <div class="ship-grid">
+      <div class="pad-b">
+        <span class="eyebrow">Shipping now · mcpscan</span>
+        <h2 class="d3" style="margin-top:20px;max-width:16ch;color:var(--txd)">Grade a server before you connect an agent to it.</h2>
+
+        <p style="margin-top:40px">
+          9 deterministic checks. Same server, same report, every time. No model sits in
+          the decision path, so there is nothing there to prompt-inject.
+        </p>
+        <p style="margin-top:14px">
+          Nothing leaves your machine unless you send it. Reports are written locally with
+          <span class="mono">payload_stored=false</span>. No telemetry.
+        </p>
+        <div style="margin-top:32px"><a href="#" class="cta solid-l">See every check →</a></div>
+      </div>
+
+      <div class="hang">
+        <!-- FIGURE 2 · TERMINAL RECORDING — sample data marked on screen; replace LINES with real recording R-1. -->
+        <span class="sample-warn">Sample data — replace before publishing</span>
+        <div class="rsplit">
+          <div class="rpane">
+            <div class="rhead"><div class="rdots"><i></i><i></i><i></i></div><span class="lbl">mcpscan</span></div>
+            <div class="rterm" id="term"></div>
+          </div>
+          <div class="rpane">
+            <div class="rhead"><span class="lbl">What that means</span></div>
+            <div class="rtr" id="tr"></div>
+          </div>
+        </div>
+        <div class="termcap" style="display:flex;gap:14px;align-items:center">
+          <button class="rbtn" id="replay">Replay</button>
+          <span id="status"></span>
+          <span style="margin-left:auto">Findings sort by (-severity, id, target). Exits non-zero at HIGH by default.</span>
+        </div>
+
+        <!-- FIGURE 3 · SEVERITY LADDER — unchanged -->
+        <div class="ladder">
+          <div class="rung"><b style="color:#8FAE83">A</b><span>clean</span></div>
+          <div class="rung"><b style="color:#8FAE83">B</b><span>expected</span></div>
+          <div class="rung"><b style="color:#C9A566">C</b><span>review</span></div>
+          <div class="rung x"><b style="color:#C9A566">D</b><span>exit 1</span></div>
+          <div class="rung x"><b style="color:#C96A62">F</b><span>exit 1</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ══════════ 6 · THE MAP ══════════ -->
+<section class="mapsec">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap">
+      <div>
+        <span class="eyebrow">Designed · the map</span>
+        <h2 class="d2" style="margin-top:22px;max-width:15ch">How far does<br>a mistake travel?</h2>
+      </div>
+      <p style="font-size:.9rem;max-width:36ch">
+        One agent, one credential, one server. Reach is what turns a small mistake into
+        an incident, and almost nobody has it written down.
+      </p>
+    </div>
+  </div>
+
+  <!-- FIGURE 4 · BLAST RADIUS — unchanged, now runs edge to edge -->
+  <div class="mapbleed"><div class="inner">
+    <svg viewBox="0 0 1100 300" width="100%" style="min-width:820px" role="img" aria-label="A graph showing one agent connected through credentials to servers, and the kinds of data each can reach, with the blast radius highlighted. The labels name categories, not a real system.">
+      <defs><style>
+        .mn{fill:#FAFAF9;stroke:#C9C9C4;stroke-width:1}
+        .mt{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;fill:#4B4B49}
+        .ms{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.08em;fill:#8A8A86}
+        .me{stroke:#D8D8D3;stroke-width:1;fill:none}
+        .hot{stroke:#9E2B25;stroke-width:1.4;fill:none}
+      </style></defs>
+
+      <text class="ms" x="0" y="12">ACTOR</text>
+      <circle cx="52" cy="150" r="30" fill="#0F0F0F"></circle>
+      <text class="mt" x="52" y="153" text-anchor="middle" fill="#FAFAF9">AGENT</text>
+
+      <text class="ms" x="250" y="12">CREDENTIALS</text>
+      <path class="hot" d="M82 150 L 250 76"></path><path class="me" d="M82 150 L 250 150"></path><path class="me" d="M82 150 L 250 226"></path>
+      <rect class="mn" x="250" y="60" width="126" height="32" rx="16" stroke="#9E2B25"></rect><text class="mt" x="313" y="80" text-anchor="middle">ci-deploy-key</text>
+      <rect class="mn" x="250" y="134" width="126" height="32" rx="16"></rect><text class="mt" x="313" y="154" text-anchor="middle">read-only</text>
+      <rect class="mn" x="250" y="210" width="126" height="32" rx="16"></rect><text class="mt" x="313" y="230" text-anchor="middle">local-fs</text>
+
+      <text class="ms" x="500" y="12">SERVERS</text>
+      <path class="hot" d="M376 76 L 500 50"></path><path class="hot" d="M376 76 L 500 120"></path>
+      <path class="me" d="M376 150 L 500 190"></path><path class="me" d="M376 226 L 500 250"></path>
+      <rect class="mn" x="500" y="34" width="140" height="32" rx="16" stroke="#9E2B25"></rect><text class="mt" x="570" y="54" text-anchor="middle">github · write</text>
+      <rect class="mn" x="500" y="104" width="140" height="32" rx="16" stroke="#9E2B25"></rect><text class="mt" x="570" y="124" text-anchor="middle">filesystem · rw</text>
+      <rect class="mn" x="500" y="174" width="140" height="32" rx="16"></rect><text class="mt" x="570" y="194" text-anchor="middle">search</text>
+      <rect class="mn" x="500" y="234" width="140" height="32" rx="16"></rect><text class="mt" x="570" y="254" text-anchor="middle">notes</text>
+
+      <text class="ms" x="770" y="12">REACH</text>
+      <path class="hot" d="M640 50 L 770 40"></path><path class="hot" d="M640 50 L 770 96"></path><path class="hot" d="M640 120 L 770 152"></path>
+      <path class="me" d="M640 190 L 770 208"></path><path class="me" d="M640 250 L 770 258"></path>
+      <rect class="mn" x="770" y="24" width="150" height="32" rx="16" stroke="#9E2B25"></rect><text class="mt" x="845" y="44" text-anchor="middle">repositories</text>
+      <rect class="mn" x="770" y="80" width="150" height="32" rx="16" stroke="#9E2B25"></rect><text class="mt" x="845" y="100" text-anchor="middle">branches</text>
+      <rect class="mn" x="770" y="136" width="150" height="32" rx="16" stroke="#9E2B25"></rect><text class="mt" x="845" y="156" text-anchor="middle">local credentials</text>
+      <rect class="mn" x="770" y="192" width="150" height="32" rx="16"></rect><text class="mt" x="845" y="212" text-anchor="middle">web index</text>
+      <rect class="mn" x="770" y="242" width="150" height="32" rx="16"></rect><text class="mt" x="845" y="262" text-anchor="middle">stored notes</text>
+
+      <path d="M960 20 L 960 180" stroke="#9E2B25" stroke-width="1" stroke-dasharray="3 4"></path>
+      <text class="ms" x="972" y="96" fill="#9E2B25">BLAST RADIUS</text>
+      <text class="ms" x="972" y="110" fill="#9E2B25">OF ONE KEY</text>
+    </svg>
+  </div></div>
+</section>
+
+<!-- ══════════ 7 · THE FLOOR ══════════ -->
+<div class="ink seam-d">
+<section class="floorsec">
+  <div class="wrap">
+    <span class="eyebrow">A design commitment</span>
+    <h2 class="d2" style="margin-top:22px;max-width:20ch">Any part can raise suspicion.<br><span class="em">No part can grant permission.</span></h2>
+
+    <!-- FIGURE 5 · THE FLOOR — unchanged -->
+    <div class="floorwrap">
+    <svg viewBox="0 0 1000 260" width="100%" style="min-width:700px" role="img" aria-label="Signals from every component can push the severity of an action upward across the floor line. None can push it downward below the floor.">
+      <defs><style>
+        .ft{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;fill:#A6A6A2}
+        .fs{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;fill:#686864}
+      </style>
+      <marker id="up" markerWidth="7" markerHeight="7" refX="3.5" refY="6" orient="auto">
+        <path d="M0 6 L3.5 0 L7 6" fill="none" stroke="#5E7953" stroke-width="1.3"></path></marker>
+      </defs>
+
+      <line x1="0" y1="130" x2="1000" y2="130" stroke="#FAFAF9" stroke-width="2"></line>
+      <text class="ft" x="0" y="120" fill="#FAFAF9">THE FLOOR</text>
+      <text class="fs" x="880" y="120">NOT A SETTING</text>
+
+      <g stroke="#5E7953" stroke-width="1.3" marker-end="url(#up)">
+        <path d="M120 118 L 120 52" fill="none"></path><path d="M300 118 L 300 38" fill="none"></path>
+        <path d="M480 118 L 480 62" fill="none"></path><path d="M660 118 L 660 44" fill="none"></path>
+        <path d="M840 118 L 840 70" fill="none"></path>
+      </g>
+      <text class="ft" x="120" y="34" text-anchor="middle">SCOUT</text>
+      <text class="ft" x="300" y="24" text-anchor="middle">MCPSCAN</text>
+      <text class="ft" x="480" y="46" text-anchor="middle">GUARD</text>
+      <text class="ft" x="660" y="28" text-anchor="middle">REVIEW</text>
+      <text class="ft" x="840" y="54" text-anchor="middle">THE MAP</text>
+      <text class="fs" x="0" y="20">EVERY PART CAN TIGHTEN</text>
+
+      <g stroke="#9E2B25" stroke-width="1.3" stroke-dasharray="4 4">
+        <path d="M210 142 L 210 196" fill="none"></path><path d="M570 142 L 570 196" fill="none"></path>
+        <path d="M750 142 L 750 196" fill="none"></path>
+      </g>
+      <g stroke="#9E2B25" stroke-width="1.8">
+        <path d="M202 150 l16 16 M218 150 l-16 16"></path>
+        <path d="M562 150 l16 16 M578 150 l-16 16"></path>
+        <path d="M742 150 l16 16 M758 150 l-16 16"></path>
+      </g>
+      <text class="fs" x="0" y="212" fill="#9E2B25">NOTHING CROSSES DOWNWARD</text>
+      <text class="fs" x="0" y="244">A COMPONENT CAN BE WRONG, STALE OR COMPROMISED. THE WORST IT ACHIEVES IS OVER-REPORTING.</text>
+    </svg>
+    </div>
+
+    <p style="margin-top:36px;font-size:.9rem">
+      This is a commitment about our own design. Its verification is a test obligation
+      against the built system, and we have not claimed it is proven.
+    </p>
+  </div>
+</section>
+</div>
+
+<!-- ══════════ 8 · BUILD LOG ══════════ -->
+<div class="ink" style="background:var(--ink-2);border-top:1px solid var(--rule-d)">
+<section class="logsec" id="log">
+  <div class="wrap">
+    <div class="loghead">
+      <div>
+        <span class="eyebrow">Build log</span>
+        <h2 class="d2" style="margin-top:22px">What changed, and when.</h2>
+      </div>
+      <p style="max-width:38ch;font-size:.95rem">
+        Every entry is something that actually happened, including the mistakes. If you
+        want to know whether this is real, read this and not the rest of the page.
+      </p>
+    </div>
+
+    <div class="log">
+      <div class="ent now">
+        <time datetime="2026-08-12"><i></i>12 Aug 2026</time>
+        <div>
+          <h3>Found a colour we never authorised in our own stylesheet.</h3>
+          <p>Our build asserts that default framework colours cannot compile. A stricter check
+             found one shipping anyway, from a base layer nobody had inspected. The old check
+             could not have caught it.</p>
+        </div>
+      </div>
+      <div class="ent">
+        <time datetime="2026-08-11"><i></i>11 Aug 2026</time>
+        <div>
+          <h3>The type scale was not monotonic below 612px.</h3>
+          <p>One step had been tuned in isolation and crossed its neighbour, so a smaller
+             heading rendered larger on a phone. Fixed, and gated so it cannot recur.</p>
+        </div>
+      </div>
+      <div class="ent">
+        <time datetime="2026-07-24"><i></i>24 Jul 2026</time>
+        <div>
+          <h3>mcpscan 0.1.1.</h3>
+          <p>Pinned the protocol SDK after a new major release silently disabled remote
+             transport on fresh installs. Added a weekly canary that installs the built wheel
+             into a clean environment, because testing the repository instead of the artifact
+             is what let it through.</p>
+        </div>
+      </div>
+      <div class="ent">
+        <time datetime="2026-07-10"><i></i>10 Jul 2026</time>
+        <div>
+          <h3>mcpscan 0.1.0 published.</h3>
+          <p>First public artifact.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ══════════ 9 · CONTACT ══════════ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="eyebrow">Talk to us</span>
+    <h2 class="d1" style="margin-top:26px;max-width:14ch">Running agents you cannot<br><span class="em">fully account for?</span></h2>
+    <p class="lede" style="margin-top:32px;max-width:48ch">
+      We want to hear what you cannot currently answer, and what you are being asked.
+      Early access is a conversation, not a signup form.
+    </p>
+    <div style="margin-top:40px"><a href="mailto:team@orisan.org" class="cta solid-d">team@orisan.org</a></div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer><div class="wrap">
+  <div class="row">
+    <div>
+      <a class="brand" href="#" style="color:var(--tx)"><svg width="18" height="18" viewBox="0 0 512 512" fill="none" aria-hidden="true"><defs><mask id="gc-foot"><rect width="512" height="512" fill="black"></rect><circle cx="256" cy="256" r="176" fill="white"></circle><circle cx="256" cy="256" r="106" fill="black"></circle><path d="M338 76 L438 125 L352 215 L306 174 Z" fill="black"></path></mask></defs><circle cx="256" cy="256" r="176" fill="#0F0F0F" mask="url(#gc-foot)"></circle></svg>Orisan</a>
+      <p style="font-size:.87rem;max-width:32ch;margin-top:14px">Evidence and enforcement for AI agents. Early, in the open, and dated.</p>
+    </div>
+    <div style="display:flex;gap:56px;flex-wrap:wrap">
+      <div><span class="mono">Product</span><a href="#surfaces">Surfaces</a><a href="#ship">mcpscan</a><a href="#log">Build log</a></div>
+      <div><span class="mono">Open</span><a href="https://github.com/Orisan-org">GitHub</a><a href="#">Claims</a><a href="#">Security</a></div>
+    </div>
+  </div>
+  <hr style="border:0;height:1px;background:var(--rule);margin:38px 0 18px">
+  <span class="mono">Orisan · Early access · Every claim on this site is listed with its source</span>
+</div></footer>
+
+<script>
+/* One entry per line of real terminal output. t: exact characters, never edited here.
+   k: cmd|dim|high|crit|ok · say/tag: plain-English panel · wait: real pause in ms. */
+const LINES = [
+  {t:"$ uvx orisan-mcpscan scan-config ./mcp.json --yes", k:"cmd", wait:700,
+   tag:"the command", say:"Point it at the config file your AI assistant already uses. Nothing else to set up."},
+  {t:"", k:"dim", wait:250},
+  {t:"  scanning  filesystem \u00b7 stdio", k:"dim", wait:900,
+   tag:"reading", say:"Asks each server what it can do, before any agent is allowed to talk to it."},
+  {t:"  scanning  github \u00b7 streamable-http", k:"dim", wait:1100},
+  {t:"", k:"dim", wait:300},
+  {t:"  HIGH      MCP-010   write_file", k:"crit", wait:600, focus:true,
+   tag:"finding", say:"This server can create and overwrite files anywhere it can reach, and it did not declare that capability."},
+  {t:"  HIGH      MCP-010   edit_file", k:"crit", wait:600, focus:true,
+   tag:"finding", say:"Same again for editing. Two undeclared write paths on one server."},
+  {t:"  MEDIUM    MCP-004   server_info", k:"high", wait:500,
+   tag:"finding", say:"The server describes itself in a way the scanner could not corroborate."},
+  {t:"  INFO      MCP-002   transport", k:"dim", wait:500,
+   tag:"noted", say:"Connection method recorded. Nothing wrong with it."},
+  {t:"", k:"dim", wait:400},
+  {t:"  Worst grade: F", k:"crit", wait:400},
+  {t:"  2 scanned, 0 failed \u00b7 payload_stored=false", k:"dim", wait:400,
+   tag:"privacy", say:"Nothing was uploaded. The report was written to your machine and the payloads were not stored."},
+  {t:"  exit 1", k:"dim", wait:200,
+   tag:"result", say:"Exits non-zero, so this fails a CI step automatically. You do not have to remember to look."}
+];
+const term=document.getElementById('term'), tr=document.getElementById('tr'),
+      status=document.getElementById('status');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let timers=[];
+function render(){
+  timers.forEach(clearTimeout); timers=[];
+  term.innerHTML=''; tr.innerHTML=''; status.textContent='';
+  const rows=LINES.map(l=>{
+    const d=document.createElement('div');
+    d.className='tline '+(l.k||'dim')+(l.focus?' focus':'');
+    d.textContent=l.t||' ';
+    term.appendChild(d);
+    let s=null;
+    if(l.say){
+      s=document.createElement('div');
+      s.className='trow2 t-'+(l.k==='crit'?'crit':l.k==='high'?'high':l.k==='ok'?'ok':'info');
+      s.innerHTML='<span class="tag">'+(l.tag||'')+'</span><p>'+l.say+'</p>';
+      tr.appendChild(s);
+    }
+    return {d,s};
+  });
+  if(reduced){
+    rows.forEach(r=>{r.d.classList.add('on'); r.s&&r.s.classList.add('on');});
+    status.textContent='motion reduced \u00b7 full output shown';
+    return;
+  }
+  let t=250;
+  rows.forEach((r,i)=>{
+    timers.push(setTimeout(()=>{r.d.classList.add('on'); r.s&&r.s.classList.add('on');}, t));
+    t += LINES[i].wait || 400;
+  });
+  timers.push(setTimeout(()=>{status.textContent='real runtime \u00b7 '+(t/1000).toFixed(1)+'s';}, t+200));
+}
+document.getElementById('replay').onclick=render;
+render();
+</script>
+
+
+
+</body></html>
