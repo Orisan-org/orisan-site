@@ -97,6 +97,21 @@ everything in between by accident. A denylist is only as complete as its author'
 imagination. **The gate is stronger after this change than before it**, and any new
 family or radius must now be added to the list deliberately.
 
+**Addendum, 2026-08-13.** Both specifics above were reversed within days of being
+written; the reasoning was not. Recorded as an addendum rather than an edit,
+because the entry was true on 2026-08-10 and a rule quietly rewritten to match
+today reads as though it was always right.
+
+- The family is **Inter**, not Schibsted Grotesk, and `font-alt` is **Instrument
+  Serif**, not Fraunces. Founder taste call. `tailwind.config.ts` and
+  `PERMITTED_FONT_FAMILIES` moved at the import; this file said Schibsted for three
+  days after, so every session started from a wrong instruction.
+- The radius set is **2 / 12 / 14 / 999**, not "between 14px and 32px".
+  `rounded-feature` (32px) was removed and remapped to `panel` (14px) in eight
+  places across five files.
+
+The released-to-allowlist mechanism is unchanged and is the part that mattered.
+
 **Held, and why:**
 
 - **Gradients and box shadows stay banned.** The design needs neither. Its
@@ -217,6 +232,23 @@ correct a correct page to match a broken render.
   and when it will be restored.
 - After any gate change, re-run the banned-class proof from README-KIT step 5 and
   paste the result. A gate edit that has not been re-proven is unverified.
+- **A proof that a gate fires must first create the condition the gate inspects.**
+  Undeclaring a token and watching the colour allowlist still pass proves nothing
+  if no class uses that token, because Tailwind never emitted it and there was
+  nothing to compare. Inject the usage first, *then* undeclare, watch it fail,
+  restore. Not a workaround — the only valid form of the test. Worked example in
+  PR #48, which also found that 29 of 47 colour tokens were ungated for exactly
+  this reason.
+- **A gate that cannot pass on the host it is run on is a broken gate, not a local
+  quirk.** When a gate fails only locally, the first hypothesis is that the gate is
+  wrong. Two instances, both real: the banned-class proof searched for colour forms
+  this Tailwind never emits, and `toHaveScreenshot` looked for a `*-darwin.png`
+  that cannot exist, failed, and wrote one into the tracked baseline directory
+  every run. Both were read as environment noise before they were read as defects.
+- **Contrast tests prove legibility, never correctness.** A page painted entirely
+  the wrong colour passes every contrast assertion: the figure's verdict labels
+  rendered `#C8C8C4` instead of green, ochre and red, and `#C8C8C4` is 11.42:1 on
+  ink. Assert the value by identity where the value carries meaning.
 
 ---
 
@@ -273,6 +305,16 @@ none. Put the list in the PR description.
 slice PR into `launch` and continue to the next slice without waiting. If any gate is
 red, do not merge and do not proceed — diagnose and report.
 
+**Reversed decisions get a dated addendum, never a rewrite.** The decision record
+entry for the 2026-08-10 design import was true when written and wrong three days
+later. The record of a reversal is more useful than a clean file, and a rule edited
+in place to match today reads as though it was always right. Append, date it, say
+what changed.
+
+**Retarget dependents before deleting a base branch.** Merging a stacked PR with
+`--delete-branch` auto-closes every PR based on it, and GitHub will not reopen one
+whose base is gone. Cost #46, which had to be recreated as #47.
+
 **Verify, do not trust.** Check the actual state of origin rather than believing any
 summary of it, including your own from earlier in the session, and including mine.
 This habit has already caught several real defects. It is the most valuable thing you
@@ -284,6 +326,34 @@ npm run dev
 npm run gates      # must be green before any merge
 npm run baseline   # you may run this — under the create/change rule above
 ```
+
+---
+
+## Release gates for the organs
+
+There is no release checklist in this repo, and this rule is about the organ
+repositories rather than about the site, so it is recorded here — the file that is
+actually read every session — until an org-level home exists. Its misplacement
+should be visible, not silent.
+
+- **Before any organ repository is made public, its full dependency closure must
+  resolve for an anonymous user.** Repository visibility is not the only barrier
+  and it is the only visible one. `orisan-control-plane` depends on
+  `@orisan-org/schema@0.1.0`, a private GitHub Packages package: making the repo
+  public would not make it installable, and the failure is `npm error code E401` at
+  install time, discovered only by someone who already tried. Verify the closure
+  from a clean clone with no credentials before the repo flips, not after.
+
+---
+
+## Credentials
+
+**A real credential is never written to a file.** The standard form is an `.npmrc`
+(or equivalent) containing the literal string `${NODE_AUTH_TOKEN}` and an
+environment variable holding the value: the tool expands it at read time, the file
+is safe to commit, and the secret never lands on disk. A temporary file containing a
+live token is a secret on disk whose cleanup depends on nothing crashing between the
+write and the delete.
 
 ---
 
