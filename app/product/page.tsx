@@ -78,7 +78,7 @@ export default function Product() {
         </section>
 
         <section className="mx-auto max-w-wrap px-8 pt-17">
-          <div className="rounded-feature bg-ink px-8 py-13">
+          <div className="rounded-panel bg-ink px-8 py-13">
             <p className="font-mono text-label uppercase tracking-label text-orisan-inverse">
               Shipped &middot; mcpscan 0.1.1
             </p>
@@ -142,7 +142,7 @@ export default function Product() {
         </section>
 
         <section className="mx-auto max-w-wrap px-8 py-17">
-          <div className="rounded-feature bg-ink px-8 py-15">
+          <div className="rounded-panel bg-ink px-8 py-15">
             <h2 className="max-w-hero text-2xl font-semibold text-paper">
               Run the part that exists.
             </h2>

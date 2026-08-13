@@ -110,7 +110,7 @@ export default function Vision() {
         </section>
 
         <section className="mx-auto max-w-wrap px-8 pt-17">
-          <div className="rounded-feature bg-ink px-8 py-13">
+          <div className="rounded-panel bg-ink px-8 py-13">
             <p className="font-mono text-label uppercase tracking-label text-orisan-inverse">
               What is not proven
             </p>
@@ -168,7 +168,7 @@ export default function Vision() {
         </section>
 
         <section className="mx-auto max-w-wrap px-8 py-17">
-          <div className="rounded-feature bg-ink px-8 py-15">
+          <div className="rounded-panel bg-ink px-8 py-15">
             <p className="font-mono text-label uppercase tracking-label text-orisan-inverse">
               What exists
             </p>

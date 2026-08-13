@@ -59,12 +59,16 @@ for (const { path: page_, maxDiffPixelRatio } of PAGES) {
 // of `"Some Grotesk", sans-serif` passed while being entirely sans-serif. A list of
 // what is forbidden can only ever be as complete as its author's imagination. A list
 // of what is permitted cannot have a hole in it.
-const PERMITTED_FONT_FAMILIES = ["Schibsted Grotesk", "JetBrains Mono", "Fraunces"];
+// Reversal of B1 ("Inter is out") and of the 2026-08-12 italic ruling. Both are
+// founder taste calls for the standalone2 design, named in the token PR.
+const PERMITTED_FONT_FAMILIES = ["Inter", "JetBrains Mono", "Instrument Serif"];
 
-// Every value the radius scale can emit: none, sm, panel, feature, full.
+// Every value the radius scale can emit: none, sm, ladder, panel, full.
 // Same reasoning. The previous check tested `> 2 && < 9999`, which permitted any
 // value in between by accident rather than by decision.
-const PERMITTED_RADII = ["0px", "2px", "20px", "32px", "9999px"];
+// Reversal of B3 ("every radius collapses to 20px"). The design uses 2 / 12 / 14
+// and a 999px pill; 9999px renders identically to 999px so `full` is unchanged.
+const PERMITTED_RADII = ["0px", "2px", "12px", "14px", "9999px"];
 
 test("only permitted fonts, radii and visual properties compute anywhere on the page", async ({
   page,

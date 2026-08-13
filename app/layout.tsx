@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Schibsted_Grotesk, JetBrains_Mono, Fraunces } from "next/font/google";
+import { Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 // Self-hosted by next/font. The design files load these from Google's CDN; the
 // site does not make third-party requests (CLAIMS.md row 19).
-const schibsted = Schibsted_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-schibsted",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -16,9 +16,13 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const fraunces = Fraunces({
+// Italic only — the design uses this face for emphasis inside display headings
+// and nowhere else, so the roman cut is never requested.
+const instrument = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  weight: "400",
+  style: "italic",
+  variable: "--font-instrument",
   display: "swap",
 });
 
@@ -44,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${schibsted.variable} ${jetbrains.variable} ${fraunces.variable}`}
+      className={`${inter.variable} ${jetbrains.variable} ${instrument.variable}`}
     >
       <body>
         <main>{children}</main>
