@@ -28,13 +28,23 @@ export const RECORDED: Record<string, number> = {
   "#4b4b49|#f0f0ec": 7.65,    // 11.84px min, weight 400
   "#4b4b49|#fafaf9": 8.37,    // 9.92px min, weight 400
   "#8fae83|#0f0f0f": 7.8,     // 9.5px min, weight 400
-  "#a6a6a2|#0f0f0f": 7.85,    // 14.24px min, weight 400
+  "#a1a19c|#151515": 7.04,    // 12.8px min, weight 400
+  "#a6a6a2|#0f0f0f": 7.85,    // 10.56px min, weight 400
+  "#a6a6a2|#151515": 7.48,    // 14.08px min, weight 400
   "#a9a9a5|#0f0f0f": 8.13,    // 7.5px min, weight 400
+  "#a9a9a5|#151515": 7.74,    // 9.28px min, weight 400
+  "#a9a9a5|#1c1414": 7.68,    // 9.28px min, weight 400
   "#c8c8c4|#0f0f0f": 11.42,   // 9.5px min, weight 400
   "#c9a566|#0f0f0f": 8.27,    // 7.5px min, weight 400
+  "#c9a566|#151515": 7.88,    // 9.28px min, weight 400
+  "#c9a566|#1c1414": 7.81,    // 22.4px min, weight 500
   "#d96a45|#0f0f0f": 5.57,    // 137.6px min, weight 400
   "#ee9080|#0f0f0f": 8.16,    // 9.5px min, weight 400
+  "#ee9080|#151515": 7.77,    // 9.28px min, weight 400
+  "#ee9080|#1c1414": 7.71,    // 22.4px min, weight 500
+  "#ee9080|#221e1c": 7.03,    // 12.8px min, weight 400
   "#fafaf9|#0f0f0f": 18.35,   // 15.04px min, weight 500
+  "#fafaf9|#151515": 17.48,   // 12.8px min, weight 400
 };
 
 /**
