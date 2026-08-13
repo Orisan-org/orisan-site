@@ -10,3 +10,6 @@ orisan-scout-from-scratch/
 test-results/
 playwright-report/
 tsconfig.tsbuildinfo
+
+# Local fidelity-diff harness (scripts/build-ref.mjs). Never shipped.
+public/__ref.html
