@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DecisionFigure } from "@/components/home/DecisionFigure";
 import { Clock } from "@/components/home/Clock";
 import { Manifesto } from "@/components/home/Manifesto";
+import { FloorSection } from "@/components/home/FloorSection";
 import { MapSection } from "@/components/home/MapSection";
 import { Shipping } from "@/components/home/Shipping";
 import { Surfaces } from "@/components/home/Surfaces";
@@ -127,6 +128,7 @@ export default function Home() {
       <Surfaces />
       <Shipping />
       <MapSection />
+      <FloorSection />
     </>
   );
 }

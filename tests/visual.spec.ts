@@ -222,6 +222,10 @@ test("the page is complete and correct with video disabled", async ({ page }) =>
  * So this asserts the painted fill by identity, not just its contrast. A ratio
  * check alone would have passed the bug: #C8C8C4 on ink is 11.42:1.
  */
+const FIGURE_FILLS = [
+  { label: "NOTHING CROSSES DOWNWARD", token: "harm.lit", fill: "rgb(238, 144, 128)" },
+];
+
 const VERDICTS = [
   { label: "ALLOWED", token: "holding.lit", fill: "rgb(143, 174, 131)" },
   { label: "HELD", token: "suspicion.lit", fill: "rgb(201, 165, 102)" },
@@ -242,7 +246,7 @@ test("figure verdicts paint their semantic fill, not the shared label fill", asy
     })),
   );
 
-  for (const v of VERDICTS) {
+  for (const v of FIGURE_FILLS.concat(VERDICTS)) {
     const found = painted.find((p) => p.text === v.label);
     expect(found, `no <text> reading "${v.label}" in any figure`).toBeTruthy();
     expect(
