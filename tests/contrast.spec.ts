@@ -1,9 +1,16 @@
 import { expect, test } from "@playwright/test";
-import { ACCEPTED_THIN, RECORDED } from "./contrast-matrix";
+import {
+  ACCEPTED_THIN,
+  LARGE_BOLD_PX,
+  LARGE_BOLD_WEIGHT,
+  LARGE_PX,
+  LARGE_TEXT_FLOOR,
+  RECORDED,
+} from "./contrast-matrix";
 
 const BAR = 7;
 
-test("every text pair on the page is recorded and clears the bar", async ({ page }) => {
+test("every text pair is recorded, unchanged, and clears its bar", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
@@ -22,7 +29,9 @@ test("every text pair on the page is recorded and clears the bar", async ({ page
       }
       return "rgb(255,255,255)";
     };
-    const out = new Map<string, string>();
+    // Smallest and lightest occurrence per pair: a basis must hold for EVERY
+    // occurrence, so one small instance must not be excused by a large one.
+    const m = new Map<string, { minPx: number; minW: number; sample: string }>();
     document.querySelectorAll("*").forEach((e) => {
       if (!Array.from(e.childNodes).some((n) => n.nodeType === 3 && (n.textContent ?? "").trim())) return;
       const cs = getComputedStyle(e);
@@ -33,13 +42,20 @@ test("every text pair on the page is recorded and clears the bar", async ({ page
       const paint = isSvg ? cs.fill : cs.color;
       if (!paint || /none/.test(paint)) return;
       const key = hex(paint) + "|" + hex(ground(e));
-      if (!out.has(key)) out.set(key, (e.textContent ?? "").trim().slice(0, 30));
+      const px = parseFloat(cs.fontSize);
+      const w = parseInt(cs.fontWeight) || 400;
+      const cur = m.get(key);
+      if (!cur) m.set(key, { minPx: px, minW: w, sample: (e.textContent ?? "").trim().slice(0, 30) });
+      else {
+        cur.minPx = Math.min(cur.minPx, px);
+        cur.minW = Math.min(cur.minW, w);
+      }
     });
-    return Array.from(out.entries());
+    return Array.from(m.entries()).map(([key, v]) => ({ key, ...v }));
   });
 
   // Positive control: a page that rendered nothing, or a walk that matched nothing,
-  // would report zero unrecorded pairs and read as a pass.
+  // would report zero problems and read as a pass.
   expect(found.length, "no text pairs found at all — this check proves nothing").toBeGreaterThan(5);
 
   const lum = (h: string) =>
@@ -54,24 +70,60 @@ test("every text pair on the page is recorded and clears the bar", async ({ page
   };
 
   const unrecorded: string[] = [];
-  const thin: string[] = [];
-  for (const [key, sample] of found) {
-    const [fg, bg] = key.split("|");
+  const drifted: string[] = [];
+  const unjustified: string[] = [];
+
+  for (const f of found) {
+    const [fg, bg] = f.key.split("|");
     const r = ratio(fg, bg);
-    if (!RECORDED.includes(key)) unrecorded.push(`${key}  ${r}:1  "${sample}"`);
-    if (r < BAR && !(key in ACCEPTED_THIN)) thin.push(`${key}  ${r}:1  "${sample}"`);
+
+    if (!(f.key in RECORDED)) {
+      unrecorded.push(`${f.key}  ${r}:1  "${f.sample}"`);
+      continue;
+    }
+    if (RECORDED[f.key] !== r) {
+      drifted.push(`${f.key}  recorded ${RECORDED[f.key]}:1, measured ${r}:1  "${f.sample}"`);
+    }
+    if (r >= BAR) continue;
+
+    const entry = ACCEPTED_THIN[f.key];
+    if (!entry) {
+      unjustified.push(`${f.key}  ${r}:1  "${f.sample}"  — below ${BAR}:1 with no basis`);
+      continue;
+    }
+    // Verify the basis rather than trust it.
+    if (entry.basis === "large-text") {
+      const isLarge =
+        f.minPx >= LARGE_PX || (f.minPx >= LARGE_BOLD_PX && f.minW >= LARGE_BOLD_WEIGHT);
+      if (!isLarge) {
+        unjustified.push(
+          `${f.key}  claims basis "large-text" but its smallest occurrence is ` +
+            `${f.minPx}px at weight ${f.minW}  "${f.sample}"`,
+        );
+      } else if (r < LARGE_TEXT_FLOOR) {
+        unjustified.push(
+          `${f.key}  ${r}:1 is below the AAA large-text floor of ${LARGE_TEXT_FLOOR}:1  "${f.sample}"`,
+        );
+      }
+    }
   }
 
   expect(
     unrecorded,
-    "text colours landing on grounds that are not in the recorded matrix. " +
-      "This is the event that produced every contrast correction so far: a token " +
-      "on a ground nobody measured. Add them to RECORDED with their ratios, or fix them.",
+    "text colours on grounds absent from RECORDED. This is the event behind every " +
+      "contrast correction so far: a token on a ground nobody measured. Add them with " +
+      "their ratios, or fix them.",
   ).toEqual([]);
 
   expect(
-    thin,
-    `pairs below ${BAR}:1 that are not in ACCEPTED_THIN. Raise the value, or accept ` +
-      "it explicitly with the reason it is tolerable.",
+    drifted,
+    "a recorded pair's ratio changed. Something moved under a value that was already " +
+      "accepted — re-decide it rather than updating the number.",
+  ).toEqual([]);
+
+  expect(
+    unjustified,
+    `pairs below ${BAR}:1 with no valid basis. Raise the value, or accept it with a ` +
+      "basis the check can verify.",
   ).toEqual([]);
 });
