@@ -41,7 +41,15 @@ test("every text pair is recorded, unchanged, and clears its bar", async ({ page
       // SVG text paints from `fill`; reading `color` skips every figure on the page.
       const paint = isSvg ? cs.fill : cs.color;
       if (!paint || /none/.test(paint)) return;
-      const key = hex(paint) + "|" + hex(ground(e));
+      // An SVG shape is not a CSS background, so the walk above goes straight past a
+      // filled disc to the section's paper and reads white-on-white. Text sitting on a
+      // painted shape POINTS at it; the ground is then read from the DOM like any
+      // other, never declared by hand.
+      const from = e.getAttribute("data-ground-from");
+      const src = from ? document.getElementById(from) : null;
+      if (from && !src) throw new Error(`data-ground-from="${from}" resolves to nothing`);
+      const bg = src ? hex(getComputedStyle(src).fill) : hex(ground(e));
+      const key = hex(paint) + "|" + bg;
       const px = parseFloat(cs.fontSize);
       const w = parseInt(cs.fontWeight) || 400;
       const cur = m.get(key);

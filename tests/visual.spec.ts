@@ -297,7 +297,13 @@ test("every figure label clears AA on the fill it actually paints", async ({ pag
         opacity *= parseFloat(getComputedStyle(n).opacity || "1");
         n = n.parentElement;
       }
-      const ground = groundOf(t);
+      // An SVG shape is not a CSS background: groundOf walks straight past a filled
+      // disc to the section's paper, so white-on-black reads as white-on-white.
+      // Text on a painted shape declares its ground beside the fill that provides it.
+      const from = t.getAttribute("data-ground-from");
+      const src = from ? document.getElementById(from) : null;
+      if (from && !src) throw new Error(`data-ground-from="${from}" resolves to nothing`);
+      const ground = src ? getComputedStyle(src).fill : groundOf(t);
       const fg = rgb(getComputedStyle(t).fill);
       const bg = rgb(ground);
       const composited = fg.map((c, i) => c * opacity + bg[i] * (1 - opacity));
