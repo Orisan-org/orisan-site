@@ -117,13 +117,20 @@ family or radius must now be added to the list deliberately.
   absolutely.
 
 ### Required
-- **Type:** `font-display` (Schibsted Grotesk) and `font-mono` (JetBrains Mono).
-  `font-alt` (Fraunces) for quotation and the founder's voice, italic only. Three
-  families, and `tests/visual.spec.ts` permits exactly those three.
+- **Type:** `font-display` / `font-body` (Inter) and `font-mono` (JetBrains Mono).
+  `font-alt` (Instrument Serif) italic only. Three families, and
+  `tests/visual.spec.ts` permits exactly those three. The families were Schibsted
+  Grotesk and Fraunces before the 2026-08-10 import; this line said so long after
+  the config and the test had moved on, which is how a stale rule outlives the
+  thing it describes.
 - **Mono is reserved** for the product's own vocabulary: check IDs, grades, findings,
   commands, file paths. Never decorative.
 - **Measure:** body copy capped at 62ch via `max-w-measure`.
-- **Spacing:** only the named scale. Nothing between steps.
+- **Spacing:** only the named scale. Nothing between steps. Below 40px the scale
+  advances by 2px, so any odd value in a design **rounds down** to the step below —
+  3, 5, 7, 9, 11 and 13px are all equidistant between two steps, and a lost pixel
+  is safer than a gained one. The direction is fixed here so it is not re-derived
+  from a diff next time.
 - **Accent colour carries meaning:** `harm`, `holding`, `watching`, `suspicion`.
   Never pick an accent for looks. Accent never exceeds ~10% of a viewport.
 - **No component accepts a `className` prop that can override a token.** Variants are
@@ -140,6 +147,10 @@ family or radius must now be added to the list deliberately.
    fill carry the meaning; the letter is ink. The mark values are shape colours and
    measure 2.79:1 to 3.00:1 as type on paper, so a coloured glyph was an AA failure
    dressed as a signature.
+4. **The italic accent** — `font-alt`, italic, inside a display heading, carrying the
+   turn in the sentence. This is a deliberate signature device and a settled founder
+   taste call, not drift. It is not to be re-opened by a future audit: an audit may
+   report that it is unusual, and the answer is that it is intended.
 
 ---
 
@@ -174,6 +185,18 @@ converts the gate into a formality. So:
 - If a diff is large or you cannot account for it, revert the snapshot change, leave
   the test red, and escalate. **A red visual test is a working gate. A quietly updated
   baseline is a broken one.**
+
+**Before trusting any difference against a reference, prove the reference itself
+renders correctly.** A diff harness reports differences whether or not either side is
+right. Minimum proof, every run: assert the computed `font-family` actually resolved
+to the intended face on at least one element per family, and assert a known text width
+against a value measured outside the harness. The standalone2 reference inlines 42
+Google `@font-face` rules pointing at fonts.gstatic.com; with no outbound network all
+42 fail, but their narrower `unicode-range` values still win CSS font matching against
+the full-range fallbacks, so the reference rendered in system type. Measured effect:
+"are acting." at 556.89px against the site's 628.88px, and an h1 127px shorter. Two
+diffs were invalid before this was caught, and the next step would have been to
+correct a correct page to match a broken render.
 
 ---
 
@@ -223,6 +246,15 @@ Gated in CI at 100. Non-negotiable.
 - Visible focus states on every interactive element. Never `outline: none`.
 - Semantic landmarks, one `h1` per page, heading levels never skip.
 - Body text contrast at least 7:1. `grey-3` is a border colour, never text.
+- **A contrast ratio reported without its composited background hex is not a
+  measurement.** Every ratio, in an audit, a PR body or a table pasted into chat,
+  states the ground it was measured against. A review once checked four ratios and
+  reproduced none of them, because the arithmetic was right and the substrate was
+  not. Where an element can land on more than one ground, it clears the bar on the
+  darker one.
+- **Measure SVG text on `fill`, not `color`.** A sweep that reads `color` silently
+  skips every figure on the page and will report zero failures over an unmeasured
+  region. Fold in any inherited group `opacity` before computing the ratio.
 
 ---
 
