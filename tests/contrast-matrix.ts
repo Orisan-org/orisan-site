@@ -28,8 +28,8 @@ export const RECORDED: Record<string, number> = {
   "#4b4b49|#f0f0ec": 7.65,    // 11.84px min, weight 400
   "#4b4b49|#fafaf9": 8.37,    // 9.92px min, weight 400
   "#8fae83|#0f0f0f": 7.8,     // 9.5px min, weight 400
-  "#9d9d99|#0f0f0f": 7.04,    // 7.5px min, weight 400
   "#a6a6a2|#0f0f0f": 7.85,    // 14.24px min, weight 400
+  "#a9a9a5|#0f0f0f": 8.13,    // 7.5px min, weight 400
   "#c8c8c4|#0f0f0f": 11.42,   // 9.5px min, weight 400
   "#c9a566|#0f0f0f": 8.27,    // 7.5px min, weight 400
   "#d96a45|#0f0f0f": 5.57,    // 137.6px min, weight 400
