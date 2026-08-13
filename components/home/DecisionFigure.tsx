@@ -12,10 +12,17 @@
  * can see them: attribute values live in HTML, and the gate reads built CSS.
  */
 
-// .lb and .sm in the reference stylesheet.
-const LB = "font-mono text-figLg tracking-meta fill-tx-label";
-// .sm is the founder's contrast correction: #686864 (3.43:1) -> #9D9D99 (7.04:1).
-const SM = "font-mono text-figXs tracking-10 fill-tx-3d";
+// .lb and .sm in the reference stylesheet — TYPOGRAPHY ONLY. The fill is set per
+// element and must not live here: `fill-*` is one utility group, so a fill in the
+// shared string wins over a per-element fill on CSS source order regardless of the
+// order they appear in the class string. That silently painted ALLOWED, HELD and
+// STOPPED in tx.label instead of their semantic colours.
+const LB = "font-mono text-figLg tracking-meta";
+const SM = "font-mono text-figXs tracking-10";
+// The two default fills, applied explicitly at each call site.
+// .sm is the founder's correction: #686864 (3.43:1 on ink) -> #9D9D99 (7.04:1 on ink).
+const LB_FILL = "fill-tx-label";
+const SM_FILL = "fill-tx-3d";
 
 export function DecisionFigure() {
   return (
@@ -25,16 +32,16 @@ export function DecisionFigure() {
       role="img"
       aria-label="An agent's tool call reduces to one shape of actor, target and authority, which Orisan resolves to one of three outcomes: allowed, held for a human, or stopped."
     >
-      <text className={SM} x="0" y="14">AGENT CALLS</text>
+      <text className={`${SM} ${SM_FILL}`} x="0" y="14">AGENT CALLS</text>
 
       <g className="fill-none stroke-rule-stroke" strokeWidth="1.1">
         <rect x="0" y="30" width="112" height="30" rx="15" />
         <rect x="0" y="82" width="112" height="30" rx="15" />
         <rect x="0" y="134" width="112" height="30" rx="15" />
       </g>
-      <text className={LB} x="56" y="49" textAnchor="middle">SHELL</text>
-      <text className={LB} x="56" y="101" textAnchor="middle">MCP</text>
-      <text className={LB} x="56" y="153" textAnchor="middle">BROWSER</text>
+      <text className={`${LB} ${LB_FILL}`} x="56" y="49" textAnchor="middle">SHELL</text>
+      <text className={`${LB} ${LB_FILL}`} x="56" y="101" textAnchor="middle">MCP</text>
+      <text className={`${LB} ${LB_FILL}`} x="56" y="153" textAnchor="middle">BROWSER</text>
 
       <g
         className="animate-flow fill-none stroke-rule-line motion-reduce:animate-none"
@@ -50,14 +57,14 @@ export function DecisionFigure() {
         x="206" y="76" width="150" height="44" rx="13"
         className="fill-ink-shape stroke-rule-stroke" strokeWidth="1.1"
       />
-      <text className={LB} x="281" y="95" textAnchor="middle">ONE SHAPE</text>
-      <text className={SM} x="281" y="109" textAnchor="middle">actor · target · authority</text>
+      <text className={`${LB} ${LB_FILL}`} x="281" y="95" textAnchor="middle">ONE SHAPE</text>
+      <text className={`${SM} ${SM_FILL}`} x="281" y="109" textAnchor="middle">actor · target · authority</text>
 
       <path d="M281 120 L 281 176" className="fill-none stroke-rule-line" strokeWidth="1" />
       <circle cx="281" cy="200" r="24" className="fill-none stroke-rule-stroke" strokeWidth="1.1" />
       <circle cx="281" cy="200" r="7" className="animate-pulse fill-accent-d motion-reduce:animate-none" />
-      <text className={LB} x="281" y="246" textAnchor="middle">ORISAN</text>
-      <text className={SM} x="281" y="259" textAnchor="middle">deterministic · in-path · local</text>
+      <text className={`${LB} ${LB_FILL}`} x="281" y="246" textAnchor="middle">ORISAN</text>
+      <text className={`${SM} ${SM_FILL}`} x="281" y="259" textAnchor="middle">deterministic · in-path · local</text>
 
       <g className="fill-none stroke-rule-line opacity-55" strokeWidth="1">
         <path d="M305 195 C 350 186, 356 316, 396 316" />
@@ -72,7 +79,7 @@ export function DecisionFigure() {
       <g className="animate-outH opacity-18 motion-reduce:animate-none motion-reduce:opacity-100">
         <rect x="396" y="234" width="124" height="32" rx="16" className="fill-none stroke-suspicion" strokeWidth="1.4" />
         <text x="458" y="248" textAnchor="middle" className={`${LB} fill-suspicion-lit`}>HELD</text>
-        <text x="458" y="260" textAnchor="middle" className={`${SM} fill-suspicion-sub`}>for a human</text>
+        <text x="458" y="260" textAnchor="middle" className={`${SM} fill-suspicion-lit`}>for a human</text>
       </g>
       <g className="animate-outS opacity-18 motion-reduce:animate-none motion-reduce:opacity-100">
         <rect x="396" y="366" width="124" height="32" rx="16" className="fill-none stroke-harm" strokeWidth="1.4" />

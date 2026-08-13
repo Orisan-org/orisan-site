@@ -97,7 +97,7 @@ export default function Home() {
                   </a>
                 </div>
                 <p className="mt-7 font-mono text-fine text-tx-3d">
-                  One surface shipping · four in build · everything dated
+                  One shipping. The rest in build.
                 </p>
               </div>
 
