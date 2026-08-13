@@ -34,10 +34,11 @@ const TOKENS = {
   "#c63c21": "accent / orisan.mark", "#d96a45": "accent.d / orisan.inverse",
   "#802f1e": "orisan.type",
   // Semantic
-  "#9e2b25": "harm / harm.text", "#f1e5e4": "harm.fill", "#c96a62": "harm.lit",
+  "#9e2b25": "harm / harm.text", "#f1e5e4": "harm.fill", "#ee9080": "harm.lit",
   "#5e7953": "holding", "#475c3f": "holding.text", "#eaede8": "holding.fill", "#8fae83": "holding.lit",
+    "#3e5735": "holding.status",
   "#b08a45": "suspicion", "#685129": "suspicion.text", "#f3efe7": "suspicion.fill",
-  "#c9a566": "suspicion.lit", "#8a7346": "suspicion.sub",
+  "#c9a566": "suspicion.lit", "#644d21": "suspicion.status",
   "#7d95ac": "watching", "#485664": "watching.text", "#eef0f1": "watching.fill",
   "#b8b8b4": "dim",
 };
