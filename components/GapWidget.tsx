@@ -132,10 +132,16 @@ const SEVERITY_INK: Record<Severity, string> = {
   high: "text-suspicion",
   medium: "text-suspicion",
   low: "text-grey-1",
-  // Was text-holding. #7E9070 measures 3.00:1 on paper -- an AA failure, not just a
-  // miss against the house 7:1 bar. Interim fix to the neutral until the semantic
-  // token is darkened; see the note in the PR. This collapses info and low to the
-  // same colour, which is a real if small loss.
+  // Interim, and the reason for it has since gone away.
+  //
+  // The old holding value measured 3.29:1 on paper -- an AA failure, not just a
+  // miss against the house 7:1 bar -- so info was moved to the neutral, which
+  // collapses info and low to one colour. `holding.text` is now #475C3F and
+  // measures 7.00:1 on paper, so `text-holding-text` clears the bar and the
+  // distinction can be recovered.
+  //
+  // NOT done here: it changes what /gap renders and moves that page's visual
+  // baseline, which is neither this PR's scope nor a comment fix. Founder call.
   info: "text-grey-1",
 };
 
