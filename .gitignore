@@ -10,3 +10,9 @@ orisan-scout-from-scratch/
 test-results/
 playwright-report/
 tsconfig.tsbuildinfo
+
+# Platform-suffixed visual baselines. CI is Ubuntu, so only *-linux.png is real.
+# A macOS or Windows run generates these; they show as untracked and a broad
+# `git add` sweeps them in, which is how the skill install landed in PR #38.
+*-darwin.png
+*-win32.png

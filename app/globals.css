@@ -24,8 +24,10 @@
   }
 
   /* Paper grain. Generated, not photographed: zero network cost, zero licensing.
-     Kept: the design's flat #F4EFE4 reads as a screen; the grain is what makes it
-     paper, and it is the one thing carried forward from the previous system. */
+     Kept: a flat paper reads as a screen; the grain is what makes it paper, and
+     it is the one thing carried forward from the previous system. The paper it
+     sits on is now #FAFAF9 (token `paper`), not the #F4EFE4 this note used to
+     name -- that value has not existed since the 2026-08-10 import. */
   body::before {
     content: "";
     position: fixed;
