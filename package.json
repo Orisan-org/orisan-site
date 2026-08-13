@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "gates": "next build && tsc --noEmit && eslint . --max-warnings=0 && node scripts/banned-class-proof.mjs && node scripts/colour-allowlist.mjs && node scripts/token-coverage.mjs && playwright test && node scripts/ci-only.mjs",
+    "gates": "node scripts/colour-source-check.mjs && next build && tsc --noEmit && eslint . --max-warnings=0 && node scripts/banned-class-proof.mjs && node scripts/colour-allowlist.mjs && node scripts/token-coverage.mjs && playwright test && node scripts/ci-only.mjs",
     "baseline": "playwright test --update-snapshots",
-    "token-coverage": "node scripts/token-coverage.mjs"
+    "token-coverage": "node scripts/token-coverage.mjs",
+    "colour-source-check": "node scripts/colour-source-check.mjs"
   },
   "dependencies": {
     "next": "^16.2.9",
