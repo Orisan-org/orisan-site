@@ -8,10 +8,12 @@
  * sample, because then there is nothing to label: the figure argues that reach
  * compounds, and it makes that argument without claiming a count or a path.
  *
- * `data-ground` on AGENT: the black disc is painted by the SVG, not by CSS, so a
- * contrast sweep walking `background-color` sees the section's paper behind white
- * text and reads 1.06:1. The ground is declared next to the fill that provides it,
- * one line apart, and the check computes the real ratio from it.
+ * `data-ground-from` on AGENT: the black disc is painted by the SVG, not by CSS, so
+ * a contrast sweep walking `background-color` sees the section's paper behind white
+ * text and reads 1:1. The attribute POINTS at the element that paints the ground; the
+ * check resolves the id and reads its computed fill. Nothing is asserted by hand — a
+ * literal hex would let a wrong value compute a correct ratio against a false
+ * background, which is the defect this whole thread keeps closing.
  */
 const MT = "font-mono text-fig tracking-10 fill-grey-1";
 // .ms carries the founder's fifth correction: #8A8A86 (3.32:1 on paper) -> grey-2 (7.04:1).
@@ -50,8 +52,8 @@ export function MapFigure() {
       aria-label="A graph showing one agent connected through credentials to servers and the data each can reach, with the reach of a single credential highlighted."
     >
       <text className={MS} x="0" y="12">ACTOR</text>
-      <circle cx="52" cy="150" r="30" className="fill-ink" />
-      <text className={`${MT} fill-paper`} x="52" y="153" textAnchor="middle" data-ground="#0F0F0F">
+      <circle id="agent-disc" cx="52" cy="150" r="30" className="fill-ink" />
+      <text className={`${MT} fill-paper`} x="52" y="153" textAnchor="middle" data-ground-from="agent-disc">
         AGENT
       </text>
 
