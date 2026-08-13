@@ -80,7 +80,14 @@ const config: Config = {
       // allowed/held/stopped ARE these four under other names, so one vocabulary
       // is kept. DEFAULT is the mark, `lit` the on-ink type value, `text` the
       // on-paper type value, `fill` the mark 10% into paper. ───────────────────
-      harm:      { DEFAULT: "#9E2B25", text: "#9E2B25", fill: "#F1E5E4", lit: "#C96A62" },
+      harm:      { DEFAULT: "#9E2B25", text: "#9E2B25", fill: "#F1E5E4",
+             // The design's STOPPED type. #C96A62 clears AA but nothing else:
+             // 5.22:1 on ink, 4.98 on ink.deep, 4.93 on ink.sunk, 4.50 on
+             // ink.focus — and ink.focus is the terminal's highlighted row,
+             // exactly where a crit line lands. #EE9080 clears 7:1 on all four:
+             // 8.16 / 7.77 / 7.71 / 7.03. Sits with ALLOWED 7.80 and HELD 8.27,
+             // so the three verdicts read at comparable weight.
+             lit: "#EE9080" },
       holding:   { DEFAULT: "#5E7953", text: "#475C3F", fill: "#EAEDE8", lit: "#8FAE83",
              // 7.02:1 on paper.deep, 7.68:1 on paper. Was the design's #3F5936,
              // which is 6.82:1 on paper.deep — the ground it actually lands on.
