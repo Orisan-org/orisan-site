@@ -27,3 +27,8 @@ export const CTA =
 
 export const CTA_SOLID_L = `${CTA} bg-tx-d text-ink hover:bg-paper-hover`;
 export const CTA_GHOST_L = `${CTA} border-rule-edge text-tx-d hover:border-rule-bright`;
+
+// p — the design sets `p{color:var(--tx2);max-width:62ch}` globally, so every
+// paragraph carries the measure cap and the secondary colour unless overridden.
+export const P = "max-w-measure text-grey-1";
+export const P_INK = "max-w-measure text-tx-2d";
