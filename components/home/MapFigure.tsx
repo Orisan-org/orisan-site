@@ -15,9 +15,15 @@
  * literal hex would let a wrong value compute a correct ratio against a false
  * background, which is the defect this whole thread keeps closing.
  */
-const MT = "font-mono text-fig tracking-10 fill-grey-1";
-// .ms carries the founder's fifth correction: #8A8A86 (3.32:1 on paper) -> grey-2 (7.04:1).
-const MS = "font-mono text-figXs tracking-08 fill-grey-2";
+// TYPOGRAPHY ONLY. A fill in a shared string beats a per-element one on source
+// order, so the overrides below were working by luck rather than by rule. The
+// enumerating fill assertion found this: AGENT carried fill-grey-1 and painted
+// paper, BLAST RADIUS carried fill-grey-2 and painted harm.
+const MT = "font-mono text-fig tracking-10";
+const MS = "font-mono text-figXs tracking-08";
+const MT_FILL = "fill-grey-1";
+// .ms carries the founder's fifth correction: #8A8A86 (3.32:1 on paper) -> grey-2.
+const MS_FILL = "fill-grey-2";
 
 const CREDS = [
   { y: 60, label: "ci-deploy-key", hot: true },
@@ -51,13 +57,13 @@ export function MapFigure() {
       role="img"
       aria-label="A graph showing one agent connected through credentials to servers and the data each can reach, with the reach of a single credential highlighted."
     >
-      <text className={MS} x="0" y="12">ACTOR</text>
+      <text className={`${MS} ${MS_FILL}`} x="0" y="12">ACTOR</text>
       <circle id="agent-disc" cx="52" cy="150" r="30" className="fill-ink" />
       <text className={`${MT} fill-paper`} x="52" y="153" textAnchor="middle" data-ground-from="agent-disc">
         AGENT
       </text>
 
-      <text className={MS} x="250" y="12">CREDENTIALS</text>
+      <text className={`${MS} ${MS_FILL}`} x="250" y="12">CREDENTIALS</text>
       <path className={HOT} strokeWidth="1.4" d="M82 150 L 250 76" />
       <path className={EDGE} strokeWidth="1" d="M82 150 L 250 150" />
       <path className={EDGE} strokeWidth="1" d="M82 150 L 250 226" />
@@ -67,11 +73,11 @@ export function MapFigure() {
             x="250" y={c.y} width="126" height="32" rx="16"
             className={c.hot ? "fill-paper stroke-harm" : NODE} strokeWidth="1"
           />
-          <text className={MT} x="313" y={c.y + 20} textAnchor="middle">{c.label}</text>
+          <text className={`${MT} ${MT_FILL}`} x="313" y={c.y + 20} textAnchor="middle">{c.label}</text>
         </g>
       ))}
 
-      <text className={MS} x="500" y="12">SERVERS</text>
+      <text className={`${MS} ${MS_FILL}`} x="500" y="12">SERVERS</text>
       <path className={HOT} strokeWidth="1.4" d="M376 76 L 500 50" />
       <path className={HOT} strokeWidth="1.4" d="M376 76 L 500 120" />
       <path className={EDGE} strokeWidth="1" d="M376 150 L 500 190" />
@@ -82,11 +88,11 @@ export function MapFigure() {
             x="500" y={s.y} width="140" height="32" rx="16"
             className={s.hot ? "fill-paper stroke-harm" : NODE} strokeWidth="1"
           />
-          <text className={MT} x="570" y={s.y + 20} textAnchor="middle">{s.label}</text>
+          <text className={`${MT} ${MT_FILL}`} x="570" y={s.y + 20} textAnchor="middle">{s.label}</text>
         </g>
       ))}
 
-      <text className={MS} x="770" y="12">REACH</text>
+      <text className={`${MS} ${MS_FILL}`} x="770" y="12">REACH</text>
       <path className={HOT} strokeWidth="1.4" d="M640 50 L 770 40" />
       <path className={HOT} strokeWidth="1.4" d="M640 50 L 770 96" />
       <path className={HOT} strokeWidth="1.4" d="M640 120 L 770 152" />
@@ -98,7 +104,7 @@ export function MapFigure() {
             x="770" y={r.y} width="150" height="32" rx="16"
             className={r.hot ? "fill-paper stroke-harm" : NODE} strokeWidth="1"
           />
-          <text className={MT} x="845" y={r.y + 20} textAnchor="middle">{r.label}</text>
+          <text className={`${MT} ${MT_FILL}`} x="845" y={r.y + 20} textAnchor="middle">{r.label}</text>
         </g>
       ))}
 

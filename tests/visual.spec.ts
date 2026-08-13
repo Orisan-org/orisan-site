@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { TOKENS } from "../scripts/colour-tokens.mjs";
 
 /**
  * VISUAL REGRESSION — the gate prose review cannot provide.
@@ -208,50 +209,79 @@ test("the page is complete and correct with video disabled", async ({ page }) =>
 });
 
 /**
- * SVG text paints from `fill`, not `color`. A contrast sweep that reads `color`
- * silently skips every figure on the page and reports zero failures over a region
- * it never measured — which is exactly what mine did.
+ * Every element carrying a semantic fill token paints that token's value.
  *
- * Under that blind spot a real bug shipped: the figure's shared class strings
- * carried `fill-tx-label` / `fill-tx-3d`, and `fill-*` is a single utility group,
- * so the shared fill beat the per-element `fill-holding-lit` on CSS source order
- * regardless of the order they appeared in the class string. ALLOWED, HELD and
- * STOPPED all painted #C8C8C4 instead of green, ochre and red — the figure's whole
- * argument, silently erased, with no visual test able to see it.
+ * This ENUMERATES ITS OWN SUBJECTS. The previous version listed labels by hand, so
+ * each new figure had to be remembered into it — and the bug it exists to catch has
+ * now been introduced twice by the same shortcut, which makes a rule requiring
+ * memory the weakest available fix.
  *
- * So this asserts the painted fill by identity, not just its contrast. A ratio
- * check alone would have passed the bug: #C8C8C4 on ink is 11.42:1.
+ * The bug: `fill-*` is a single Tailwind utility group, so a fill in a shared class
+ * string beats a per-element one on CSS source order, whatever order they appear in
+ * the string. It painted the DecisionFigure verdicts in tx.label, and the floor
+ * figure's "NOTHING CROSSES DOWNWARD" in tx.3d.
+ *
+ * No contrast instrument can see it: both wrong colours are recorded, passing pairs.
+ * The page was wrong and legible.
+ *
+ * LIMIT, stated rather than discovered later: this catches an element whose semantic
+ * fill is OVERRIDDEN. It does not catch an element that should carry a semantic fill
+ * and carries no class at all. Different defect, different check.
  */
-const VERDICTS = [
-  { label: "ALLOWED", token: "holding.lit", fill: "rgb(143, 174, 131)" },
-  { label: "HELD", token: "suspicion.lit", fill: "rgb(201, 165, 102)" },
-  { label: "STOPPED", token: "harm.lit / stopped-lit", fill: "rgb(238, 144, 128)" },
-];
-
-test("figure verdicts paint their semantic fill, not the shared label fill", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
+test("every semantic fill token paints its own value", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(1500);
 
-  const painted = await page.evaluate(() =>
-    Array.from(document.querySelectorAll("svg text")).map((t) => ({
-      text: (t.textContent ?? "").trim(),
-      fill: getComputedStyle(t).fill,
-    })),
-  );
-
-  for (const v of VERDICTS) {
-    const found = painted.find((p) => p.text === v.label);
-    expect(found, `no <text> reading "${v.label}" in any figure`).toBeTruthy();
-    expect(
-      found!.fill,
-      `${v.label} must paint ${v.token} ${v.fill}, got ${found!.fill}. ` +
-        `A shared fill-* in the class string beats a per-element one on source order.`,
-    ).toBe(v.fill);
+  // name -> hex, built from the same map the colour gates use.
+  const byName: Record<string, string> = {};
+  for (const [hex, names] of Object.entries(TOKENS as Record<string, string>)) {
+    for (const n of names.split(" / ")) byName[n.trim()] = hex;
   }
+
+  const result = await page.evaluate((names: Record<string, string>) => {
+    const rgbOf = (hex: string) => {
+      const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+      return `rgb(${r}, ${g}, ${b})`;
+    };
+    const out: string[] = [];
+    let checked = 0;
+    document.querySelectorAll('[class*="fill-"]').forEach((e) => {
+      for (const c of (e.getAttribute("class") ?? "").split(/\s+/)) {
+        if (!c.startsWith("fill-")) continue;
+        const stem = c.slice(5);
+        if (stem === "none" || stem === "current") continue;
+        // fill-harm-lit -> harm.lit; fill-tx-3d -> tx.3d; fill-paper -> paper
+        const key = [stem, stem.replace(/-([^-]*)$/, ".$1"), stem.replace(/-/g, ".")]
+          .find((k) => k in names);
+        if (!key) continue;
+        checked++;
+        const want = rgbOf(names[key]);
+        const got = getComputedStyle(e).fill;
+        if (got !== want) {
+          out.push(
+            `<${e.tagName.toLowerCase()}> "${(e.textContent ?? "").trim().slice(0, 28)}" ` +
+              `carries ${c} (${key}) but paints ${got}, expected ${want}`,
+          );
+        }
+      }
+    });
+    return { out, checked };
+  }, byName);
+
+  // Positive control: if nothing resolved, this test asserts nothing.
+  expect(result.checked, "no semantic fill classes resolved — this check proves nothing")
+    .toBeGreaterThan(5);
+
+  expect(
+    result.out,
+    "elements whose semantic fill is overridden. `fill-*` is one utility group, so a " +
+      "fill in a shared class string beats a per-element one on source order. Move the " +
+      "shared fill out of the shared string and set it per element.",
+  ).toEqual([]);
 });
+
 
 /**
  * The same blind spot, closed as a rule rather than per element: every figure
