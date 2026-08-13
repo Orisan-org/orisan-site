@@ -65,7 +65,14 @@ const config: Config = {
       tx: {
         d: "#FAFAF9",
         "2d": "#A6A6A2",  // 7.85:1 on ink
-        "3d": "#9D9D99",  // was #6E6E6A (3.74) → 7.04
+        // Was the design's #6E6E6A (3.74:1 on ink), corrected to #9D9D99 for 7.04:1
+        // on ink -- but ink is not the only ground it lands on. In section 5 the same
+        // token carries the terminal pane labels on ink.deep (6.71) and the failing
+        // ladder rungs on ink.sunk (6.65), both under the house bar. Same shape as
+        // #B39968, which was rejected for being 7.00 on ink and 6.67 on ink.deep.
+        // #A9A9A5 holds hue and saturation and clears 7:1 on every ground it reaches:
+        // ink 8.13, ink.deep 7.74, ink.sunk 7.68.
+        "3d": "#A9A9A5",
         term: "#A1A19C",  // was #5E5E5A (2.80) on ink.deep → 7.04
         label: "#C8C8C4", // figure labels, 11.42:1
       },
@@ -299,6 +306,15 @@ const config: Config = {
       full: "100%",
     },
 
+    // The terminal pane holds its height before any line has been written, so the
+    // pane does not grow as the replay runs. The design's one min-height.
+    minHeight: { 0: "0", term: "300px", full: "100%" },
+
+    // Two figures are wider than a phone and scroll horizontally inside their own
+    // container rather than stretching the page. Named for the figure, because the
+    // number is the point at which each stops being readable, not a breakpoint.
+    minWidth: { 0: "0", map: "820px", floor: "700px", full: "100%" },
+
     // The ticker cells: grow, shrink, 200px basis. Declared because a raw
     // `flex:1 1 200px` has nowhere else to live in a token system.
     // The sticky nav sits above every section including the ticker rail.
@@ -330,6 +346,8 @@ const config: Config = {
       hero: "1.08fr .92fr",  // the hero split: figure slightly narrower than the copy
       headline: "1fr auto",  // section head: heading left, anything trailing right
       manifesto: "1.2fr .8fr",
+      ship: "1fr 1.25fr",    // section 5: copy left, the terminal wider on the right
+      entry: "170px 1fr",    // section 8: the build-log date rail against the entry
       pair: "repeat(2, minmax(0, 1fr))",
       triad: "repeat(3, minmax(0, 1fr))",
       quartet: "repeat(4, minmax(0, 1fr))",

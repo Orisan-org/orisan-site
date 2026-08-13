@@ -27,7 +27,7 @@ export const TOKENS = {
   "#3e3e3c": "rule.stroke", "#333331": "rule.line", "#4a4a48": "rule.dot",
   "#d8d8d3": "rule.wire", "#333333": "rule.chrome",
   // Type on ink
-  "#9d9d99": "tx.3d", "#a1a19c": "tx.term", "#c8c8c4": "tx.label",
+  "#a9a9a5": "tx.3d", "#a1a19c": "tx.term", "#c8c8c4": "tx.label",
   // Accent
   "#c63c21": "accent / orisan.mark", "#d96a45": "accent.d / orisan.inverse",
   "#802f1e": "orisan.type",
