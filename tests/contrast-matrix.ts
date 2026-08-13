@@ -26,8 +26,10 @@ export const RECORDED: Record<string, number> = {
   "#0f0f0f|#fafaf9": 18.35,   // 9.92px min, weight 400
   "#3e5735|#f0f0ec": 7.02,    // 9.92px min, weight 400
   "#4b4b49|#f0f0ec": 7.65,    // 11.84px min, weight 400
-  "#4b4b49|#fafaf9": 8.37,    // 9.92px min, weight 400
+  "#4b4b49|#fafaf9": 8.37,    // 9px min, weight 400
+  "#565654|#fafaf9": 7.04,    // 7.5px min, weight 400
   "#8fae83|#0f0f0f": 7.8,     // 9.5px min, weight 400
+  "#9e2b25|#fafaf9": 7.11,    // 7.5px min, weight 400
   "#a1a19c|#151515": 7.04,    // 12.8px min, weight 400
   "#a6a6a2|#0f0f0f": 7.85,    // 10.56px min, weight 400
   "#a6a6a2|#151515": 7.48,    // 14.08px min, weight 400
@@ -43,7 +45,7 @@ export const RECORDED: Record<string, number> = {
   "#ee9080|#151515": 7.77,    // 9.28px min, weight 400
   "#ee9080|#1c1414": 7.71,    // 22.4px min, weight 500
   "#ee9080|#221e1c": 7.03,    // 12.8px min, weight 400
-  "#fafaf9|#0f0f0f": 18.35,   // 15.04px min, weight 500
+  "#fafaf9|#0f0f0f": 18.35,   // 9px min, weight 400
   "#fafaf9|#151515": 17.48,   // 12.8px min, weight 400
 };
 

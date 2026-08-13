@@ -41,7 +41,14 @@ test("every text pair is recorded, unchanged, and clears its bar", async ({ page
       // SVG text paints from `fill`; reading `color` skips every figure on the page.
       const paint = isSvg ? cs.fill : cs.color;
       if (!paint || /none/.test(paint)) return;
-      const key = hex(paint) + "|" + hex(ground(e));
+      // An SVG shape is not a CSS background, so `ground()` walks straight past a
+      // filled disc and reports the section's paper. Text sitting on one declares
+      // its ground with `data-ground`, next to the fill that provides it. The ratio
+      // is then computed and enforced exactly like every other pair — the attribute
+      // supplies the ground, it does not excuse it.
+      const declared = e.getAttribute("data-ground");
+      const bg = declared ? declared.toLowerCase() : hex(ground(e));
+      const key = hex(paint) + "|" + bg;
       const px = parseFloat(cs.fontSize);
       const w = parseInt(cs.fontWeight) || 400;
       const cur = m.get(key);
