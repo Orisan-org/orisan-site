@@ -12,7 +12,7 @@
  */
 const CI_ONLY = [
   ["Lighthouse", "a11y/perf budgets, `lhci collect` + `lhci assert` against lighthouserc.json — separate `lighthouse` job in .github/workflows/gates.yml"],
-  ["Ubuntu screenshots", "visual baselines are *-linux.png. macOS renders the same page differently (measured: 8052px vs 8012px at 768px), so a local screenshot run cannot confirm CI's."],
+  ["Ubuntu screenshots", "visual baselines are *-linux.png and playwright.config.ts sets ignoreSnapshots off-linux, so NO visual regression ran here. macOS renders the same page differently (measured: 8052px vs 8012px at 768px), so a local screenshot run could not confirm CI's anyway.\n      Real fix, when visual regressions start costing time: run the suite in the\n      Playwright linux container so local and CI render on the same platform:\n        docker run --rm -v \"$PWD\":/w -w /w mcr.microsoft.com/playwright:v1.62.1-noble \\\n          npx playwright test\n      Tag tracks @playwright/test, 1.62.1 as committed. Until then this is a\n      known, deliberate gap, not an oversight."],
 ];
 console.log("\n  gates passed locally.");
 console.log("  skipped locally, runs in CI:");
