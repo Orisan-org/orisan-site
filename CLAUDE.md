@@ -245,6 +245,13 @@ correct a correct page to match a broken render.
   this Tailwind never emits, and `toHaveScreenshot` looked for a `*-darwin.png`
   that cannot exist, failed, and wrote one into the tracked baseline directory
   every run. Both were read as environment noise before they were read as defects.
+- **A gate that produces findings a reader must learn to ignore has a shorter
+  useful life than no gate at all.** A real gate that cries wolf trains the team to
+  skip it, and it is then worse than nothing because its passing is still counted.
+  Check A's first run reported ten undeclared colours and all ten were comments
+  documenting values that had been replaced — it was firing on its own
+  documentation. Fix the noise before the gate lands, not after someone has learned
+  to scroll past it.
 - **Contrast tests prove legibility, never correctness.** A page painted entirely
   the wrong colour passes every contrast assertion: the figure's verdict labels
   rendered `#C8C8C4` instead of green, ochre and red, and `#C8C8C4` is 11.42:1 on
