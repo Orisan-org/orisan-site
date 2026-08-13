@@ -206,3 +206,113 @@ test("the page is complete and correct with video disabled", async ({ page }) =>
     maxDiffPixelRatio: 0.01,
   });
 });
+
+/**
+ * SVG text paints from `fill`, not `color`. A contrast sweep that reads `color`
+ * silently skips every figure on the page and reports zero failures over a region
+ * it never measured — which is exactly what mine did.
+ *
+ * Under that blind spot a real bug shipped: the figure's shared class strings
+ * carried `fill-tx-label` / `fill-tx-3d`, and `fill-*` is a single utility group,
+ * so the shared fill beat the per-element `fill-holding-lit` on CSS source order
+ * regardless of the order they appeared in the class string. ALLOWED, HELD and
+ * STOPPED all painted #C8C8C4 instead of green, ochre and red — the figure's whole
+ * argument, silently erased, with no visual test able to see it.
+ *
+ * So this asserts the painted fill by identity, not just its contrast. A ratio
+ * check alone would have passed the bug: #C8C8C4 on ink is 11.42:1.
+ */
+const VERDICTS = [
+  { label: "ALLOWED", token: "holding.lit", fill: "rgb(143, 174, 131)" },
+  { label: "HELD", token: "suspicion.lit", fill: "rgb(201, 165, 102)" },
+  { label: "STOPPED", token: "harm.lit / stopped-lit", fill: "rgb(238, 144, 128)" },
+];
+
+test("figure verdicts paint their semantic fill, not the shared label fill", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+
+  const painted = await page.evaluate(() =>
+    Array.from(document.querySelectorAll("svg text")).map((t) => ({
+      text: (t.textContent ?? "").trim(),
+      fill: getComputedStyle(t).fill,
+    })),
+  );
+
+  for (const v of VERDICTS) {
+    const found = painted.find((p) => p.text === v.label);
+    expect(found, `no <text> reading "${v.label}" in any figure`).toBeTruthy();
+    expect(
+      found!.fill,
+      `${v.label} must paint ${v.token} ${v.fill}, got ${found!.fill}. ` +
+        `A shared fill-* in the class string beats a per-element one on source order.`,
+    ).toBe(v.fill);
+  }
+});
+
+/**
+ * The same blind spot, closed as a rule rather than per element: every figure
+ * label clears AA against its ground, measured on `fill` with any inherited group
+ * opacity folded in.
+ *
+ * The outcome groups cycle 0.18 -> 1 -> 0.18 on a shared 9s loop, which is the
+ * figure's argument — one verdict reads at a time. They are held at their lit
+ * keyframe here, because that is the state the design intends to be read, and
+ * `prefers-reduced-motion` already pins them to opacity 1.
+ */
+test("every figure label clears AA on the fill it actually paints", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  await page.addStyleTag({
+    content: "g[class*=animate-out]{animation:none !important;opacity:1 !important}",
+  });
+
+  const failures = await page.evaluate(() => {
+    const rgb = (v: string) => (v.match(/\d+(\.\d+)?/g) ?? []).slice(0, 3).map(Number);
+    const lum = ([r, g, b]: number[]) => {
+      const f = (c: number) => {
+        const x = c / 255;
+        return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+    };
+    const groundOf = (el: Element) => {
+      let n: Element | null = el;
+      while (n) {
+        const bg = getComputedStyle(n).backgroundColor;
+        if (bg && !/rgba\(0, 0, 0, 0\)|transparent/.test(bg)) return bg;
+        n = n.parentElement;
+      }
+      return "rgb(255, 255, 255)";
+    };
+    const out: string[] = [];
+    for (const t of Array.from(document.querySelectorAll("svg text"))) {
+      let opacity = 1;
+      let n: Element | null = t;
+      while (n && n.tagName !== "BODY") {
+        opacity *= parseFloat(getComputedStyle(n).opacity || "1");
+        n = n.parentElement;
+      }
+      const ground = groundOf(t);
+      const fg = rgb(getComputedStyle(t).fill);
+      const bg = rgb(ground);
+      const composited = fg.map((c, i) => c * opacity + bg[i] * (1 - opacity));
+      const a = lum(composited);
+      const b = lum(bg);
+      const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+      if (ratio < 4.5) {
+        out.push(
+          `"${(t.textContent ?? "").trim()}" ${getComputedStyle(t).fill} on ${ground} ` +
+            `= ${Math.round(ratio * 100) / 100}:1`,
+        );
+      }
+    }
+    return out;
+  });
+
+  expect(failures, `figure labels below AA:\n  ${failures.join("\n  ")}`).toEqual([]);
+});
