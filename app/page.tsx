@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DecisionFigure } from "@/components/home/DecisionFigure";
 import { Clock } from "@/components/home/Clock";
 import { Manifesto } from "@/components/home/Manifesto";
+import { BuildLog } from "@/components/home/BuildLog";
+import { Contact } from "@/components/home/Contact";
 import { FloorSection } from "@/components/home/FloorSection";
 import { MapSection } from "@/components/home/MapSection";
 import { Shipping } from "@/components/home/Shipping";
@@ -129,6 +131,8 @@ export default function Home() {
       <Shipping />
       <MapSection />
       <FloorSection />
+      <BuildLog />
+      <Contact />
     </>
   );
 }

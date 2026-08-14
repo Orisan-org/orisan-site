@@ -31,17 +31,18 @@ export const RECORDED: Record<string, number> = {
   "#8fae83|#0f0f0f": 7.8,     // 9.5px min, weight 400
   "#9e2b25|#fafaf9": 7.11,    // 7.5px min, weight 400
   "#a1a19c|#151515": 7.04,    // 12.8px min, weight 400
-  "#a6a6a2|#0f0f0f": 7.85,    // 10.56px min, weight 400
+  "#a6a6a2|#0f0f0f": 7.85,    // 9px min, weight 400
   "#a6a6a2|#151515": 7.48,    // 14.08px min, weight 400
   "#a9a9a5|#0f0f0f": 8.13,    // 7.5px min, weight 400
   "#a9a9a5|#151515": 7.74,    // 9.28px min, weight 400
   "#a9a9a5|#1c1414": 7.68,    // 9.28px min, weight 400
+  "#c63c21|#fafaf9": 4.94,    // 137.6px min, weight 400
   "#c8c8c4|#0f0f0f": 11.42,   // 9.5px min, weight 400
   "#c9a566|#0f0f0f": 8.27,    // 7.5px min, weight 400
   "#c9a566|#151515": 7.88,    // 9.28px min, weight 400
   "#c9a566|#1c1414": 7.81,    // 22.4px min, weight 500
-  "#d96a45|#0f0f0f": 5.57,    // 137.6px min, weight 400
-  "#ee9080|#0f0f0f": 8.16,    // 9.5px min, weight 400
+  "#d96a45|#0f0f0f": 5.57,    // 76.8px min, weight 400
+  "#ee9080|#0f0f0f": 8.16,    // 8px min, weight 400
   "#ee9080|#151515": 7.77,    // 9.28px min, weight 400
   "#ee9080|#1c1414": 7.71,    // 22.4px min, weight 500
   "#ee9080|#221e1c": 7.03,    // 12.8px min, weight 400
@@ -68,6 +69,11 @@ export const ACCEPTED_THIN: Record<string, { basis: Basis; reason: string }> = {
   // is held by the code instead of by memory. It was exempt by an unwritten ruling
   // for four contrast corrections, and that is exactly how it stayed invisible.
   "#d96a45|#0f0f0f": { basis: "large-text", reason: "accent.d, hero italic at 137.6px" },
+  // The paper-side twin of the same device: the contact heading's italic. accent is
+  // 4.94:1 on paper, which is why orisan.type carries eyebrow-sized text instead --
+  // but at 137.6px this is large text and clears AAA's 4.5 floor on the same basis.
+  // Single occurrence, so the smallest-occurrence rule bites nothing here.
+  "#c63c21|#fafaf9": { basis: "large-text", reason: "accent, contact italic at 137.6px" },
 };
 
 /** large-text per WCAG: >=24px, or >=18.66px at >=700 weight. Floor is AAA's 4.5:1. */
