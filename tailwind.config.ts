@@ -296,7 +296,8 @@ const config: Config = {
       heroLede: "46ch", // the hero lede is set tighter than the section ledes
       // Heading and note measures, named for the ch value the design sets.
       ch12: "12ch", ch14: "14ch", ch15: "15ch", ch16: "16ch", ch34: "34ch",
-      ch20: "20ch", ch36: "36ch", ch40: "40ch",
+      ch20: "20ch", ch30: "30ch", ch32: "32ch", ch36: "36ch", ch38: "38ch",
+      ch40: "40ch", ch48: "48ch", ch58: "58ch",
       hero: "18ch",
       wrap: "1200px",   // the design's wrap. Was 1120px.
       // The standalone2 reference measures 1280px. Kept separate from `wrap`
