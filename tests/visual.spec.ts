@@ -199,6 +199,21 @@ test("every image has a decided alt state", async ({ page }) => {
 
 test("the page is complete and correct with video disabled", async ({ page }) => {
   await page.route("**/*.{mp4,webm}", (r) => r.abort());
+  // Deterministic capture, not a longer wait. This shot is taken at
+  // domcontentloaded, and section 5's terminal reveals its lines on a timer, so
+  // the previous baseline froze a mid-animation frame: 0 of 13 lines on a fast
+  // runner, some other count on a slow one. A baseline that depends on timing is
+  // a false red waiting to happen, and a gate that produces false reds is one
+  // people learn to ignore.
+  //
+  // Reduced motion gives a real final state rather than a frozen frame — the
+  // replay renders all 13 lines and its "motion reduced" note immediately, and no
+  // timers run at all. Verified before relying on it: 13/13 at domcontentloaded
+  // and unchanged 1.2s later.
+  //
+  // It also gives the reduced-motion rendering a baseline it did not have. That
+  // is an accessibility path that ships and that nothing watched until now.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   await page.waitForLoadState("domcontentloaded");
