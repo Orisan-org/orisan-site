@@ -62,7 +62,18 @@ for (const { path: page_, maxDiffPixelRatio } of PAGES) {
 // of what is permitted cannot have a hole in it.
 // Reversal of B1 ("Inter is out") and of the 2026-08-12 italic ruling. Both are
 // founder taste calls for the standalone2 design, named in the token PR.
-const PERMITTED_FONT_FAMILIES = ["Inter", "JetBrains Mono", "Instrument Serif"];
+// "jetbrains" is JetBrains Mono. It is spelled like that because the mono family
+// moved from next/font/google to next/font/local, and next/font/local derives the
+// CSS family name from the loader variable rather than from the font's own `name`
+// table — so the computed value is `jetbrains`, not `JetBrains Mono`. The file is a
+// subset of upstream JetBrains Mono 2.304; provenance, licence and the exact
+// pyftsubset command are in app/fonts/NOTICE.md.
+//
+// This is a registration, not a relaxation: the list is still a closed set of
+// permitted families and still has no hole in it. Recorded here because a bare
+// lowercase token in an allowlist of proper font names is exactly the kind of entry
+// a future reader would assume was a mistake and "tidy up".
+const PERMITTED_FONT_FAMILIES = ["Inter", "jetbrains", "JetBrains Mono", "Instrument Serif"];
 
 // Every value the radius scale can emit: none, sm, ladder, panel, full.
 // Same reasoning. The previous check tested `> 2 && < 9999`, which permitted any
