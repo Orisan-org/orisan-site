@@ -441,3 +441,76 @@ test("the section 5 transcript never clips: no scroll at 1440, reachable at 390"
   ).toBeGreaterThanOrEqual(mobile.scrollWidth - 1);
   expect(mobile.pageScrollsX, "the page itself must never scroll sideways").toBe(false);
 });
+
+/**
+ * ONE FAMILY, ONE ADVANCE — the generalisation of the box-drawing bug.
+ *
+ * The transcript is a terminal capture: its table only holds together because every
+ * character occupies exactly the same horizontal space. That is a property of the
+ * FONT, not of the markup, and it fails silently. When the mono face was loaded from
+ * next/font/google with subsets:["latin"], U+2500-257F was not in the file, so those
+ * characters fell out of the family to a fallback and rendered at 10.766px and
+ * 12.204px against the family's 7.680px. Nothing threw. The table simply came out
+ * broken, and the only reason it was caught is that a width assertion failed for a
+ * reason nobody predicted.
+ *
+ * So assert the property directly rather than its symptom. A non-uniform advance
+ * means a character escaped the subset and is being drawn by another font. It does
+ * not matter which character or which font: the answer is always to bring the
+ * codepoint into the family, never to add a second one.
+ */
+test("every glyph in the transcript renders at one advance width", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+
+  const result = await page.evaluate(() => {
+    const pane = document.querySelector('[data-testid="transcript-pane"]');
+    if (!pane) throw new Error("transcript pane not found");
+    const cs = getComputedStyle(pane.querySelector("div")!);
+
+    const probe = document.createElement("span");
+    probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre";
+    probe.style.fontFamily = cs.fontFamily;
+    probe.style.fontSize = cs.fontSize;
+    probe.style.fontWeight = cs.fontWeight;
+    document.body.appendChild(probe);
+
+    // Measure over 60 repeats so sub-pixel rounding cannot mask a real difference.
+    const advanceOf = (ch: string) => {
+      probe.textContent = ch.repeat(60);
+      return probe.getBoundingClientRect().width / 60;
+    };
+
+    const chars = Array.from(new Set((pane.textContent ?? "").replace(/\s/g, "").split("")));
+    const measured = chars.map((ch) => ({
+      ch,
+      cp: "U+" + ch.codePointAt(0)!.toString(16).toUpperCase().padStart(4, "0"),
+      advance: Math.round(advanceOf(ch) * 1000) / 1000,
+    }));
+    probe.remove();
+
+    const base = advanceOf(" ") || measured[0].advance;
+    return {
+      fontFamily: cs.fontFamily,
+      distinctChars: measured.length,
+      advances: Array.from(new Set(measured.map((m) => m.advance))).sort((a, b) => a - b),
+      outliers: measured.filter((m) => Math.abs(m.advance - measured[0].advance) > 0.05),
+      base,
+    };
+  });
+
+  expect(
+    result.outliers,
+    `these codepoints are not being drawn by the transcript's own family — they have ` +
+      `escaped the font subset and fell back:\n  ` +
+      result.outliers.map((o) => `${o.cp} ${o.ch} at ${o.advance}px`).join("\n  ") +
+      `\n  (distinct advances seen: ${result.advances.join(", ")})`,
+  ).toEqual([]);
+
+  expect(
+    result.advances.length,
+    `the transcript must render at exactly one advance width; saw ${result.advances.join(", ")}`,
+  ).toBe(1);
+});
