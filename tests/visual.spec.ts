@@ -62,7 +62,18 @@ for (const { path: page_, maxDiffPixelRatio } of PAGES) {
 // of what is permitted cannot have a hole in it.
 // Reversal of B1 ("Inter is out") and of the 2026-08-12 italic ruling. Both are
 // founder taste calls for the standalone2 design, named in the token PR.
-const PERMITTED_FONT_FAMILIES = ["Inter", "JetBrains Mono", "Instrument Serif"];
+// "jetbrains" is JetBrains Mono. It is spelled like that because the mono family
+// moved from next/font/google to next/font/local, and next/font/local derives the
+// CSS family name from the loader variable rather than from the font's own `name`
+// table — so the computed value is `jetbrains`, not `JetBrains Mono`. The file is a
+// subset of upstream JetBrains Mono 2.304; provenance, licence and the exact
+// pyftsubset command are in app/fonts/NOTICE.md.
+//
+// This is a registration, not a relaxation: the list is still a closed set of
+// permitted families and still has no hole in it. Recorded here because a bare
+// lowercase token in an allowlist of proper font names is exactly the kind of entry
+// a future reader would assume was a mistake and "tidy up".
+const PERMITTED_FONT_FAMILIES = ["Inter", "jetbrains", "JetBrains Mono", "Instrument Serif"];
 
 // Every value the radius scale can emit: none, sm, ladder, panel, full.
 // Same reasoning. The previous check tested `> 2 && < 9999`, which permitted any
@@ -366,4 +377,151 @@ test("every figure label clears AA on the fill it actually paints", async ({ pag
   });
 
   expect(failures, `figure labels below AA:\n  ${failures.join("\n  ")}`).toEqual([]);
+});
+
+/**
+ * THE 120-COLUMN INVARIANT, held by the suite rather than by memory.
+ *
+ * The published mcpscan wheel hardcodes Console(width=120), so the transcript in
+ * section 5 is 120 columns wide and no flag narrows it. Two properties have to hold
+ * and they pull in opposite directions, which is why both are asserted here.
+ *
+ * 1. At 1440 the pane must NOT scroll. Measured headroom when this landed was
+ *    148px — 1088px of text width against the 940.1px a real line needs. That is
+ *    not much: a font-metric change, a wrap-padding change or a longer finding
+ *    string could eat it silently, and the failure mode is a desktop reader
+ *    dragging a terminal sideways to read a CRITICAL finding.
+ *
+ * 2. At 390 the pane MUST scroll, and the far end must be reachable. Narrow
+ *    viewports cannot fit 120 columns at any legible size, so scrolling there is
+ *    correct — what is not correct is clipping. The pane shipped once as
+ *    overflow-hidden inside a container that did not scroll either, so 60% of every
+ *    finding was not merely off-screen but unreachable, with no scrollbar and no
+ *    drag. A pane showing CRITICAL with its reason amputated fails the page's claim,
+ *    not just its layout. This half of the test is the regression guard for that.
+ */
+test("the section 5 transcript never clips: no scroll at 1440, reachable at 390", async ({
+  page,
+}) => {
+  const measure = async () =>
+    page.evaluate(() => {
+      const el = document.querySelector('[data-testid="transcript-pane"]');
+      if (!el) throw new Error("transcript pane not found");
+      const cs = getComputedStyle(el);
+      el.scrollLeft = 99999;
+      const maxScroll = el.scrollLeft;
+      el.scrollLeft = 0;
+      return {
+        overflowX: cs.overflowX,
+        clientWidth: el.clientWidth,
+        scrollWidth: el.scrollWidth,
+        maxScroll,
+        pageScrollsX: document.documentElement.scrollWidth > window.innerWidth,
+      };
+    });
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+  const desktop = await measure();
+
+  expect(
+    desktop.scrollWidth,
+    `at 1440 the transcript must fit without scrolling. Needed ${desktop.scrollWidth}px, ` +
+      `pane is ${desktop.clientWidth}px — headroom has been eaten.`,
+  ).toBeLessThanOrEqual(desktop.clientWidth);
+  expect(desktop.pageScrollsX, "the page itself must never scroll sideways").toBe(false);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+  const mobile = await measure();
+
+  expect(mobile.overflowX, "at 390 the pane must be a scroll port, never a clipper").toBe(
+    "auto",
+  );
+  expect(
+    mobile.scrollWidth,
+    "at 390 the transcript is expected to overflow — if it does not, the content is wrong",
+  ).toBeGreaterThan(mobile.clientWidth);
+  expect(
+    mobile.maxScroll + mobile.clientWidth,
+    "the far end of the widest line must be reachable by scrolling, not clipped away",
+  ).toBeGreaterThanOrEqual(mobile.scrollWidth - 1);
+  expect(mobile.pageScrollsX, "the page itself must never scroll sideways").toBe(false);
+});
+
+/**
+ * ONE FAMILY, ONE ADVANCE — the generalisation of the box-drawing bug.
+ *
+ * The transcript is a terminal capture: its table only holds together because every
+ * character occupies exactly the same horizontal space. That is a property of the
+ * FONT, not of the markup, and it fails silently. When the mono face was loaded from
+ * next/font/google with subsets:["latin"], U+2500-257F was not in the file, so those
+ * characters fell out of the family to a fallback and rendered at 10.766px and
+ * 12.204px against the family's 7.680px. Nothing threw. The table simply came out
+ * broken, and the only reason it was caught is that a width assertion failed for a
+ * reason nobody predicted.
+ *
+ * So assert the property directly rather than its symptom. A non-uniform advance
+ * means a character escaped the subset and is being drawn by another font. It does
+ * not matter which character or which font: the answer is always to bring the
+ * codepoint into the family, never to add a second one.
+ */
+test("every glyph in the transcript renders at one advance width", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+
+  const result = await page.evaluate(() => {
+    const pane = document.querySelector('[data-testid="transcript-pane"]');
+    if (!pane) throw new Error("transcript pane not found");
+    const cs = getComputedStyle(pane.querySelector("div")!);
+
+    const probe = document.createElement("span");
+    probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre";
+    probe.style.fontFamily = cs.fontFamily;
+    probe.style.fontSize = cs.fontSize;
+    probe.style.fontWeight = cs.fontWeight;
+    document.body.appendChild(probe);
+
+    // Measure over 60 repeats so sub-pixel rounding cannot mask a real difference.
+    const advanceOf = (ch: string) => {
+      probe.textContent = ch.repeat(60);
+      return probe.getBoundingClientRect().width / 60;
+    };
+
+    const chars = Array.from(new Set((pane.textContent ?? "").replace(/\s/g, "").split("")));
+    const measured = chars.map((ch) => ({
+      ch,
+      cp: "U+" + ch.codePointAt(0)!.toString(16).toUpperCase().padStart(4, "0"),
+      advance: Math.round(advanceOf(ch) * 1000) / 1000,
+    }));
+    probe.remove();
+
+    const base = advanceOf(" ") || measured[0].advance;
+    return {
+      fontFamily: cs.fontFamily,
+      distinctChars: measured.length,
+      advances: Array.from(new Set(measured.map((m) => m.advance))).sort((a, b) => a - b),
+      outliers: measured.filter((m) => Math.abs(m.advance - measured[0].advance) > 0.05),
+      base,
+    };
+  });
+
+  expect(
+    result.outliers,
+    `these codepoints are not being drawn by the transcript's own family — they have ` +
+      `escaped the font subset and fell back:\n  ` +
+      result.outliers.map((o) => `${o.cp} ${o.ch} at ${o.advance}px`).join("\n  ") +
+      `\n  (distinct advances seen: ${result.advances.join(", ")})`,
+  ).toEqual([]);
+
+  expect(
+    result.advances.length,
+    `the transcript must render at exactly one advance width; saw ${result.advances.join(", ")}`,
+  ).toBe(1);
 });

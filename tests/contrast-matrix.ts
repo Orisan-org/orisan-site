@@ -23,12 +23,17 @@
  */
 export const RECORDED: Record<string, number> = {
   "#0f0f0f|#f0f0ec": 16.78,   // 41.6px min, weight 600
+  "#0f0f0f|#f1e5e4": 15.58,  // 19.2px min, weight 500 — the grade stamp's letter on
+                             // harm.fill. The letter is ink by design: the mark carries
+                             // the meaning, and the accent values fail AA as type.
   "#0f0f0f|#fafaf9": 18.35,   // 9.92px min, weight 400
   "#3e5735|#f0f0ec": 7.02,    // 9.92px min, weight 400
   "#4b4b49|#f0f0ec": 7.65,    // 11.84px min, weight 400
   "#4b4b49|#fafaf9": 8.37,    // 9px min, weight 400
   "#565654|#fafaf9": 7.04,    // 7.5px min, weight 400
   "#8fae83|#0f0f0f": 7.8,     // 9.5px min, weight 400
+  "#8fae83|#151515": 7.43,   // 12.8px min, weight 400 — section 5 transcript, the
+                             // payload_stored=false line on the pane's ink-deep ground
   "#9e2b25|#fafaf9": 7.11,    // 7.5px min, weight 400
   "#a1a19c|#151515": 7.04,    // 12.8px min, weight 400
   "#a6a6a2|#0f0f0f": 7.85,    // 9px min, weight 400
