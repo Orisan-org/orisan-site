@@ -367,3 +367,77 @@ test("every figure label clears AA on the fill it actually paints", async ({ pag
 
   expect(failures, `figure labels below AA:\n  ${failures.join("\n  ")}`).toEqual([]);
 });
+
+/**
+ * THE 120-COLUMN INVARIANT, held by the suite rather than by memory.
+ *
+ * The published mcpscan wheel hardcodes Console(width=120), so the transcript in
+ * section 5 is 120 columns wide and no flag narrows it. Two properties have to hold
+ * and they pull in opposite directions, which is why both are asserted here.
+ *
+ * 1. At 1440 the pane must NOT scroll. Measured headroom when this landed was
+ *    148px — 1088px of text width against the 940.1px a real line needs. That is
+ *    not much: a font-metric change, a wrap-padding change or a longer finding
+ *    string could eat it silently, and the failure mode is a desktop reader
+ *    dragging a terminal sideways to read a CRITICAL finding.
+ *
+ * 2. At 390 the pane MUST scroll, and the far end must be reachable. Narrow
+ *    viewports cannot fit 120 columns at any legible size, so scrolling there is
+ *    correct — what is not correct is clipping. The pane shipped once as
+ *    overflow-hidden inside a container that did not scroll either, so 60% of every
+ *    finding was not merely off-screen but unreachable, with no scrollbar and no
+ *    drag. A pane showing CRITICAL with its reason amputated fails the page's claim,
+ *    not just its layout. This half of the test is the regression guard for that.
+ */
+test("the section 5 transcript never clips: no scroll at 1440, reachable at 390", async ({
+  page,
+}) => {
+  const measure = async () =>
+    page.evaluate(() => {
+      const el = document.querySelector('[data-testid="transcript-pane"]');
+      if (!el) throw new Error("transcript pane not found");
+      const cs = getComputedStyle(el);
+      el.scrollLeft = 99999;
+      const maxScroll = el.scrollLeft;
+      el.scrollLeft = 0;
+      return {
+        overflowX: cs.overflowX,
+        clientWidth: el.clientWidth,
+        scrollWidth: el.scrollWidth,
+        maxScroll,
+        pageScrollsX: document.documentElement.scrollWidth > window.innerWidth,
+      };
+    });
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+  const desktop = await measure();
+
+  expect(
+    desktop.scrollWidth,
+    `at 1440 the transcript must fit without scrolling. Needed ${desktop.scrollWidth}px, ` +
+      `pane is ${desktop.clientWidth}px — headroom has been eaten.`,
+  ).toBeLessThanOrEqual(desktop.clientWidth);
+  expect(desktop.pageScrollsX, "the page itself must never scroll sideways").toBe(false);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
+  const mobile = await measure();
+
+  expect(mobile.overflowX, "at 390 the pane must be a scroll port, never a clipper").toBe(
+    "auto",
+  );
+  expect(
+    mobile.scrollWidth,
+    "at 390 the transcript is expected to overflow — if it does not, the content is wrong",
+  ).toBeGreaterThan(mobile.clientWidth);
+  expect(
+    mobile.maxScroll + mobile.clientWidth,
+    "the far end of the widest line must be reachable by scrolling, not clipped away",
+  ).toBeGreaterThanOrEqual(mobile.scrollWidth - 1);
+  expect(mobile.pageScrollsX, "the page itself must never scroll sideways").toBe(false);
+});
