@@ -123,7 +123,7 @@ export function TerminalReplay() {
   return (
     <div>
       <div className="grid gap-0h overflow-hidden rounded-panel border border-rule-dark bg-rule-dark">
-        <div className="bg-ink-deep">
+        <div className="min-w-0 bg-ink-deep">
           <div className="flex items-center gap-2h border-b border-rule-dark px-5 py-3">
             <div aria-hidden="true" className="flex gap-1h">
               {[0, 1, 2].map((i) => (
@@ -136,7 +136,18 @@ export function TerminalReplay() {
               Sample data — not a real run
             </span>
           </div>
-          <div className="min-h-term px-6 pb-6 pt-5 font-mono text-xs leading-200">
+          {/*
+            The published wheel hardcodes Console(width=120), so real output is 120
+            columns and no flag narrows it (checked against 0.1.1: no --width, and
+            --output `terminal` is byte-identical to `table`). The lines are
+            whitespace-pre, so they establish their own intrinsic width and this
+            container is the scroll port. overflow-x-auto, never hidden: a pane that
+            clips CRITICAL away from its reason, on a page whose thesis is that we
+            show what actually happened, fails the claim and not merely the layout.
+            Same device as the map and floor figures, which scroll inside their own
+            container rather than stretching the page.
+          */}
+          <div className="min-h-term overflow-x-auto px-6 pb-6 pt-5 font-mono text-xs leading-200">
             {LINES.map((line, i) => (
               <div
                 key={i}
@@ -153,7 +164,7 @@ export function TerminalReplay() {
           </div>
         </div>
 
-        <div className="bg-ink-deep">
+        <div className="min-w-0 bg-ink-deep">
           <div className="flex items-center gap-2h border-b border-rule-dark px-5 py-3">
             <span className="font-mono text-chrome uppercase tracking-20 text-tx-3d">
               What that means

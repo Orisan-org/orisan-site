@@ -47,7 +47,11 @@ export function Shipping() {
             </div>
 
             {/* crosses the seam on purpose */}
-            <div className="-mb-f-60-130 to-980:mb-0">
+            {/* min-w-0: a grid track's auto minimum is its item's min-content, so the
+                120-column transcript would otherwise push this track wide and crush the
+                copy column to 189px. min-w-0 lets the track hold its 1.25fr share and
+                hands the overflow to the pane's own scroll port. */}
+            <div className="min-w-0 -mb-f-60-130 to-980:mb-0">
               <TerminalReplay />
 
               {/* FIGURE 3 — the severity ladder */}
