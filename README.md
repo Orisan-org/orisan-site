@@ -59,9 +59,9 @@ Current known blocker: the domain is still using `dns1.registrar-servers.com` an
 The site should present `mcpscan` as the active Orisan project:
 
 - local-first MCP server security scanner
-- alpha software, currently `v0.1.0-alpha.2`
-- source/editable install only until package or binary publishing is configured
-- no PyPI, pipx, Homebrew, or curl install claim for `mcpscan`
+- alpha software, latest published release `0.1.0` (PyPI, 2026-07-10)
+- distributed on PyPI as `orisan-mcpscan`, runnable via `uvx orisan-mcpscan`
+- no pipx, Homebrew, or curl install claim for `mcpscan`
 - no broad product-suite positioning
 
 ## Scout Install Endpoints
