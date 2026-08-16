@@ -85,8 +85,8 @@ export default function Contact() {
               You can run the shipped part first.
             </h2>
             <p className="mt-5 max-w-lede text-lg text-grey-3">
-              mcpscan is public and installable now. Pointing it at your own config takes
-              about ten seconds and gives you something concrete to argue with us about.
+              mcpscan is public and installable now. Pointing it at your own config gives
+              you something concrete to argue with us about.
             </p>
             <div className="mt-9">
               <InstallCommand command={INSTALL} tone="ink" />
