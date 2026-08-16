@@ -1,0 +1,22 @@
+Distribution : orisan-mcpscan
+Version      : 0.1.1
+Index        : PyPI (pypi.org/project/orisan-mcpscan)
+
+orisan_mcpscan-0.1.1-py3-none-any.whl
+  sha256   1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+  uploaded 2026-08-09T22:24:59.363550Z
+
+orisan_mcpscan-0.1.1.tar.gz
+  sha256   625f1e02cc5d06890335d1d2c84c069788b6744788db4888ff683cc214e19a6e
+  uploaded 2026-08-09T22:25:01.093749Z
+
+Both lines above are the digests PyPI PUBLISHES. The wheel digest was additionally
+re-derived inside the recording by streaming the bytes PyPI actually serves through
+`shasum -a 256` (run.txt, step 2). Published and re-derived agree.
+
+Caveat on what this does and does not bind. uv unpacks wheels into its cache
+(archive-v0) and does not retain the .whl, so there is no cached file to hash. The
+digest therefore binds the artifact PyPI serves for orisan-mcpscan 0.1.1, and step 4
+shows uvx resolved 0.1.1 from the environment step 3 built. It is not a hash taken
+from uv's own installed bytes. To bind that directly, install with
+`uv pip install --require-hashes` against this digest and let uv do the check.
