@@ -98,3 +98,63 @@ and is deliberately not kept.
 Findings, grade and verdicts are deterministic and will match. The wall clock will
 not: it is a measurement of this machine, this network and this cache state on this
 date, and re-running replaces it rather than confirming it.
+
+---
+
+# Addendum — the digest chain, closed
+
+The body above left a join unproved. It had two facts:
+
+1. PyPI serves bytes with sha256 `1f23dcf2…faa8d8` (published, and re-derived by
+   `curl | shasum` in the recording).
+2. `uvx` resolved version `0.1.1`.
+
+Nothing tied them together. "The index publishes a digest" and "the installer chose
+a version" are not the same statement as "the bytes that ran are those bytes." The
+gap is exactly the kind this page exists to refuse, so it is closed here by making
+**uv itself** do the verification.
+
+Full output in `require-hashes.txt`. Both halves were run against a fresh venv and a
+fresh `UV_CACHE_DIR`, so uv had to fetch and hash the bytes rather than trust a cache.
+
+## A. Correct digest — installs
+
+    $ cat req-good.txt
+    orisan-mcpscan==0.1.1 --hash=sha256:1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+
+    $ uv pip install --require-hashes --no-deps -r req-good.txt
+    Resolved 1 package in 356ms
+    Prepared 1 package in 109ms
+    Installed 1 package in 4ms
+     + orisan-mcpscan==0.1.1
+    exit: 0
+
+## B. Tampered digest — refuses
+
+One hex digit flipped, `1f…` to `0f…`, everything else identical:
+
+    $ uv pip install --require-hashes --no-deps -r req-bad.txt
+      × Failed to download `orisan-mcpscan==0.1.1`
+      ╰─▶ Hash mismatch for `orisan-mcpscan==0.1.1`
+          Expected:
+            sha256:0f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+          Computed:
+            sha256:1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+    exit: 1
+
+**B is the load-bearing half.** A passing hash check proves nothing on its own — a
+flag that is silently ignored also "passes". The refusal, and the `Computed:` line
+naming `1f23dcf2…faa8d8` as what uv actually hashed from the downloaded bytes, is
+what makes A evidence instead of assertion.
+
+## What is now bound
+
+Published digest → bytes PyPI serves → **bytes uv installed** → version 0.1.1.
+uv computed the digest itself, from the artifact it fetched, and refused the wrong
+one. The earlier caveat in `wheel-digest.txt` — that the digest bound only what PyPI
+serves and not uv's installed bytes — no longer stands. It is left in place as the
+record of what was missing and when.
+
+`--no-deps` scopes the check to the wheel under test. `--require-hashes` demands a
+hash for every package in the resolution, and the dependency set is not the claim
+being made here; the claim is about the `orisan-mcpscan` artifact itself.
