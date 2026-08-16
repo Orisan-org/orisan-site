@@ -1,0 +1,43 @@
+# 1. what PyPI publishes for orisan-mcpscan 0.1.1
+orisan_mcpscan-0.1.1-py3-none-any.whl 1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8 2026-08-09T22:24:
+59.363550Z
+orisan_mcpscan-0.1.1.tar.gz 625f1e02cc5d06890335d1d2c84c069788b6744788db4888ff683cc214e19a6e 2026-08-09T22:25:01.093749Z
+
+# 2. sha256 of the bytes PyPI actually serves for that wheel
+1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8  -
+
+# 3. the run - cold uv cache, headline one-liner, timed
+Installed 38 packages in 36ms
+mcpscan config report
+Configs found: 1
+Servers: 1 total, 1 scanned, 0 failed, 0 skipped
+Worst grade: F
+
+puppeteer
+  Source: mcp.json
+  Transport: stdio
+  Purpose: browser_automation (config)
+  Grade: F
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ SEVERITY            ┃ VERDICT              ┃ ID      ┃ TARGET             ┃ FINDING                                  ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ CRITICAL (was HIGH) │ undeclared           │ MCP-010 │ puppeteer_evaluate │ Tool 'puppeteer_evaluate' appears to     │
+│                     │                      │         │                    │ expose shell execution based on name,    │
+│                     │                      │         │                    │ description, or schema.                  │
+│ CRITICAL (was HIGH) │ undeclared           │ MCP-030 │ puppeteer_evaluate │ Tool 'puppeteer_evaluate' accepts        │
+│                     │                      │         │                    │ unconstrained string parameter 'script'  │
+│                     │                      │         │                    │ and appears to execute commands or code. │
+│ HIGH                │ expected_unconfirmed │ MCP-010 │ puppeteer_navigate │ Tool 'puppeteer_navigate' appears to     │
+│                     │                      │         │                    │ expose outbound network request          │
+│                     │                      │         │                    │ capability based on name, description,   │
+│                     │                      │         │                    │ or schema.                               │
+└─────────────────────┴──────────────────────┴─────────┴────────────────────┴──────────────────────────────────────────┘
+
+Privacy: payload_stored=false for all findings
+real 6.33
+user 1.78
+sys 1.02
+exit: 1
+
+# 4. version uvx resolved, from the environment step 3 built
+0.1.1
