@@ -1,0 +1,64 @@
+# Regenerate visual baselines on the runner that compares against them.
+#
+# WHY THIS EXISTS. Baselines are committed as *-linux.png and macOS does not render
+# the same page the same way, so they cannot be regenerated on a developer machine.
+# The only route that existed was scavenging the *-actual.png Playwright writes into
+# the failure artifact — which works, but only when something FAILS. A baseline that
+# is stale yet still passing, because a tolerance absorbs the difference, was
+# therefore unregenerable by any sanctioned means. That is the gap this closes.
+#
+# WHAT IT DELIBERATELY DOES NOT DO. It does not commit. It uploads an artifact and
+# stops. A human downloads it, inspects every PNG, and commits the ones they intend
+# — so "creating a baseline is safe, changing one is the dangerous act" still holds,
+# and no baseline can move without someone having looked at it. A workflow with write
+# access to the snapshot directory would make the visual gate self-approving.
+#
+# workflow_dispatch ONLY. Never on push, never on pull_request: a regeneration that
+# runs automatically is a baseline that updates itself, which is the failure the
+# whole rule exists to prevent.
+name: regenerate-baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      grep:
+        description: "Only regenerate tests matching this (blank = all visual tests)"
+        required: false
+        default: ""
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+
+      - run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      # --update-snapshots rewrites the PNGs in the working tree. They are collected
+      # below and thrown away with the runner; nothing is pushed.
+      - name: Regenerate
+        run: npx playwright test tests/visual.spec.ts --update-snapshots ${{ inputs.grep && format('-g "{0}"', inputs.grep) || '' }}
+
+      - name: Show what moved
+        if: always()
+        run: |
+          echo "--- git status of the snapshot directory ---"
+          git status --porcelain tests/__screenshots__ || true
+          echo "--- modified (review every one of these) ---"
+          git status --porcelain tests/__screenshots__ | grep '^ M' || echo "  none"
+          echo "--- added ---"
+          git status --porcelain tests/__screenshots__ | grep '^??' || echo "  none"
+
+      - name: Upload regenerated baselines
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regenerated-baselines
+          path: tests/__screenshots__/**
+          retention-days: 7
