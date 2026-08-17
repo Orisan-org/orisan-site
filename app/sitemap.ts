@@ -4,6 +4,7 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: "https://orisan.org/", changeFrequency: "monthly", priority: 1 },
+    { url: "https://orisan.org/product", changeFrequency: "monthly", priority: 0.8 },
     { url: "https://orisan.org/contact", changeFrequency: "monthly", priority: 0.5 },
   ];
 }

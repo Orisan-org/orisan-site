@@ -59,7 +59,7 @@ export default function Product() {
   return (
     <>
       <SiteHeader current="/product" />
-      <main>
+      <>
         <section className="mx-auto max-w-wrap px-8 pt-13 sm:pt-16">
           <p className="font-mono text-label uppercase tracking-label text-orisan-type">
             The product
@@ -159,7 +159,7 @@ export default function Product() {
             </p>
           </div>
         </section>
-      </main>
+      </>
       <SiteFooter />
     </>
   );

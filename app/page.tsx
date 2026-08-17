@@ -9,6 +9,7 @@ import { MapSection } from "@/components/home/MapSection";
 import { Shipping } from "@/components/home/Shipping";
 import { Surfaces } from "@/components/home/Surfaces";
 import { OrisanMark } from "@/components/home/OrisanMark";
+import { SiteHeader } from "@/components/SiteHeader";
 import {
   CTA_GHOST_L,
   CTA_SOLID_L,
@@ -22,13 +23,6 @@ export const metadata: Metadata = {
     "Local-first security instruments for AI agents. The first, mcpscan, reads what an MCP server exposes — tools, resources, prompts — before an agent connects.",
 };
 
-const NAV_LINKS = [
-  { href: "#why", label: "Why now" },
-  { href: "#surfaces", label: "Surfaces" },
-  { href: "#ship", label: "Shipping" },
-  { href: "#log", label: "Build log" },
-];
-
 /** The four hero ticker cells. */
 const TICKS = [
   { figure: "2 Aug 2026", note: "EU AI Act Article 12 applicable to high-risk systems" },
@@ -40,38 +34,14 @@ const TICKS = [
 export default function Home() {
   return (
     <>
+      {/*
+        One navigation, the same component every page uses. Home used to carry its
+        own: five in-page anchors, a logo pointing at "#", and exactly one outbound
+        route link — a CTA six viewports down. Two navigation systems on one site,
+        and the front door was the one that did not link out.
+      */}
+      <SiteHeader current="/" />
         <div className="bg-ink text-tx-d">
-        {/*
-          nav is sticky over a 94%-opaque ink ground. No backdrop-filter: the
-          design does not use one, and CLAUDE.md bans backdrop blur outright.
-        */}
-        <nav className="sticky top-0 z-60 border-b border-rule-dark bg-ink/94">
-          <div className={`${WRAP} flex h-13 items-center gap-8h`}>
-            <a
-              href="#"
-              className="flex items-center gap-2h font-semibold tracking-n015 text-tx-d no-underline"
-            >
-              <OrisanMark id="mark-nav" />
-              Orisan
-              <i aria-hidden="true" className="block size-1h rounded-full bg-accent-d" />
-            </a>
-            <div className="ml-auto flex items-center gap-6h">
-              {NAV_LINKS.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  className="text-nav text-tx-2d no-underline hover:text-tx-d to-880:hidden"
-                >
-                  {l.label}
-                </a>
-              ))}
-              <a href="#contact" className={CTA_GHOST_L}>
-                Talk to us
-              </a>
-            </div>
-          </div>
-        </nav>
-
         <section className="overflow-hidden pt-f-84-176">
           <div className={WRAP}>
             <div className="grid grid-cols-hero items-center gap-f-30-80 to-980:grid-cols-stack">

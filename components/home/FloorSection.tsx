@@ -24,7 +24,7 @@ export function FloorSection() {
 
           <p className={`${P_INK} mt-9 text-sm leading-160`}>
             This is a commitment about our own design. Its verification is a test
-            obligation against the built system, and we have not claimed it is proven.
+            obligation against the built system.
           </p>
 
           {/*
