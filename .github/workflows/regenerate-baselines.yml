@@ -40,10 +40,19 @@ jobs:
       - name: Install browser
         run: npx playwright install --with-deps chromium
 
-      # --update-snapshots rewrites the PNGs in the working tree. They are collected
-      # below and thrown away with the runner; nothing is pushed.
+      # --update-snapshots=all, deliberately, NOT the "changed" preset.
+      #
+      # The bare flag presets to "changed", which rewrites a baseline only when the
+      # comparison FAILS. That makes regeneration gated by the very threshold this
+      # workflow exists to work around: a baseline that is stale but still passing
+      # inside maxDiffPixelRatio cannot be regenerated, which is precisely the case
+      # root-desktop-novideo is in. The first run of this workflow reported
+      # "modified: none, added: none" for exactly that reason.
+      #
+      # "all" rewrites unconditionally. Safe here because the workflow commits
+      # nothing — a human still inspects every PNG before it lands.
       - name: Regenerate
-        run: npx playwright test tests/visual.spec.ts --update-snapshots ${{ inputs.grep && format('-g "{0}"', inputs.grep) || '' }}
+        run: npx playwright test tests/visual.spec.ts --update-snapshots=all ${{ inputs.grep && format('-g "{0}"', inputs.grep) || '' }}
 
       - name: Show what moved
         if: always()

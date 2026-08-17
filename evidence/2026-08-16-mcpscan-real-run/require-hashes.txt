@@ -1,0 +1,26 @@
+$ cat req-good.txt
+orisan-mcpscan==0.1.1 --hash=sha256:1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+
+# A. correct digest, fresh cache and venv - uv must fetch and verify the bytes
+Using Python 3.12.13 environment at: v-good
+Resolved 1 package in 356ms
+Prepared 1 package in 109ms
+Installed 1 package in 4ms
+ + orisan-mcpscan==0.1.1
+exit: 0
+
+$ cat req-bad.txt   # same file, one hex digit flipped
+orisan-mcpscan==0.1.1 --hash=sha256:0f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+
+# B. tampered digest - if the check is live, this must REFUSE
+Using Python 3.12.13 environment at: v-bad
+Resolved 1 package in 54ms
+  × Failed to download `orisan-mcpscan==0.1.1`
+  ╰─▶ Hash mismatch for `orisan-mcpscan==0.1.1`
+
+      Expected:
+        sha256:0f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+
+      Computed:
+        sha256:1f23dcf29a779efc884b055c321c8ede4fd283e3605699742a5b1dee12faa8d8
+exit: 1

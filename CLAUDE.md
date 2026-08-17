@@ -97,6 +97,21 @@ everything in between by accident. A denylist is only as complete as its author'
 imagination. **The gate is stronger after this change than before it**, and any new
 family or radius must now be added to the list deliberately.
 
+**Addendum, 2026-08-13.** Both specifics above were reversed within days of being
+written; the reasoning was not. Recorded as an addendum rather than an edit,
+because the entry was true on 2026-08-10 and a rule quietly rewritten to match
+today reads as though it was always right.
+
+- The family is **Inter**, not Schibsted Grotesk, and `font-alt` is **Instrument
+  Serif**, not Fraunces. Founder taste call. `tailwind.config.ts` and
+  `PERMITTED_FONT_FAMILIES` moved at the import; this file said Schibsted for three
+  days after, so every session started from a wrong instruction.
+- The radius set is **2 / 12 / 14 / 999**, not "between 14px and 32px".
+  `rounded-feature` (32px) was removed and remapped to `panel` (14px) in eight
+  places across five files.
+
+The released-to-allowlist mechanism is unchanged and is the part that mattered.
+
 **Held, and why:**
 
 - **Gradients and box shadows stay banned.** The design needs neither. Its
@@ -117,15 +132,27 @@ family or radius must now be added to the list deliberately.
   absolutely.
 
 ### Required
-- **Type:** `font-display` (Schibsted Grotesk) and `font-mono` (JetBrains Mono).
-  `font-alt` (Fraunces) for quotation and the founder's voice, italic only. Three
-  families, and `tests/visual.spec.ts` permits exactly those three.
+- **Type:** `font-display` / `font-body` (Inter) and `font-mono` (JetBrains Mono).
+  `font-alt` (Instrument Serif) italic only. Three families, and
+  `tests/visual.spec.ts` permits exactly those three. The families were Schibsted
+  Grotesk and Fraunces before the 2026-08-10 import; this line said so long after
+  the config and the test had moved on, which is how a stale rule outlives the
+  thing it describes.
 - **Mono is reserved** for the product's own vocabulary: check IDs, grades, findings,
   commands, file paths. Never decorative.
 - **Measure:** body copy capped at 62ch via `max-w-measure`.
-- **Spacing:** only the named scale. Nothing between steps.
+- **Spacing:** only the named scale. Nothing between steps. Below 40px the scale
+  advances by 2px, so any odd value in a design **rounds down** to the step below —
+  3, 5, 7, 9, 11 and 13px are all equidistant between two steps, and a lost pixel
+  is safer than a gained one. The direction is fixed here so it is not re-derived
+  from a diff next time.
 - **Accent colour carries meaning:** `harm`, `holding`, `watching`, `suspicion`.
   Never pick an accent for looks. Accent never exceeds ~10% of a viewport.
+- **In copy describing unbuilt work, a finite present tense with an implied subject
+  asserts existence.** "Stands in the path of the action" reads as a thing doing
+  that now; "Stand in the path of an action" reads as purpose. Infinitives and noun
+  phrases describe intent, finite verbs describe behaviour. Grammatical form does
+  claim work, and it is cheap to check.
 - **No component accepts a `className` prop that can override a token.** Variants are
   explicit props with a fixed set of values, never an escape hatch.
 
@@ -140,6 +167,10 @@ family or radius must now be added to the list deliberately.
    fill carry the meaning; the letter is ink. The mark values are shape colours and
    measure 2.79:1 to 3.00:1 as type on paper, so a coloured glyph was an AA failure
    dressed as a signature.
+4. **The italic accent** — `font-alt`, italic, inside a display heading, carrying the
+   turn in the sentence. This is a deliberate signature device and a settled founder
+   taste call, not drift. It is not to be re-opened by a future audit: an audit may
+   report that it is unusual, and the answer is that it is intended.
 
 ---
 
@@ -175,6 +206,18 @@ converts the gate into a formality. So:
   the test red, and escalate. **A red visual test is a working gate. A quietly updated
   baseline is a broken one.**
 
+**Before trusting any difference against a reference, prove the reference itself
+renders correctly.** A diff harness reports differences whether or not either side is
+right. Minimum proof, every run: assert the computed `font-family` actually resolved
+to the intended face on at least one element per family, and assert a known text width
+against a value measured outside the harness. The standalone2 reference inlines 42
+Google `@font-face` rules pointing at fonts.gstatic.com; with no outbound network all
+42 fail, but their narrower `unicode-range` values still win CSS font matching against
+the full-range fallbacks, so the reference rendered in system type. Measured effect:
+"are acting." at 556.89px against the site's 628.88px, and an h1 127px shorter. Two
+diffs were invalid before this was caught, and the next step would have been to
+correct a correct page to match a broken render.
+
 ---
 
 ## Gate files: you may fix them, in isolation, with reasons
@@ -194,6 +237,30 @@ converts the gate into a formality. So:
   and when it will be restored.
 - After any gate change, re-run the banned-class proof from README-KIT step 5 and
   paste the result. A gate edit that has not been re-proven is unverified.
+- **A proof that a gate fires must first create the condition the gate inspects.**
+  Undeclaring a token and watching the colour allowlist still pass proves nothing
+  if no class uses that token, because Tailwind never emitted it and there was
+  nothing to compare. Inject the usage first, *then* undeclare, watch it fail,
+  restore. Not a workaround — the only valid form of the test. Worked example in
+  PR #48, which also found that 29 of 47 colour tokens were ungated for exactly
+  this reason.
+- **A gate that cannot pass on the host it is run on is a broken gate, not a local
+  quirk.** When a gate fails only locally, the first hypothesis is that the gate is
+  wrong. Two instances, both real: the banned-class proof searched for colour forms
+  this Tailwind never emits, and `toHaveScreenshot` looked for a `*-darwin.png`
+  that cannot exist, failed, and wrote one into the tracked baseline directory
+  every run. Both were read as environment noise before they were read as defects.
+- **A gate that produces findings a reader must learn to ignore has a shorter
+  useful life than no gate at all.** A real gate that cries wolf trains the team to
+  skip it, and it is then worse than nothing because its passing is still counted.
+  Check A's first run reported ten undeclared colours and all ten were comments
+  documenting values that had been replaced — it was firing on its own
+  documentation. Fix the noise before the gate lands, not after someone has learned
+  to scroll past it.
+- **Contrast tests prove legibility, never correctness.** A page painted entirely
+  the wrong colour passes every contrast assertion: the figure's verdict labels
+  rendered `#C8C8C4` instead of green, ochre and red, and `#C8C8C4` is 11.42:1 on
+  ink. Assert the value by identity where the value carries meaning.
 
 ---
 
@@ -223,6 +290,15 @@ Gated in CI at 100. Non-negotiable.
 - Visible focus states on every interactive element. Never `outline: none`.
 - Semantic landmarks, one `h1` per page, heading levels never skip.
 - Body text contrast at least 7:1. `grey-3` is a border colour, never text.
+- **A contrast ratio reported without its composited background hex is not a
+  measurement.** Every ratio, in an audit, a PR body or a table pasted into chat,
+  states the ground it was measured against. A review once checked four ratios and
+  reproduced none of them, because the arithmetic was right and the substrate was
+  not. Where an element can land on more than one ground, it clears the bar on the
+  darker one.
+- **Measure SVG text on `fill`, not `color`.** A sweep that reads `color` silently
+  skips every figure on the page and will report zero failures over an unmeasured
+  region. Fold in any inherited group `opacity` before computing the ratio.
 
 ---
 
@@ -241,6 +317,16 @@ none. Put the list in the PR description.
 slice PR into `launch` and continue to the next slice without waiting. If any gate is
 red, do not merge and do not proceed — diagnose and report.
 
+**Reversed decisions get a dated addendum, never a rewrite.** The decision record
+entry for the 2026-08-10 design import was true when written and wrong three days
+later. The record of a reversal is more useful than a clean file, and a rule edited
+in place to match today reads as though it was always right. Append, date it, say
+what changed.
+
+**Retarget dependents before deleting a base branch.** Merging a stacked PR with
+`--delete-branch` auto-closes every PR based on it, and GitHub will not reopen one
+whose base is gone. Cost #46, which had to be recreated as #47.
+
 **Verify, do not trust.** Check the actual state of origin rather than believing any
 summary of it, including your own from earlier in the session, and including mine.
 This habit has already caught several real defects. It is the most valuable thing you
@@ -252,6 +338,34 @@ npm run dev
 npm run gates      # must be green before any merge
 npm run baseline   # you may run this — under the create/change rule above
 ```
+
+---
+
+## Release gates for the organs
+
+There is no release checklist in this repo, and this rule is about the organ
+repositories rather than about the site, so it is recorded here — the file that is
+actually read every session — until an org-level home exists. Its misplacement
+should be visible, not silent.
+
+- **Before any organ repository is made public, its full dependency closure must
+  resolve for an anonymous user.** Repository visibility is not the only barrier
+  and it is the only visible one. `orisan-control-plane` depends on
+  `@orisan-org/schema@0.1.0`, a private GitHub Packages package: making the repo
+  public would not make it installable, and the failure is `npm error code E401` at
+  install time, discovered only by someone who already tried. Verify the closure
+  from a clean clone with no credentials before the repo flips, not after.
+
+---
+
+## Credentials
+
+**A real credential is never written to a file.** The standard form is an `.npmrc`
+(or equivalent) containing the literal string `${NODE_AUTH_TOKEN}` and an
+environment variable holding the value: the tool expands it at read time, the file
+is safe to commit, and the secret never lands on disk. A temporary file containing a
+live token is a secret on disk whose cleanup depends on nothing crashing between the
+write and the delete.
 
 ---
 

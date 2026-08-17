@@ -16,58 +16,8 @@
 import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 
-const TOKENS = {
-  "#f4efe4": "paper", "#ebe4d6": "paper.deep", "#ebdbcb": "paper.edge",
-  "#16150f": "ink", "#0e0d09": "ink.deep",
-  "#4a4740": "grey.1", "#6a665b": "grey.2", "#b8b2a4": "grey.3", "#a6a299": "grey.4",
-  "#c2472e": "orisan.mark", "#802f1e": "orisan.type", "#d68f7d": "orisan.inverse",
-  "#c4796c": "harm", "#7e9070": "holding", "#7d95ac": "watching", "#b08a45": "suspicion",
-  // The readable pair for each mark. DEFAULT is a shape colour and measures
-  // 2.79-3.00:1 as type on paper; .text is the same hue darkened to 7.73-7.82:1,
-  // and .fill is the mark laid 10% into paper, opaque so a chip stays light on ink.
-  "#872917": "harm.text", "#3d4f36": "holding.text",
-  "#3a4b5c": "watching.text", "#5a4723": "suspicion.text",
-  "#efe3d8": "harm.fill", "#e8e6d8": "holding.fill",
-  "#e8e6de": "watching.fill", "#ede5d4": "suspicion.fill",
-};
+import { TOKENS, EXCEPTIONS, extract } from "./colour-tokens.mjs";
 
-/**
- * Named exceptions. Every entry needs a reason and an owner decision behind it.
- * An exception is a decision to tolerate a colour, not a place to hide one.
- */
-const EXCEPTIONS = {
-  "#000000": "browser/UA default reflected by preflight; not authored by us",
-  "#ffffff": "browser/UA default reflected by preflight; not authored by us",
-  // Tokened, not tolerated. Tailwind's preflight hardcodes this in three rules --
-  // input::placeholder,textarea::placeholder and a -moz-placeholder variant of
-  // each -- and there is no way to stop it emitting them short of disabling
-  // preflight entirely. All three are overridden by matching selectors in
-  // globals.css, so the literal is dead in the cascade rather than merely unused.
-  // The override is proven by the placeholder-contrast assertion in
-  // tests/visual.spec.ts, which fails at 2.21:1 if it is ever removed.
-  // This exception is only safe while that assertion exists. Do not delete one
-  // without the other.
-  "#9ca3af": "preflight placeholder literal, overridden in all three rules; see tests/visual.spec.ts",
-};
-
-const norm = (r, g, b) =>
-  "#" + [r, g, b].map((n) => Number(n).toString(16).padStart(2, "0")).join("").toLowerCase();
-
-function extract(css) {
-  const found = new Map();
-  const add = (hex, sample) => {
-    if (!found.has(hex)) found.set(hex, sample);
-  };
-  for (const m of css.matchAll(/#([0-9a-f]{6})\b/gi)) add("#" + m[1].toLowerCase(), m[0]);
-  for (const m of css.matchAll(/#([0-9a-f]{3})\b/gi)) {
-    const [r, g, b] = m[1].toLowerCase().split("");
-    add(`#${r}${r}${g}${g}${b}${b}`, m[0]);
-  }
-  for (const m of css.matchAll(/rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/gi)) {
-    add(norm(m[1], m[2], m[3]), m[0]);
-  }
-  return found;
-}
 
 const files = execSync('find .next -name "*.css" -not -path "*/cache/*"', { encoding: "utf8" })
   .split("\n")
@@ -86,7 +36,7 @@ for (const f of files) {
 
 // Positive control: if no token is present the extraction is broken, and a clean
 // result would mean nothing.
-if (!all.has("#f4efe4")) {
+if (!all.has("#fafaf9")) {
   console.error("FAIL: positive control missing. The paper token was not extracted,");
   console.error("so an empty unexpected-list proves nothing.");
   process.exit(1);

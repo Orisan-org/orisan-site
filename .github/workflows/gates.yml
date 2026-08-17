@@ -30,70 +30,17 @@ jobs:
 
       - run: npm ci
 
-      - name: Build
-        run: npm run build
-
-      - name: Types
-        run: npx tsc --noEmit
-
-      - name: Lint (design system enforcement)
-        run: npx eslint . --max-warnings=0
-
-      # Compiler-level proof that the theme was actually replaced.
-      # eslint-plugin-tailwindcss reads tailwind.config.ts on its own, so a clean
-      # lint run does not prove Tailwind itself honours the config.
-      #
-      # The positive control is the point: three "absent" results mean nothing if
-      # the grep is pointed at the wrong file. Asserting that a token we DO expect
-      # is present is what makes the absences meaningful.
-      # Both controls search for the form Tailwind actually EMITS, not the form a
-      # token is authored in. Tailwind compiles a colour to a space-separated rgb()
-      # with an opacity variable -- `rgb(244 239 228/var(--tw-bg-opacity,1))` -- so
-      # a grep for the authored hex or for a comma-separated rgb() can never match.
-      #
-      # Both controls were wrong before 2026-08-12 and both were proven so:
-      #   positive: matched `#F4EFE4` only because globals.css happened to call
-      #             theme("colors.paper.DEFAULT") in a raw ::selection rule, which
-      #             inlines a literal hex. Changing that rule made the control fail
-      #             while the token was still compiling correctly.
-      #   negative: searched `#3b82f6`, `rgb(59,130,246)` and an oklch triple, none
-      #             of which this Tailwind version emits. Verified by adding
-      #             blue-500 back to the theme and using it: the built CSS contained
-      #             `.bg-blue-500{...rgb(59 130 246/...)}` and all three patterns
-      #             missed it. The gate could not fail, so it was proving nothing.
-      - name: Assert default palette does not compile
-        run: |
-          set -e
-          CSS=$(find .next -name "*.css" -not -path "*/cache/*" | head -20)
-          if [ -z "$CSS" ]; then echo "FAIL: no built CSS found"; exit 1; fi
-
-          # Positive control: the paper token must be present in emitted form, so a
-          # miss below means "absent", not "never compiled in the first place".
-          if ! grep -qiE "rgb\(244 239 228" $CSS; then
-            echo "FAIL: positive control missing. The paper token is absent from"
-            echo "built CSS, so this grep proves nothing about what else is absent."
-            exit 1
-          fi
-          echo "ok: positive control present (paper, rgb(244 239 228 ...))"
-
-          # Negative control: every form this Tailwind could emit for blue-500.
-          for token in "rgb\(59 130 246" "rgb\(59,130,246" "#3b82f6" "oklch\(0\.623 0\.214 259\.815"; do
-            if grep -qiE "$token" $CSS; then
-              echo "FAIL: Tailwind default blue-500 present in built CSS."
-              echo "The theme was NOT replaced at compile time."
-              exit 1
-            fi
-          done
-          echo "ok: default palette absent from built CSS"
-
-      - name: Assert every colour is a token or a named exception
-        run: node scripts/colour-allowlist.mjs
-
+      # Browsers first: `npm run gates` ends with `playwright test`.
       - name: Install browser
         run: npx playwright install --with-deps chromium
 
-      - name: Visual regression + design assertions
-        run: npx playwright test
+      # ONE command, the same one CLAUDE.md tells an agent to run locally.
+      # This job used to re-list the steps itself, and drifted: the banned-class
+      # proof and the colour allowlist ran here and NOT in `npm run gates`, so a
+      # local pass was a guess about CI. Steps belong in package.json now. Adding
+      # one here instead of there re-opens exactly that gap.
+      - name: Gates
+        run: npm run gates
 
       - uses: actions/upload-artifact@v4
         if: failure()
