@@ -8,6 +8,23 @@ Statuses: `VERIFIED` (checked against a live source, with date) · `UNVERIFIED`
 `REMOVED` (the sentence is gone from the page; the row stays, naming the date and
 the commit that removed it).
 
+**THE PUBLIC-SURFACE INVARIANT: nothing ships that can go false while every gate
+stays green.**
+
+| category | may it ship |
+|---|---|
+| gate-watchable — a check in this repo fails if it stops being true | yes |
+| historical — a past event anchored to an immutable artifact | yes |
+| world-dependent — nothing here changes when it stops being true | **only if a gate verifies it against its own source automatically** |
+
+A review interval is a promise that a person will remember. That promise has already
+failed once in public, on the highest-stakes claim on the page: no gate could fetch
+EUR-Lex and diff it, so nothing did, the law moved, every gate stayed green, and the
+page went on saying it for the site's entire life. An interval is not a check.
+
+Read "verifies" as *does*, not *could*. The loose reading is what let the regulatory
+panel through.
+
 A removed row is never deleted. The record that a claim once shipped, and when it
 stopped, is the useful part — deleting it would leave no trace that the page ever
 said it.
@@ -142,6 +159,9 @@ three rules it had to beat. Rows resting on a name denylist are weaker than they
 | 83 | **Governance record for row 81: why that paragraph names nothing.** | — | **Shape without address, and it is a decision rather than vagueness.** Row 49 established that a residual may be published as its SHAPE and not its ADDRESS: no finding identifiers, no severities, no dispositions, no named areas. Row 50 recorded the enforcement of that rule — an earlier version of the page paraphrased a risk disposition and was cut, on the ruling that **a paraphrased disposition is still a published disposition**. The two things row 81 describes are identified findings in an internal document classified Restricted, carrying identifiers and severities. Naming either, or naming its severity, or saying where it lives, would breach rows 49 and 50. **Recorded because the absence is otherwise unreadable:** a sentence that claims two gaps and names neither looks like sloppiness to the next person who edits it, and the obvious "improvement" is to add the specifics. It is not an improvement. **The genuine cost is stated rather than hidden:** as published the sentence cannot be checked by a reader, so it trades falsifiability for classification, and it is the one claim on the site of which that is true. The compensating control is this row plus the comment in `FloorSection.tsx`, which name the constraint at both the claim and the code. | GOVERNANCE — decision recorded, not a page claim | 2026-08-17 |
 
 | 84 | Home section 7: "Any part can raise suspicion. No part can grant permission." and "This is a commitment about our own design. Its verification is a test obligation against the built system." | home, section 7 | **First-party design commitment**, the same one rows 48 and 58 carry on the pages that stated it elsewhere. Not a claim about the world, so there is no external source to cite: this is a public statement of how Orisan is designed to behave, and we are the source. Verification is a test obligation against the built system, which is what the sentence says of itself. **This row exists because there was none.** Home's section 7 has carried this commitment since the home rebuild with no row in this file, and it surfaced only because a founder ruling deleted a clause from that same paragraph on 2026-08-17 and the row covering it was searched for and not found. Same shape as row 75: a claim that shipped unrowed, invisible to any grep of CLAIMS and findable only by reading the page and looking for its row. Rows 81 and 82 sit in the same section and were rowed when written; this one predates them. | COMMITMENT — verification is a test obligation | 2026-08-17 |
+
+| 85 | Home section 2 heading: "Agents used to suggest. Now they act." | home, section 2 | **Category: capability, not world.** A statement about what the class of software now does, and the premise the rest of the site rests on — the h1 asserts the same thing in the second person ("Your agents are acting"). Nothing outside this repo can falsify it and no external body can reverse it, so it carries no review interval and needs none. **This replaces "The questions are already arriving"**, which promised askers that four deleted regulatory cells used to name, and which was left orphaned by their removal (`f0ccc2a`). The row exists as a copy-presence record: the assertion needs no source, but the sentence needs to be watched for drifting into a claim about the world, which is how the section failed the first time. | VERIFIED (capability claim, no external source exists to cite) | 2026-08-17 |
+| 86 | Home section 2 body: "Once something can act on its own, what it did stops being an academic question… No statute needed." | home, section 2 | **Category: capability, not world.** Same class as row 85. The two quoted sentences in the middle — "We cannot tell you what the agent did" is a position, and not a good one — are kept **verbatim** from the deleted regulatory panel's fourth cell, which was the only one of the four that never leaned on a statute and is the reason it survived. "No statute needed" moved from the front of the paragraph to the end, where it closes the argument rather than announcing it. **Deliberately falsifiable-by-nothing-external and that is the point:** the copy this replaces was the only text on the site that could go false while every gate stayed green, and it did. | VERIFIED (capability claim, no external source exists to cite) | 2026-08-17 |
 
 Neither downgraded row supports text on any page: the no-LLM sentence appears on
 `/product` sourced from row 54's live command half and from the published README, not
