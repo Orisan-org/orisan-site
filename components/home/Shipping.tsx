@@ -87,6 +87,22 @@ export function Shipping() {
               </dl>
             </div>
 
+            {/*
+              Folded in from /gap when that route was deleted. It explains the two
+              verdicts a reader can see in the transcript above: `undeclared`, which
+              escalated HIGH to CRITICAL, and `expected_unconfirmed`, which left HIGH
+              alone. Source is the shipped wheel, not the page it came from:
+              adjudicate.py states the invariant as "Any purpose source may ESCALATE a
+              severity. Only an operator-supplied purpose may DOWNGRADE one", and
+              OPERATOR_PURPOSE_SOURCES is {FLAG, INVOCATION}, which excludes config.
+            */}
+            <p className={`${P_INK} mt-6h leading-160`}>
+              A server can tell the scanner what it is for. That can never count in its
+              favour. Nothing a server says about itself makes its own grade better, and
+              a config you copied from that server&rsquo;s own documentation is not you
+              vouching for it either.
+            </p>
+
             <p className={`${P_INK} mt-6h leading-160`}>
               Most of that 6.33 seconds is the scan itself — spawning the server, the MCP
               handshake, enumerating what it exposes, then nine checks over the result. The
