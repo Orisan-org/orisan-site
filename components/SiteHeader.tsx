@@ -1,7 +1,16 @@
 import Link from "next/link";
 
+/**
+ * Two links, not three: the logo is the Home link, so listing Home as well spends
+ * width on a destination the bar already offers.
+ *
+ * That matters because the width is the whole reason these used to be hidden below
+ * 640px. Measured on the built site at 390: with Home listed, logo plus nav plus gap
+ * is 320.6px against 326px available — it fits, with 5.4px to spare, which is not a
+ * margin. Without it, 255.9px against 326px, 70.1px spare, one row. So dropping Home
+ * is what makes an always-visible nav safe rather than lucky.
+ */
 const NAV = [
-  { href: "/", label: "Home" },
   { href: "/product", label: "Product" },
   { href: "/contact", label: "Contact" },
 ];
@@ -17,7 +26,11 @@ export function SiteHeader({ current }: { current: string }) {
   return (
     <header className="sticky top-0 z-50 border-b border-grey-3 bg-paper">
       <div className="mx-auto flex h-13 max-w-wrap items-center justify-between gap-8 px-8">
-        <Link href="/" className="flex items-center gap-2 no-underline">
+        <Link
+          href="/"
+          aria-current={current === "/" ? "page" : undefined}
+          className="flex items-center gap-2 no-underline"
+        >
           <span aria-hidden="true" className="block size-5">
             <svg viewBox="0 0 512 512" className="size-full">
               <mask id="gatecut-header">
@@ -38,7 +51,7 @@ export function SiteHeader({ current }: { current: string }) {
               key={item.href}
               href={item.href}
               aria-current={current === item.href ? "page" : undefined}
-              className={`hidden text-sm font-medium no-underline sm:block ${
+              className={`text-sm font-medium no-underline ${
                 current === item.href ? "text-ink" : "text-grey-1"
               }`}
             >
