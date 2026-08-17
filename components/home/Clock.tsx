@@ -5,33 +5,6 @@ import { EYEBROW, P, WRAP } from "./chrome";
  * a single hairline rail. The rail is a real element rather than a ::before,
  * because `content: ""` has no token form. Identical output.
  */
-const STOPS = [
-  {
-    when: "EU · in force",
-    num: "08.26",
-    head: "Article 12 record-keeping",
-    body: "Applicable to high-risk systems since 2 August 2026.",
-  },
-  {
-    when: "Texas",
-    num: "01.26",
-    head: "TRAIGA in effect",
-    body: "NIST AI RMF compliance is an affirmative defence.",
-  },
-  {
-    when: "Procurement",
-    num: "42001",
-    head: "Questionnaires gate deals",
-    body: "Auditors certify evidence, not intentions.",
-  },
-  {
-    when: "Every incident",
-    num: "—",
-    head: "No statute needed",
-    body: '"We cannot tell you what the agent did" is a position, and not a good one.',
-  },
-];
-
 export function Clock() {
   return (
     <section id="why" className="pb-f-64-120 pt-f-56-104">
@@ -45,28 +18,20 @@ export function Clock() {
           </div>
         </div>
 
-        <div className="relative mt-f-44-76">
-          {/* .rail:before — the hairline the four stops hang from */}
-          <div aria-hidden="true" className="absolute inset-x-0 top-16 h-px bg-rule to-940:hidden" />
-          <div className="grid grid-cols-quartet gap-6h to-940:grid-cols-pair to-600:grid-cols-stack">
-            {STOPS.map((s) => (
-              <div key={s.head}>
-                <span className="font-mono text-meta uppercase tracking-20 text-grey-1">
-                  {s.when}
-                </span>
-                <div className="mt-3 font-mono text-figure font-medium text-ink">{s.num}</div>
-                <div className="relative mt-7 h-px bg-rule">
-                  <i
-                    aria-hidden="true"
-                    className="absolute left-0 top-1/2 size-1h -translate-y-1/2 rounded-full bg-ink"
-                  />
-                </div>
-                <h3 className="mt-6 text-h4 font-semibold text-ink">{s.head}</h3>
-                <p className={`${P} mt-2 text-sm leading-160`}>{s.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/*
+          The dated regulatory stops are gone: the EU cell asserted that AI Act
+          Article 12 record-keeping applied to high-risk systems from 2 August 2026,
+          which Regulation (EU) 2026/1744 had already made untrue before this site
+          deployed. Removed with the Texas and procurement cells in the same commit.
+
+          What remains was the fourth stop and it is the only one that never leaned
+          on a statute, so it is set as body copy rather than left hanging off a
+          four-column rail with three empty columns. Its words are unchanged.
+        */}
+        <p className={`${P} mt-f-44-76 text-lg leading-160`}>
+          No statute needed. &ldquo;We cannot tell you what the agent did&rdquo; is a
+          position, and not a good one.
+        </p>
       </div>
     </section>
   );

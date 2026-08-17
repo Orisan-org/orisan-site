@@ -23,14 +23,6 @@ export const metadata: Metadata = {
     "Local-first security instruments for AI agents. The first, mcpscan, reads what an MCP server exposes — tools, resources, prompts — before an agent connects.",
 };
 
-/** The four hero ticker cells. */
-const TICKS = [
-  { figure: "2 Aug 2026", note: "EU AI Act Article 12 applicable to high-risk systems" },
-  { figure: "€15M", note: "or 3% of worldwide turnover, whichever is higher" },
-  { figure: "1 Jan 2026", note: "Texas TRAIGA in effect, NIST AI RMF an affirmative defence" },
-  { figure: "7", note: "surfaces designed, one shipping, status stated on each" },
-];
-
 export default function Home() {
   return (
     <>
@@ -79,19 +71,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-f-60-110 border-t border-rule-dark">
-            <div className={`${WRAP} flex flex-wrap`}>
-              {TICKS.map((t) => (
-                <div
-                  key={t.figure}
-                  className="flex-tick border-r border-rule-dark pb-8h pl-0 pr-7 pt-7h last:border-r-0 to-780:border-b to-780:border-r-0 to-780:pr-0"
-                >
-                  <b className="block font-mono text-ticker font-medium text-tx-d">{t.figure}</b>
-                  <span className="mt-2 block text-xs text-tx-3d">{t.note}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </section>
       </div>
 
