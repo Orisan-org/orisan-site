@@ -20,10 +20,26 @@ stays green.**
 A review interval is a promise that a person will remember. That promise has already
 failed once in public, on the highest-stakes claim on the page: no gate could fetch
 EUR-Lex and diff it, so nothing did, the law moved, every gate stayed green, and the
-page went on saying it for the site's entire life. An interval is not a check.
+page went on saying it for the site's entire life. An interval is not a check. A
+scheduled automated check is a gate; a note in a row is not.
 
 Read "verifies" as *does*, not *could*. The loose reading is what let the regulatory
 panel through.
+
+**STATUS: target, not currently held.** Stating it as policy in force would make this
+file open with an unverified claim, which is the defect it exists to prevent. Four
+claims are verifiable in principle and unchecked in fact:
+
+| row | claim | verifiable by | check today |
+|---|---|---|---|
+| 14 | github.com/Orisan-org is a public organisation | GitHub API | **none** |
+| 1, 34 | the distribution exists and installs from PyPI | PyPI API | **none** |
+| 87 | every factual claim on the site is listed in this file | the pages-to-claims sweep, plus an HTTP fetch | **none** |
+
+**No gate in this repo makes a network request.** `npm run gates` is nine local steps.
+Row 87 is the one to read twice: the sentence promising that every claim has a row had
+no row itself until 2026-08-17, so it was false about itself for the site's entire
+life. That is the pages-to-claims direction failing in the place it is hardest to look.
 
 A removed row is never deleted. The record that a claim once shipped, and when it
 stopped, is the useful part — deleting it would leave no trace that the page ever
@@ -162,6 +178,8 @@ three rules it had to beat. Rows resting on a name denylist are weaker than they
 
 | 85 | Home section 2 heading: "Agents used to suggest. Now they act." | home, section 2 | **Category: capability, not world.** A statement about what the class of software now does, and the premise the rest of the site rests on — the h1 asserts the same thing in the second person ("Your agents are acting"). Nothing outside this repo can falsify it and no external body can reverse it, so it carries no review interval and needs none. **This replaces "The questions are already arriving"**, which promised askers that four deleted regulatory cells used to name, and which was left orphaned by their removal (`f0ccc2a`). The row exists as a copy-presence record: the assertion needs no source, but the sentence needs to be watched for drifting into a claim about the world, which is how the section failed the first time. | VERIFIED (capability claim, no external source exists to cite) | 2026-08-17 |
 | 86 | Home section 2 body: "Once something can act on its own, what it did stops being an academic question… No statute needed." | home, section 2 | **Category: capability, not world.** Same class as row 85. The two quoted sentences in the middle — "We cannot tell you what the agent did" is a position, and not a good one — are kept **verbatim** from the deleted regulatory panel's fourth cell, which was the only one of the four that never leaned on a statute and is the reason it survived. "No statute needed" moved from the front of the paragraph to the end, where it closes the argument rather than announcing it. **Deliberately falsifiable-by-nothing-external and that is the point:** the copy this replaces was the only text on the site that could go false while every gate stayed green, and it did. | VERIFIED (capability claim, no external source exists to cite) | 2026-08-17 |
+
+| 87 | Home section 3: "Every factual claim on this site is listed in a public file with the source that verifies it." | home, section 3 | **Category: world-dependent, and unchecked — see the STATUS block at the top of this file.** Two things have to hold. (a) This file is publicly reachable: true today, `github.com/Orisan-org/orisan-site/blob/main/CLAIMS.md` is linked from the site footer, but nothing verifies it automatically and repository visibility is a setting a person can change without touching the repo. (b) The claim is COMPLETE — every factual assertion on the site has a row here. That is exactly what the pages-to-claims sweep tests, and it is the check this row needs. **This row was itself missing until 2026-08-17.** The sentence asserting that every claim is rowed had no row, so for the site's entire life it was false about itself, and no grep of this file could have found that — only reading the page and looking for its row. Found while listing the gaps for the STATUS block. | **UNVERIFIED — world-dependent with no automatic check** | 2026-08-17 |
 
 Neither downgraded row supports text on any page: the no-LLM sentence appears on
 `/product` sourced from row 54's live command half and from the published README, not
