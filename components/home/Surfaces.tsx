@@ -75,9 +75,14 @@ export function Surfaces() {
               is ambiguous in the one direction that already bit us, and scanning a
               server involves talking to it.
             */}
+            {/*
+              "Nothing leaves your machine unless you send it" was here, in section 5,
+              and on /product — three times, twice of them on this page. Section 5 keeps
+              it: that is where the recorded transcript is, and the section that
+              demonstrates the property should own the sentence that states it.
+            */}
             <p className={`${P} mt-3h max-w-ch34 flex-zero text-card leading-160`}>
-              Deterministic. No model in the scanner. Nothing leaves your machine
-              unless you send it.
+              Deterministic. No model in the scanner.
             </p>
             <div className="mt-auto pt-7 font-mono text-label uppercase tracking-meta text-holding-status">
               Shipping now

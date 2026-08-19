@@ -25,7 +25,7 @@ export function Manifesto() {
             </p>
             <p className={`${P_INK} max-w-ch40 text-sm leading-160`}>
               None of that ships yet. What exists today is below, with dates. Every factual
-              claim on this site is listed in a public file with the source that verifies it.
+              claim on this site is listed in a public file.
             </p>
           </div>
         </div>
