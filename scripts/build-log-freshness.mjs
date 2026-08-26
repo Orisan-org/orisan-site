@@ -45,10 +45,35 @@
  * merge.
  *
  * CLOCK. `NOW_ISO` overrides the system clock so a scheduled runner can supply its
- * own, because this machine's is not trustworthy: commits authored here carry dates up
- * to seven days ahead of the session clock and committer offsets range from -05:00 to
- * +05:30. Seven days of skew against a 45-day threshold is tolerable, and the override
- * exists so the scheduler does not have to rely on that being true.
+ * own. That is the whole reason, and it is a better one than the reason this comment
+ * used to give: a scheduled runner should carry its own clock rather than inherit
+ * whichever machine it happens to land on. That is a property of the design, not a
+ * workaround for a defect.
+ *
+ * THE REASON IT USED TO GIVE WAS FALSE, AND THAT IS RECORDED HERE RATHER THAN QUIETLY
+ * DELETED. This comment asserted that "this machine's [clock] is not trustworthy:
+ * commits authored here carry dates up to seven days ahead of the session clock", and
+ * then reasoned that seven days of skew is tolerable against a 45-day threshold. No
+ * time source was ever consulted before that was written.
+ *
+ * Checked 2026-08-26 against four: the machine clock is within 13 ms of Apple's NTP
+ * (`sntp time.apple.com`) and agrees to the second with the Date headers from pypi.org,
+ * cloudflare.com and api.github.com. Across all 249 commits in this repository, zero
+ * are dated in the future; the newest was 11.5 minutes in the past. Checked with a
+ * scope control (249 of 249 timestamps parsed) and a positive control (a date one year
+ * ahead is detected), because an "everything is fine" result from a checker that
+ * silently parsed nothing is indistinguishable from one that examined the repository.
+ *
+ * WHAT IS TRUE, AND IS NOT SKEW. Committer offsets do genuinely span +05:30, -04:00 and
+ * -05:00. So `git log`'s local-time display runs out of order while the UTC instants are
+ * correct — 468e8f1 displays 16:13 and its parent displays 17:10, and 468e8f1 is the
+ * later of the two — and a string sort over those ISO timestamps picks the wrong
+ * maximum for the same reason. Convert to UTC before comparing or sorting dates in this
+ * repository. Neither effect is a clock that is wrong.
+ *
+ * The margin argument is deleted rather than re-derived, because it was reasoning from
+ * a quantity that does not exist. N = 45 never depended on it; see above, where it is
+ * derived from the release cadence.
  */
 import { readFileSync } from "node:fs";
 
