@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { InstallCommand } from "@/components/InstallCommand";
+import { Surfaces } from "@/components/home/Surfaces";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -101,6 +102,17 @@ export default function Product() {
             </p>
           </div>
         </section>
+
+        {/*
+          Moved here from the home page. It is the platform pitch — seven pieces, six of
+          which do not exist — and it sat ahead of the one shipped thing on the front
+          door. A reader on /product has chosen depth, which is where an enumeration of
+          unbuilt components belongs.
+
+          Dropped in unchanged. Home's WRAP is max-w-home minus px-gutter and this page's
+          is max-w-wrap minus px-8; both compute to 1136px, so the grid keeps its width.
+        */}
+        <Surfaces />
 
         <section className="mx-auto max-w-wrap px-8 pt-17">
           <p className="font-mono text-label uppercase tracking-label text-orisan-type">
