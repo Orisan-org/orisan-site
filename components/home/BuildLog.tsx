@@ -17,17 +17,35 @@ import { EYEBROW_INK, P_INK, WRAP } from "./chrome";
  *
  * No commit hashes on the page. CLAIMS rows carry the hash or the PyPI URL.
  */
+/**
+ * WHAT EARNS AN ENTRY. Evidence about the thing being sold, or about how we handle
+ * being wrong. Not evidence about the brochure.
+ *
+ * Two entries failed that and were removed on 2026-08-19: a gate on colours in the
+ * compiled CSS, and a gate asserting the type scale is monotonic. Both were real work
+ * and both were about this website. They were also the two most recent entries, so a
+ * section headed "if you want to know whether this is real, read this and not the rest
+ * of the page" was offering, as its freshest evidence, two facts about the CSS of the
+ * page it was telling the reader to ignore.
+ *
+ * The 17 Aug entry is the one that matters most and is the one this log exists for. A
+ * log framed as "including the mistakes" that omits the largest mistake fails its own
+ * frame, which is the same defect as a claims file whose own claim was unrowed.
+ *
+ * Dates are the UTC author date of the substantive commit, per CLAIMS row 69.
+ */
 const ENTRIES = [
   {
-    date: "2026-08-12",
-    label: "12 Aug 2026",
-    head: "A gate that fails the build if any colour in the compiled CSS is not a declared token or a named exception.",
+    date: "2026-08-17",
+    label: "17 Aug 2026",
+    head: "A false claim about EU AI Act record-keeping was found on this page and taken down.",
+    body: "It had been here since the site launched. The obligation moved three weeks before we shipped, nothing in this repository changed when it did, and every check stayed green.",
   },
   {
-    date: "2026-08-11",
-    label: "11 Aug 2026",
-    head: "A gate that asserts the type scale is strictly monotonic at every width.",
-    body: "Tuning one size alone had inverted it below 612px, where the larger step rendered smaller than the one beneath it.",
+    date: "2026-08-16",
+    label: "16 Aug 2026",
+    head: "mcpscan recorded against a real MCP config. Grade F, exit 1.",
+    body: "The transcript above is that recording. It replaced a fabricated one.",
   },
   { date: "2026-08-09", label: "9 Aug 2026", head: "mcpscan 0.1.1 on PyPI." },
   {
