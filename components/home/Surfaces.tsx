@@ -51,14 +51,26 @@ export function Surfaces() {
           One is shipping.
         </h2>
         {/*
-          The architecture, stated before the grid. Without it, six present-tense
-          function lines read as a catalogue of things you can have today.
+          The middle sentence — "this is the shape it is being built to, not a list of
+          what you can install, six of these are design, and the line under each says
+          what it is for rather than what it does yet" — is gone. It told the reader
+          how to read the grid below it, and a section that has to explain how to read
+          itself has a design problem rather than a copy one.
+          
+          It needed no replacement mechanism, because four already exist and were
+          checked in the render before this was cut: the shipping cell spans 2x2 where
+          every sibling is 1x1, carries `bg-paper-deep` where they are plain, sets its
+          name at `text-feature` against their `text-surface`, and is the only cell
+          with a status label. The distinction reads instantly at 1440.
+          
+          What survives still carries the availability claim twice: the h2 says "Seven
+          pieces. One is shipping," and the closing sentence says one is installable,
+          which leaves the other six unclaimed. The six lines are imperatives, and per
+          the grammar rule an imperative asserts no existence.
         */}
         <p className={`${P} mt-5h max-w-lede text-lg`}>
-          One system in seven pieces, sharing one record and one switch. This is the
-          shape it is being built to, not a list of what you can install — six of these
-          are design, and the line under each says what it is for rather than what it
-          does yet. One of them you can install today.
+          One system in seven pieces, sharing one record and one switch. One of them you
+          can install today.
         </p>
 
         <div className="mt-f-38-64 grid auto-rows-surface grid-cols-quartet border-l border-t border-rule to-1000:grid-cols-pair to-600:grid-cols-stack">
@@ -66,8 +78,15 @@ export function Surfaces() {
           <div className={`${CELL} col-span-2 row-span-2 justify-start bg-paper-deep px-9h py-10 to-600:col-span-1`}>
             <div className="text-feature font-semibold text-ink">mcpscan</div>
             <div className="mt-2h font-mono text-repoLg text-grey-1">orisan-mcpscan</div>
+            {/*
+              A "for" line, imperative, matching the grid's dominant form: four of the
+              six siblings open Find / See / Stand / Check, and two are wh-clauses.
+              It replaces "Grade an MCP server before you connect an agent to it.",
+              which duplicated section 5's heading at 1.00 overlap one section later.
+              "before you connect" now belongs to that heading alone.
+            */}
             <p className={`${P} mt-5h max-w-ch34 flex-zero text-h4 leading-160 tracking-normal`}>
-              Grade an MCP server before you connect an agent to it.
+              Know what a server can do, without taking its word for it.
             </p>
             {/*
               Three clauses, each verified against mcpscan-work 9649575 before
