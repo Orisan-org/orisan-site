@@ -7,7 +7,6 @@ import { Contact } from "@/components/home/Contact";
 import { FloorSection } from "@/components/home/FloorSection";
 import { MapSection } from "@/components/home/MapSection";
 import { Shipping } from "@/components/home/Shipping";
-import { Surfaces } from "@/components/home/Surfaces";
 import { OrisanMark } from "@/components/home/OrisanMark";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
@@ -56,7 +55,7 @@ export default function Home() {
                   touched.
                 </p>
                 <div className="mt-10h flex flex-wrap gap-3">
-                  <a href="#surfaces" className={CTA_SOLID_L}>
+                  <a href="/product" className={CTA_SOLID_L}>
                     What we are building
                   </a>
                   <a href="#log" className={CTA_GHOST_L}>
@@ -76,7 +75,6 @@ export default function Home() {
 
       <Clock />
       <Manifesto />
-      <Surfaces />
       <Shipping />
       <MapSection />
       <FloorSection />

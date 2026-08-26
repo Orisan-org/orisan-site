@@ -45,7 +45,7 @@ export function Surfaces() {
     <section id="surfaces" className="py-f-72-140">
       <div className={WRAP}>
         <span className={EYEBROW}>The surfaces</span>
-        <h2 className="mt-5h max-w-ch14 text-3xl font-semibold">
+        <h2 className="mt-5h max-w-ch14 text-2xl font-semibold">
           Seven pieces.
           <br />
           One is shipping.

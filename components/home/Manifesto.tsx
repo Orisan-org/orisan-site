@@ -19,8 +19,8 @@ export function Manifesto() {
           <div className="mt-f-36-64 grid grid-cols-manifesto items-start gap-f-30-80 to-880:grid-cols-stack">
             <p className={`${P_INK} max-w-lede text-lg`}>
               One local binary in the path of an agent&apos;s actions. Every call reduced to
-              the same shape, attributed to an actor, written to a record a third party can
-              check. The binary that watches is the one that can stop an action before it
+              the same shape, attributed to whoever or whatever made it, written to a record
+              a third party can check. The binary that watches is the one that can stop an action before it
               lands.
             </p>
             <p className={`${P_INK} max-w-ch40 text-sm leading-160`}>
