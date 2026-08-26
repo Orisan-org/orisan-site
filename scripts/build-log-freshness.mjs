@@ -8,31 +8,51 @@
  * rest of the page", so a log whose newest entry is months old is the page arguing
  * against itself.
  *
- * WHY N = 30 DAYS, measured rather than picked.
+ * NOT A MERGE GATE. This was first wired into `npm run gates` and that was wrong:
+ * nothing in a pull request makes the build log stale, time does. A check that goes
+ * red for reasons unrelated to the diff is the check people learn to ignore, and this
+ * is the same category as the world-dependent liveness checks — scheduled, raising an
+ * alarm, never blocking an unrelated merge.
  *
- * For every one of this repository's commits, the gap to the then-newest log entry
- * was computed. The distribution is bimodal: 174 commits sit within 6 days of an
- * entry, and a tail of 45 sits at 26-29 days, all inside the 10 Jul -> 9 Aug window
- * between the two PyPI releases. That window was real work, correctly unlogged under
- * the entry rule, and the largest legitimate gap in the repo's history is 29 days.
+ * IT IS CURRENTLY DORMANT. Nothing invokes it on a schedule yet; that arrives with
+ * the liveness runner. Until then this is a check that does not fire, which is
+ * disclosed here rather than left for someone to discover.
  *
- * N = 30 clears that by a day, so this gate would not have fired once on the only
- * history available. A tighter N would have produced findings a reader learns to
- * ignore, which is worse than no gate.
+ * WHAT IT COMPARES, AND WHAT IT USED TO.
  *
- * It also has to absorb clock skew, and this repo has some: commits authored on the
- * same day as this file carry dates 7 days ahead of the session clock, and committer
- * offsets in the log range from -05:00 to +05:30. Everything below is compared in UTC
- * and a future-dated commit cannot make the log look fresher, only staler, which is
- * the safe direction for a staleness check.
+ * The first version compared the newest entry against the newest commit. That was the
+ * wrong subject twice over. It measured the log against ALL commits, including the 45
+ * in this repo's 26-to-29-day tail that could never earn an entry under the entry rule
+ * — so it measured log freshness against brochure work. And "would this commit earn an
+ * entry" is a judgement no script makes, so the flaw was unfixable inside that design.
  *
- * Local, deterministic, no network. It compares the log against the one thing in the
- * repository that always moves.
+ * It now compares the newest entry to the clock, which is the question actually being
+ * asked: how long has it been quiet.
+ *
+ * WHY N = 45 DAYS, as a product judgement rather than a fitted parameter.
+ *
+ * The previous N was 30, derived as one day above the largest gap observed in this
+ * repository's history. That is a margin of one day against a maximum drawn from weeks
+ * of data, tuned so that it could not have fired on the data used to tune it. Both are
+ * failures this project has ruled against.
+ *
+ * The question is what should have happened in the window. Under the entry rule an
+ * entry needs evidence about the product or about handling being wrong. The observed
+ * product cadence is roughly monthly — 0.1.0 on 10 Jul, 0.1.1 on 9 Aug. So 45 days is
+ * one full release cycle missed, plus a fortnight. If that passes with nothing to
+ * record, either a release slipped an entire cycle or nothing worth publishing
+ * happened, and both are things worth being told. Neither is a reason to block a
+ * merge.
+ *
+ * CLOCK. `NOW_ISO` overrides the system clock so a scheduled runner can supply its
+ * own, because this machine's is not trustworthy: commits authored here carry dates up
+ * to seven days ahead of the session clock and committer offsets range from -05:00 to
+ * +05:30. Seven days of skew against a 45-day threshold is tolerable, and the override
+ * exists so the scheduler does not have to rely on that being true.
  */
 import { readFileSync } from "node:fs";
-import { execSync } from "node:child_process";
 
-const N_DAYS = 30;
+const N_DAYS = 45;
 const DAY = 86_400_000;
 
 const src = readFileSync("components/home/BuildLog.tsx", "utf8");
@@ -47,27 +67,25 @@ if (dates.length === 0) {
 
 const newestEntry = dates.map((d) => Date.parse(`${d}T00:00:00Z`)).sort((a, b) => b - a)[0];
 
-const commitISO = execSync("git log -1 --format=%aI", { encoding: "utf8" }).trim();
-if (!commitISO) {
-  console.error("FAIL: could not read the newest commit date. Nothing to compare against.");
+const now = process.env.NOW_ISO ? Date.parse(process.env.NOW_ISO) : Date.now();
+if (Number.isNaN(now)) {
+  console.error(`FAIL: NOW_ISO is not a parseable date: ${process.env.NOW_ISO}`);
   process.exit(1);
 }
-const newestCommit = Date.parse(commitISO);
 
-const gap = Math.floor((newestCommit - newestEntry) / DAY);
+const gap = Math.floor((now - newestEntry) / DAY);
 const fmt = (t) => new Date(t).toISOString().slice(0, 10);
 
 if (gap > N_DAYS) {
-  console.error(`FAIL: the build log reads as stopped.`);
-  console.error(`  newest entry  ${fmt(newestEntry)}`);
-  console.error(`  newest commit ${fmt(newestCommit)}`);
-  console.error(`  gap ${gap} days, over the ${N_DAYS}-day bar.`);
-  console.error(`  Either something happened that earns an entry, or nothing has`);
-  console.error(`  happened for a month and the page should not imply otherwise.`);
+  console.error(`STALE: the build log reads as stopped.`);
+  console.error(`  newest entry ${fmt(newestEntry)}, ${gap} days ago, over the ${N_DAYS}-day bar.`);
+  console.error(`  Either something happened that earns an entry — evidence about the`);
+  console.error(`  product, or about how we handled being wrong — or nothing has for a`);
+  console.error(`  month and a half, and the page should not imply otherwise.`);
   process.exit(1);
 }
 
 console.log(
-  `  ok: build log fresh — newest entry ${fmt(newestEntry)}, newest commit ` +
-    `${fmt(newestCommit)}, gap ${gap}d of ${N_DAYS}d (${dates.length} entries examined)`,
+  `  ok: build log fresh — newest entry ${fmt(newestEntry)}, ${gap}d ago, ` +
+    `bar ${N_DAYS}d (${dates.length} entries examined)`,
 );
