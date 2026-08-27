@@ -18,7 +18,7 @@ name: gates
 on:
   pull_request:
   push:
-    branches: [main, launch]
+    branches: [main]
 
 jobs:
   gates:

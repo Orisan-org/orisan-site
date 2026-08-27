@@ -8,6 +8,17 @@ Statuses: `VERIFIED` (checked against a live source, with date) · `UNVERIFIED`
 `REMOVED` (the sentence is gone from the page; the row stays, naming the date and
 the commit that removed it).
 
+**A CLAIM ABOUT A PUBLIC SURFACE IS VERIFIED AGAINST THE PUBLIC SURFACE.** Fetch
+orisan.org. Not the repo, not a preview URL, not a local render. A row marked `REMOVED`
+means the sentence is gone from what a visitor can fetch — if it is merely gone from a
+branch, the row is not `REMOVED`, it is pending.
+
+This was written on 2026-08-27, the day production was found serving the full EU AI Act
+and TRAIGA panel while thirteen merged PRs sat unpromoted on a branch. Every `REMOVED`
+row in this file was true of that branch and false of the site. **The ledger was written
+in the same tense as the mistake, so it agreed with the mistake every time anyone checked
+it.** An instrument that shares your frame of reference cannot correct you.
+
 **THE PUBLIC-SURFACE INVARIANT: nothing ships that can go false while every gate
 stays green.**
 

@@ -313,9 +313,17 @@ and list every place you: used a value not in the token set, added a class not i
 outside the slice's scope, or moved a visual baseline. State explicitly if there are
 none. Put the list in the PR description.
 
-**Merging.** When every gate is green and the self-review is clean, merge your own
-slice PR into `launch` and continue to the next slice without waiting. If any gate is
-red, do not merge and do not proceed — diagnose and report.
+**Merging.** You do not merge. Open the PR, get every gate green, keep the self-review
+clean, and stop there. If any gate is red, say so and stop — do not diagnose your way to
+a merge.
+
+`launch` no longer exists. `main` is the only branch and it deploys to production, so
+merging is publishing, and publishing is the founder's. This replaced an arrangement
+where you merged into `launch` and a human promoted `launch` to `main` as a separate
+step. That step was skipped for ten days while thirteen PRs accumulated, and production
+went on serving claims that had been found false, fixed, and verified on a branch no
+visitor could reach. The gap existed because merge and publish were two actions. There is
+now one, and a step that can be forgotten will be.
 
 **Reversed decisions get a dated addendum, never a rewrite.** The decision record
 entry for the 2026-08-10 design import was true when written and wrong three days
@@ -373,8 +381,10 @@ write and the delete.
 
 Halt and report. Do not work around these, and do not interpret them narrowly.
 
-1. **Never merge `launch` into `main`.** That is the publish action and it deploys to
-   production. It is the founder's, always.
+1. **Never merge to `main`.** It is the only branch, it deploys to production, and so
+   merging is publishing. It is the founder's, always. (Replaces "never merge `launch`
+   into `main`"; `launch` was deleted 2026-08-27 along with the promotion step that had
+   to be remembered.)
 2. **Never mark a `CLAIMS.md` row `VERIFIED` without live evidence pasted into the
    row.** No live source, no claim, no page.
 3. **Never modify an existing visual baseline that you cannot account for.** Leave the
