@@ -26,7 +26,7 @@ const SHIPPED = [
   },
   {
     label: "Check",
-    body: "Runs nine deterministic checks over those definitions. No model call decides whether something is a finding.",
+    body: "Runs 13 deterministic checks over those definitions. No model call decides whether something is a finding.",
   },
   {
     label: "Adjudicate",
