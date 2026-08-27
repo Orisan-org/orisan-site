@@ -3,8 +3,13 @@ import Link from "next/link";
 const LINKS = [
   { href: "/", label: "Home" },
   { href: "/product", label: "Product" },
-  { href: "/gap", label: "The gap" },
-  { href: "/vision", label: "Vision" },
+  // Contact was the one route missing from this list, and the omission was load
+  // bearing rather than cosmetic: SiteHeader's links are `hidden sm:block`, so below
+  // 640px the header is a logo and nothing else, and this footer is the only
+  // navigation a phone renders. Without this line nothing anywhere on the site
+  // linked to /contact on a phone — it linked out to everything and nothing linked
+  // in. Completing the list, not designing anything.
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteFooter() {

@@ -56,7 +56,7 @@ export function Contact() {
             <div className="flex flex-wrap gap-14">
               <div>
                 <span className={FOOT_LABEL}>Product</span>
-                <a href="#surfaces" className={FOOT_LINK}>Surfaces</a>
+                <a href="/product" className={FOOT_LINK}>Surfaces</a>
                 <a href="#ship" className={FOOT_LINK}>mcpscan</a>
                 <a href="#log" className={FOOT_LINK}>Build log</a>
               </div>

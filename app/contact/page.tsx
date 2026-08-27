@@ -34,7 +34,7 @@ export default function Contact() {
   return (
     <>
       <SiteHeader current="/contact" />
-      <main>
+      <>
         <section className="mx-auto max-w-wrap px-8 pt-13 sm:pt-16">
           <p className="font-mono text-label uppercase tracking-label text-orisan-type">
             Contact
@@ -107,7 +107,7 @@ export default function Contact() {
             this domain, and no analytics or tag manager is loaded anywhere on the site.
           </p>
         </section>
-      </main>
+      </>
       <SiteFooter />
     </>
   );

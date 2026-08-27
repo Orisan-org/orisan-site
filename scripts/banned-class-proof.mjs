@@ -30,6 +30,17 @@
  */
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { containsTerm, selfTest } from "./term-match.mjs";
+
+// The shared matcher's own self-test runs here rather than in a script of its own,
+// so it is covered by a gate that already runs instead of one somebody remembers to
+// invoke. If the matcher regresses, this proof fails before it reports anything.
+const matcherFailures = selfTest();
+if (matcherFailures.length) {
+  console.error("FAIL: term-match self-test — every absence check downstream is unsafe");
+  for (const f of matcherFailures) console.error("  " + f);
+  process.exit(1);
+}
 
 const DIRS = [".next/static/chunks", ".next/static/css"];
 const files = [];
@@ -45,7 +56,12 @@ if (!files.length) {
 const css = files.map((f) => readFileSync(f, "utf8")).join("\n").toLowerCase();
 
 // Positive control: the paper token must be present in emitted form.
-if (!/rgb\(250 250 249/.test(css)) {
+//
+// Matched through the shared boundary-aware helper rather than a hand-written
+// pattern. `rgb(250 250 249` unanchored also matches `rgb(250 250 2490`, and the
+// same class of over-match reported `NIST` inside `deterministic` and a deleted
+// date inside `12 Aug 2026`. No absence check in this repo writes its own pattern.
+if (!containsTerm(css, "rgb(250 250 249")) {
   console.error("FAIL: positive control missing. The paper token is absent from");
   console.error("built CSS, so this proof says nothing about what else is absent.");
   process.exit(1);
@@ -53,10 +69,10 @@ if (!/rgb\(250 250 249/.test(css)) {
 console.log("  ok: positive control present (paper, rgb(250 250 249 ...))");
 
 // Negative control: every form this Tailwind could emit for blue-500.
-const BANNED = [/rgb\(59 130 246/, /rgb\(59,130,246/, /#3b82f6/, /oklch\(0\.623 0\.214 259\.815/];
-for (const re of BANNED) {
-  if (re.test(css)) {
-    console.error(`FAIL: Tailwind default blue-500 present in built CSS (${re}).`);
+const BANNED = ["rgb(59 130 246", "rgb(59,130,246", "#3b82f6", "oklch(0.623 0.214 259.815"];
+for (const term of BANNED) {
+  if (containsTerm(css, term)) {
+    console.error(`FAIL: Tailwind default blue-500 present in built CSS (${term}).`);
     console.error("The theme was NOT replaced at compile time.");
     process.exit(1);
   }

@@ -54,15 +54,24 @@ jobs:
       - name: Regenerate
         run: npx playwright test tests/visual.spec.ts --update-snapshots=all ${{ inputs.grep && format('-g "{0}"', inputs.grep) || '' }}
 
+      # set -o pipefail, because the two greps below swallow the status of the
+      # command feeding them. Without it, a `git status` that FAILED produces no
+      # input, grep exits 1, `|| echo "  none"` fires, and the step reports "none"
+      # — a failure rendered as a clean result, in the exact output a human reads
+      # to decide which baselines moved. Every "N modifies, 0 creates" report is
+      # read off these lines, so a false "none" here is a false inspection record.
       - name: Show what moved
         if: always()
         run: |
+          set -o pipefail
           echo "--- git status of the snapshot directory ---"
           git status --porcelain tests/__screenshots__ || true
           echo "--- modified (review every one of these) ---"
-          git status --porcelain tests/__screenshots__ | grep '^ M' || echo "  none"
+          git status --porcelain tests/__screenshots__ | { grep '^ M' || [ $? = 1 ]; } || { echo "FAIL: git status failed"; exit 1; }
+          git status --porcelain tests/__screenshots__ | grep -q '^ M' || echo "  none"
           echo "--- added ---"
-          git status --porcelain tests/__screenshots__ | grep '^??' || echo "  none"
+          git status --porcelain tests/__screenshots__ | { grep '^??' || [ $? = 1 ]; } || { echo "FAIL: git status failed"; exit 1; }
+          git status --porcelain tests/__screenshots__ | grep -q '^??' || echo "  none"
 
       - name: Upload regenerated baselines
         if: always()
