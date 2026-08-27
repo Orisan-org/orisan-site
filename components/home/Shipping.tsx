@@ -54,8 +54,9 @@ export function Shipping() {
               Grade a server before you connect an agent to it.
             </h2>
             <p className={`${P_INK} mt-7 leading-160`}>
-              9 deterministic checks. Same server, same report, every time. No model sits
-              in the decision path, so there is nothing there to prompt-inject.
+              13 deterministic checks in mcpscan 0.2.1. Same server, same report, every
+              time. No model sits in the decision path, so there is nothing there to
+              prompt-inject.
             </p>
             <p className={`${P_INK} mt-3h leading-160`}>
               Nothing leaves your machine unless you send it. Reports are written locally
@@ -104,8 +105,9 @@ export function Shipping() {
             </p>
 
             <p className={`${P_INK} mt-6h leading-160`}>
-              Most of that 6.33 seconds is the scan itself — spawning the server, the MCP
-              handshake, enumerating what it exposes, then nine checks over the result. The
+              This is 0.1.1, the release current when it was recorded. Most of that 6.33
+              seconds is the scan itself — spawning the server, the MCP
+              handshake, enumerating what it exposes, then the checks over the result. The
               process prints nothing for 3.4 of those seconds and then writes the whole
               report at once, which is why there is no line-by-line replay here.
             </p>

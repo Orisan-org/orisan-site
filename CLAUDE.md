@@ -264,6 +264,28 @@ correct a correct page to match a broken render.
 
 ---
 
+## Figures
+
+**If a figure contains specifics a reader could mistake for a real reading, it is
+labelled as fabricated, or the specifics come out.** Removing them is preferred,
+because then there is nothing to label and nothing to rot.
+
+A specific is anything that looks measured: a count, a real path, a branch name, a
+version, a duration, a grade, a severity, an ID. The test is not whether the figure
+feels decorative to its author — it is whether a reader skimming it takes the number
+away as a fact.
+
+This names a failure that shipped: a fabricated terminal correctly marked `Sample data`,
+and beside it a blast-radius diagram whose invented paths and counts carried nothing. The
+marked block was the less believable of the two. **Labelling the obvious fabrication and
+leaving the plausible one bare is worse than labelling neither** — it teaches the reader
+that unlabelled means real.
+
+Written 2026-08-27, from PR #38, which stated the rule on 2026-08-12 and was never
+merged. The practice has been followed since — section 6 was authored with unquantified
+nouns and the decorative grade stamp was removed — so this writes down a rule the repo
+was already keeping.
+
 ## Media rules
 
 - **Poster first, video second.** Every video has a required `poster` still. The page

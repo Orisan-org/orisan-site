@@ -33,8 +33,20 @@ import { EYEBROW_INK, P_INK, WRAP } from "./chrome";
  * frame, which is the same defect as a claims file whose own claim was unrowed.
  *
  * Dates are the UTC author date of the substantive commit, per CLAIMS row 69.
+ *
+ * THE TWO RELEASE ENTRIES ARE DATED DIFFERENTLY, ON PURPOSE. 0.2.0 and 0.2.1 carry
+ * their PyPI upload time, which is an event PyPI observed and timestamped, not a value
+ * we supplied. A commit's author date is a value this machine wrote and could have
+ * written differently; a release date that anyone can check against the index is
+ * strictly better evidence, and it is available for exactly these two rows.
  */
 const ENTRIES = [
+  {
+    date: "2026-08-17",
+    label: "17 Aug 2026",
+    head: "mcpscan 0.2.1 on PyPI. Four new checks, and the transcript above stopped reproducing.",
+    body: "0.2.0 went up at 13:20 UTC and 0.2.1 at 13:44. The checks went from nine to thirteen, so the same command against the same config now returns a fourth finding the recording above does not show. The recording is not corrected: it is what 0.1.1 printed, and re-cutting it to match a newer release would make it a re-enactment.",
+  },
   {
     date: "2026-08-17",
     label: "17 Aug 2026",
