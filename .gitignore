@@ -3,7 +3,10 @@ node_modules
 out
 .vercel
 *.log
-.env*.local
+.env
+.env.*
+*.pem
+*.key
 dist
 orisan-scout-from-scratch/
 .DS_Store
