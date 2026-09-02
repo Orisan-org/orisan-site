@@ -8,7 +8,7 @@ Mono. It is redistributed under the SIL Open Font License 1.1, whose full text i
 > (https://github.com/JetBrains/JetBrainsMono)
 >
 > This Font Software is licensed under the SIL Open Font License, Version 1.1.
-> This license is available with a FAQ at: https://scripts.sil.org/OFL
+> This license is available with a FAQ at: https://openfontlicense.org/
 
 The OFL permits modification and redistribution and requires the copyright and
 licence notice to travel with the font. This file, `OFL.txt` and `AUTHORS.txt` are
